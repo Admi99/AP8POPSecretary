@@ -13,9 +13,9 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\adamm\\source\\repos\\AP8POSecretary\\AP8PO.Infrastructure\\AP8PO.Infrastructure.csproj",
-      "projectName": "AP8PO.Infrastructure",
-      "projectPath": "C:\\Users\\adamm\\source\\repos\\AP8POSecretary\\AP8PO.Infrastructure\\AP8PO.Infrastructure.csproj",
+      "projectUniqueName": "C:\\Users\\adamm\\source\\repos\\AP8POSecretary\\AP8PO.Infrastructure\\AP8POSecretary.Infrastructure.csproj",
+      "projectName": "AP8POSecretary.Infrastructure",
+      "projectPath": "C:\\Users\\adamm\\source\\repos\\AP8POSecretary\\AP8PO.Infrastructure\\AP8POSecretary.Infrastructure.csproj",
       "packagesPath": "C:\\Users\\adamm\\.nuget\\packages\\",
       "outputPath": "C:\\Users\\adamm\\source\\repos\\AP8POSecretary\\AP8PO.Infrastructure\\obj\\",
       "projectStyle": "PackageReference",
