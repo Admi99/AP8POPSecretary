@@ -1,11 +1,184 @@
 {
   "version": 3,
   "targets": {
-    ".NETCoreApp,Version=v3.1": {}
+    ".NETCoreApp,Version=v3.1": {
+      "MaterialDesignColors/2.0.0": {
+        "type": "package",
+        "compile": {
+          "lib/netcoreapp3.1/MaterialDesignColors.dll": {}
+        },
+        "runtime": {
+          "lib/netcoreapp3.1/MaterialDesignColors.dll": {}
+        }
+      },
+      "MaterialDesignExtensions/3.2.0": {
+        "type": "package",
+        "dependencies": {
+          "MaterialDesignColors": "1.2.6",
+          "MaterialDesignThemes": "3.1.3"
+        },
+        "compile": {
+          "lib/netcoreapp3.1/MaterialDesignExtensions.dll": {}
+        },
+        "runtime": {
+          "lib/netcoreapp3.1/MaterialDesignExtensions.dll": {}
+        },
+        "resource": {
+          "lib/netcoreapp3.1/Ru/MaterialDesignExtensions.resources.dll": {
+            "locale": "Ru"
+          },
+          "lib/netcoreapp3.1/ar-DZ/MaterialDesignExtensions.resources.dll": {
+            "locale": "ar-DZ"
+          },
+          "lib/netcoreapp3.1/cs-CZ/MaterialDesignExtensions.resources.dll": {
+            "locale": "cs-CZ"
+          },
+          "lib/netcoreapp3.1/cs/MaterialDesignExtensions.resources.dll": {
+            "locale": "cs"
+          },
+          "lib/netcoreapp3.1/de/MaterialDesignExtensions.resources.dll": {
+            "locale": "de"
+          },
+          "lib/netcoreapp3.1/fr-FR/MaterialDesignExtensions.resources.dll": {
+            "locale": "fr-FR"
+          },
+          "lib/netcoreapp3.1/fr/MaterialDesignExtensions.resources.dll": {
+            "locale": "fr"
+          },
+          "lib/netcoreapp3.1/pt-BR/MaterialDesignExtensions.resources.dll": {
+            "locale": "pt-BR"
+          },
+          "lib/netcoreapp3.1/pt/MaterialDesignExtensions.resources.dll": {
+            "locale": "pt"
+          },
+          "lib/netcoreapp3.1/ru-ru/MaterialDesignExtensions.resources.dll": {
+            "locale": "ru-ru"
+          },
+          "lib/netcoreapp3.1/uz-Latn-UZ/MaterialDesignExtensions.resources.dll": {
+            "locale": "uz-Latn-UZ"
+          }
+        }
+      },
+      "MaterialDesignThemes/4.0.0": {
+        "type": "package",
+        "dependencies": {
+          "MaterialDesignColors": "2.0.0"
+        },
+        "compile": {
+          "lib/netcoreapp3.1/MaterialDesignThemes.Wpf.dll": {}
+        },
+        "runtime": {
+          "lib/netcoreapp3.1/MaterialDesignThemes.Wpf.dll": {}
+        },
+        "build": {
+          "build/MaterialDesignThemes.targets": {}
+        }
+      }
+    }
   },
-  "libraries": {},
+  "libraries": {
+    "MaterialDesignColors/2.0.0": {
+      "sha512": "+JoghC3QRK0u9Wul1To1ORjcfTbFTVzFPjJ02H7VREOdNzIIn427e8G9gP9hXu9pm1r2OneLnoCG/lTma5cG2w==",
+      "type": "package",
+      "path": "materialdesigncolors/2.0.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "images/MaterialDesignColors.Icon.png",
+        "lib/net452/MaterialDesignColors.dll",
+        "lib/net452/MaterialDesignColors.pdb",
+        "lib/netcoreapp3.1/MaterialDesignColors.dll",
+        "lib/netcoreapp3.1/MaterialDesignColors.pdb",
+        "materialdesigncolors.2.0.0.nupkg.sha512",
+        "materialdesigncolors.nuspec"
+      ]
+    },
+    "MaterialDesignExtensions/3.2.0": {
+      "sha512": "5t+CPLaZAePbWKWo+RTxRPiO1+9ZDS8hhBU+UqauTHzek/2y8qV1NlTUDvqL8l+r5Q7LEpPA8c9+/N/2n7SRWg==",
+      "type": "package",
+      "path": "materialdesignextensions/3.2.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "License.txt",
+        "Notice.txt",
+        "Readme.md",
+        "lib/net45/MaterialDesignExtensions.dll",
+        "lib/net45/MaterialDesignExtensions.xml",
+        "lib/net45/Ru/MaterialDesignExtensions.resources.dll",
+        "lib/net45/ar-DZ/MaterialDesignExtensions.resources.dll",
+        "lib/net45/cs-CZ/MaterialDesignExtensions.resources.dll",
+        "lib/net45/cs/MaterialDesignExtensions.resources.dll",
+        "lib/net45/de/MaterialDesignExtensions.resources.dll",
+        "lib/net45/fr-FR/MaterialDesignExtensions.resources.dll",
+        "lib/net45/fr/MaterialDesignExtensions.resources.dll",
+        "lib/net45/pt-BR/MaterialDesignExtensions.resources.dll",
+        "lib/net45/pt/MaterialDesignExtensions.resources.dll",
+        "lib/net45/ru-ru/MaterialDesignExtensions.resources.dll",
+        "lib/net45/uz-Latn-UZ/MaterialDesignExtensions.resources.dll",
+        "lib/netcoreapp3.1/MaterialDesignExtensions.dll",
+        "lib/netcoreapp3.1/MaterialDesignExtensions.xml",
+        "lib/netcoreapp3.1/Ru/MaterialDesignExtensions.resources.dll",
+        "lib/netcoreapp3.1/ar-DZ/MaterialDesignExtensions.resources.dll",
+        "lib/netcoreapp3.1/cs-CZ/MaterialDesignExtensions.resources.dll",
+        "lib/netcoreapp3.1/cs/MaterialDesignExtensions.resources.dll",
+        "lib/netcoreapp3.1/de/MaterialDesignExtensions.resources.dll",
+        "lib/netcoreapp3.1/fr-FR/MaterialDesignExtensions.resources.dll",
+        "lib/netcoreapp3.1/fr/MaterialDesignExtensions.resources.dll",
+        "lib/netcoreapp3.1/pt-BR/MaterialDesignExtensions.resources.dll",
+        "lib/netcoreapp3.1/pt/MaterialDesignExtensions.resources.dll",
+        "lib/netcoreapp3.1/ru-ru/MaterialDesignExtensions.resources.dll",
+        "lib/netcoreapp3.1/uz-Latn-UZ/MaterialDesignExtensions.resources.dll",
+        "materialdesignextensions.3.2.0.nupkg.sha512",
+        "materialdesignextensions.nuspec"
+      ]
+    },
+    "MaterialDesignThemes/4.0.0": {
+      "sha512": "+n5oWHuRiYL/gUw2XfQHCRZqHtU8KbrdurgU0IcO98Zsyhw4BvggodfXY8veRtbjjmM9EJ/sG2yKBrgPOGX4JQ==",
+      "type": "package",
+      "path": "materialdesignthemes/4.0.0",
+      "hasTools": true,
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "build/MaterialDesignThemes.targets",
+        "build/Resources/Roboto/Roboto-Black.ttf",
+        "build/Resources/Roboto/Roboto-BlackItalic.ttf",
+        "build/Resources/Roboto/Roboto-Bold.ttf",
+        "build/Resources/Roboto/Roboto-BoldItalic.ttf",
+        "build/Resources/Roboto/Roboto-Italic.ttf",
+        "build/Resources/Roboto/Roboto-Light.ttf",
+        "build/Resources/Roboto/Roboto-LightItalic.ttf",
+        "build/Resources/Roboto/Roboto-Medium.ttf",
+        "build/Resources/Roboto/Roboto-MediumItalic.ttf",
+        "build/Resources/Roboto/Roboto-Regular.ttf",
+        "build/Resources/Roboto/Roboto-Thin.ttf",
+        "build/Resources/Roboto/Roboto-ThinItalic.ttf",
+        "build/Resources/Roboto/RobotoCondensed-Bold.ttf",
+        "build/Resources/Roboto/RobotoCondensed-BoldItalic.ttf",
+        "build/Resources/Roboto/RobotoCondensed-Italic.ttf",
+        "build/Resources/Roboto/RobotoCondensed-Light.ttf",
+        "build/Resources/Roboto/RobotoCondensed-LightItalic.ttf",
+        "build/Resources/Roboto/RobotoCondensed-Regular.ttf",
+        "images/MaterialDesignThemes.Icon.png",
+        "lib/net452/MaterialDesignThemes.Wpf.dll",
+        "lib/net452/MaterialDesignThemes.Wpf.pdb",
+        "lib/net452/MaterialDesignThemes.Wpf.xml",
+        "lib/netcoreapp3.1/MaterialDesignThemes.Wpf.dll",
+        "lib/netcoreapp3.1/MaterialDesignThemes.Wpf.pdb",
+        "lib/netcoreapp3.1/MaterialDesignThemes.Wpf.xml",
+        "materialdesignthemes.4.0.0.nupkg.sha512",
+        "materialdesignthemes.nuspec",
+        "tools/VisualStudioToolsManifest.xml"
+      ]
+    }
+  },
   "projectFileDependencyGroups": {
-    ".NETCoreApp,Version=v3.1": []
+    ".NETCoreApp,Version=v3.1": [
+      "MaterialDesignColors >= 2.0.0",
+      "MaterialDesignExtensions >= 3.2.0",
+      "MaterialDesignThemes >= 4.0.0"
+    ]
   },
   "packageFolders": {
     "C:\\Users\\adamm\\.nuget\\packages\\": {}
@@ -45,6 +218,20 @@
     "frameworks": {
       "netcoreapp3.1": {
         "targetAlias": "netcoreapp3.1",
+        "dependencies": {
+          "MaterialDesignColors": {
+            "target": "Package",
+            "version": "[2.0.0, )"
+          },
+          "MaterialDesignExtensions": {
+            "target": "Package",
+            "version": "[3.2.0, )"
+          },
+          "MaterialDesignThemes": {
+            "target": "Package",
+            "version": "[4.0.0, )"
+          }
+        },
         "imports": [
           "net461",
           "net462",

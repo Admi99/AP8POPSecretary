@@ -1,8 +1,12 @@
 {
   "version": 2,
-  "dgSpecHash": "/perOg/DWExCahRsNMavBz13L2Xvz4MPWcMAnhkI9lFA2O9IST9EKw35qdc4BdkALaxm7UZlqF5a2cg8zZNZSw==",
+  "dgSpecHash": "CfqJNLT/9x15uXKFb68Elb6RjY6RLmqoLTO4ac3AVcRqmFFq68nXRjiQaqtCXOqstS/zKqOgT1G4pYEZF37ZRw==",
   "success": true,
   "projectFilePath": "C:\\Users\\adamm\\source\\repos\\AP8POSecretary\\AP8POSecretary\\AP8POSecretary.csproj",
-  "expectedPackageFiles": [],
+  "expectedPackageFiles": [
+    "C:\\Users\\adamm\\.nuget\\packages\\materialdesigncolors\\2.0.0\\materialdesigncolors.2.0.0.nupkg.sha512",
+    "C:\\Users\\adamm\\.nuget\\packages\\materialdesignextensions\\3.2.0\\materialdesignextensions.3.2.0.nupkg.sha512",
+    "C:\\Users\\adamm\\.nuget\\packages\\materialdesignthemes\\4.0.0\\materialdesignthemes.4.0.0.nupkg.sha512"
+  ],
   "logs": []
 }
