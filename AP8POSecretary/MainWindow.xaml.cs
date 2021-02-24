@@ -1,4 +1,7 @@
-﻿using System;
+﻿
+using AP8POSecretary.Domain.Entities;
+using AP8POSecretary.Domain.Services;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -19,8 +22,8 @@ namespace AP8POSecretary
     public partial class MainWindow : Window
     {
         public MainWindow()
-        {
-            InitializeComponent();
-        }
+        {        
+            InitializeComponent();        
+        }      
     }
 }

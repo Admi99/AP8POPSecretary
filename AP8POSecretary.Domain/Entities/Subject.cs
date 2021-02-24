@@ -20,7 +20,9 @@ namespace AP8POSecretary.Domain.Entities
         public int WeeksCount { get; set; }
         public string Language { get; set; }
         public int ClassSize { get; set; }
+        public int GroupId { get; set; }
         public CompletionType CompletionType { get; set; }
+        public Group Group { get; set; }
 
     }
 }

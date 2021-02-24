@@ -1,17 +1,35 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Data;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using AP8POSecretary.Infrastructure.Configuration;
+using Ninject;
 using System.Windows;
 
 namespace AP8POSecretary
 {
-    /// <summary>
-    /// Interaction logic for App.xaml
-    /// </summary>
     public partial class App : Application
     {
+        protected override void OnStartup(StartupEventArgs e)
+        {
+            base.OnStartup(e);
+            var test = new StandardKernel();
+            var builder = new DependencyBuilder(test);
+            builder.Build();
+
+
+            var appViewModel = builder.Get<IndexWindowViewModel>();
+            var mainWindow = new MainWindow()
+            {
+                DataContext = appViewModel
+            };
+
+  
+            Current.MainWindow = mainWindow;
+            Current.MainWindow.Show();
+        }
+  
     }
+
 }
+
+/*MainWindow Get() => test.Get<MainWindow>();
+  Current.MainWindow = Get();
+
+  Current.MainWindow.Title = "DI with Ninject";*/
