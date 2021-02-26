@@ -1,6 +1,8 @@
 ﻿<Application x:Class="AP8POSecretary.App"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:viewmodels="clr-namespace:AP8POSecretary.ViewModels"
+             xmlns:views="clr-namespace:AP8POSecretary.Views"
              >
     <Application.Resources>
         <ResourceDictionary>
@@ -10,6 +12,14 @@
                 <ResourceDictionary Source="pack://application:,,,/MaterialDesignColors;component/Themes/Recommended/Primary/MaterialDesignColor.DeepPurple.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/MaterialDesignColors;component/Themes/Recommended/Accent/MaterialDesignColor.Lime.xaml" />
             </ResourceDictionary.MergedDictionaries>
+            <DataTemplate DataType="{x:Type viewmodels:GroupsViewModel}">
+                <views:GroupsView />
+            </DataTemplate>
+            
+            <DataTemplate DataType="{x:Type viewmodels:WorkingLabelsViewModel}">
+                <views:WorkingLabelsView />
+            </DataTemplate>
         </ResourceDictionary>
     </Application.Resources>
 </Application>
+    

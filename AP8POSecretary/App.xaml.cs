@@ -1,4 +1,5 @@
 ﻿using AP8POSecretary.Infrastructure.Configuration;
+using AP8POSecretary.ViewModels;
 using Ninject;
 using System.Windows;
 
@@ -14,7 +15,7 @@ namespace AP8POSecretary
             builder.Build();
 
 
-            var appViewModel = builder.Get<IndexWindowViewModel>();
+            var appViewModel = builder.Get<MainViewModel>();
             var mainWindow = new MainWindow()
             {
                 DataContext = appViewModel
