@@ -12,7 +12,7 @@ namespace AP8POSecretary.Commands
 
         public RelayCommand(Action<object> execute, Predicate<object> predicate)
         {
-            if (_execute == null)
+            if (execute == null)
                 throw new NullReferenceException("execute");
             _execute = execute;
             _predicate = predicate;

@@ -8,13 +8,13 @@
         xmlns:local="clr-namespace:AP8POSecretary"
         mc:Ignorable="d"
         Title="Secretary"
-        Height="450"
-        Width="800">
+        Height="550"
+        Width="900">
 
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="45*" />
-            <RowDefinition Height="389*" />
+            <RowDefinition Height="47*" />
+            <RowDefinition Height="487*" />
         </Grid.RowDefinitions>
 
         <controls:NavigationBar Grid.Row="0"
@@ -22,7 +22,9 @@
                                 Grid.RowSpan="2" />
 
 
-        <ContentControl Grid.Row="1" Content="{Binding Navigator.CurrentViewModel}" />
+        <ContentControl Content="{Binding Navigator.CurrentViewModel}"
+                        Margin="0,47,0,0"
+                        Grid.RowSpan="2" />
 
 
 

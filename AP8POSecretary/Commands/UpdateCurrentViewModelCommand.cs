@@ -1,5 +1,6 @@
 ﻿using AP8POSecretary.State.Navigators;
 using AP8POSecretary.ViewModels;
+using AP8POSecretary.ViewModels.Factories;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -11,11 +12,13 @@ namespace AP8POSecretary.Commands
     {
         public event EventHandler CanExecuteChanged;
 
-        private INavigator _navigator;
+        private readonly INavigator _navigator;
+        private readonly ISecretaryViewModelAbstractFactory _secretaryViewModelAbstractFactory;
 
-        public UpdateCurrentViewModelCommand(INavigator navigator)
+        public UpdateCurrentViewModelCommand(INavigator navigator, ISecretaryViewModelAbstractFactory secretaryViewModelAbstractFactory)
         {
             _navigator = navigator;
+            _secretaryViewModelAbstractFactory = secretaryViewModelAbstractFactory;
         }
 
         public bool CanExecute(object parameter)
@@ -27,17 +30,8 @@ namespace AP8POSecretary.Commands
         {
             if(parameter is ViewType)
             {
-                switch (parameter)
-                {
-                    case ViewType.Groups:
-                        _navigator.CurrentViewModel = new GroupsViewModel();
-                        break;
-                    case ViewType.WorkingLabels:
-                        _navigator.CurrentViewModel = new WorkingLabelsViewModel();
-                        break;
-                    default:
-                        break;
-                }
+                ViewType viewType = (ViewType)parameter;
+                _navigator.CurrentViewModel = _secretaryViewModelAbstractFactory.CreateViewModel(viewType);
             }
         }
     }

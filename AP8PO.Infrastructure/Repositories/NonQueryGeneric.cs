@@ -27,7 +27,7 @@ namespace AP8POSecretary.Infrastructure.Repositories
 
                 return createdResult.Entity;
             }
-        }
+         }
 
         public async Task<T> Update(int id, T entity)
         {

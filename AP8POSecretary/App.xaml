@@ -19,6 +19,10 @@
             <DataTemplate DataType="{x:Type viewmodels:WorkingLabelsViewModel}">
                 <views:WorkingLabelsView />
             </DataTemplate>
+
+            <DataTemplate DataType="{x:Type viewmodels:SubjectsViewModel}">
+                <views:SubjectsView />
+            </DataTemplate>
         </ResourceDictionary>
     </Application.Resources>
 </Application>

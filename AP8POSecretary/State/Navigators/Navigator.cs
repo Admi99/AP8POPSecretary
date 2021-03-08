@@ -1,5 +1,6 @@
 ﻿using AP8POSecretary.Commands;
 using AP8POSecretary.ViewModels;
+using AP8POSecretary.ViewModels.Factories;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -22,6 +23,11 @@ namespace AP8POSecretary.State.Navigators
             }
         }
 
-        public ICommand UpdateCurrentViewModelCommand => new UpdateCurrentViewModelCommand(this);
+        public ICommand UpdateCurrentViewModelCommand { get; set; }
+
+        public Navigator(ISecretaryViewModelAbstractFactory secretaryViewModelAbstractFactory)
+        {
+            UpdateCurrentViewModelCommand = new UpdateCurrentViewModelCommand(this, secretaryViewModelAbstractFactory);
+        }
     }
 }

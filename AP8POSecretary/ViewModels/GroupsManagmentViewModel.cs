@@ -4,7 +4,7 @@ using System.Text;
 
 namespace AP8POSecretary.ViewModels
 {
-    public class BaseViewModel : ObservableObject
+    public class GroupsManagmentViewModel : BaseViewModel
     {
     }
 }

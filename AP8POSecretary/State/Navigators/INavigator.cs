@@ -8,8 +8,11 @@ namespace AP8POSecretary.State.Navigators
 {
     public enum ViewType
     {
+        Subjects,
         Groups,
-        WorkingLabels
+        Employees,
+        GroupsManagment,
+        WorkingLabels,
     };
     public interface INavigator
     {

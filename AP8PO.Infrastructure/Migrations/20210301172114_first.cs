@@ -59,7 +59,7 @@ namespace AP8POSecretary.Infrastructure.Migrations
                     WeeksCount = table.Column<int>(type: "int", nullable: false),
                     Language = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     ClassSize = table.Column<int>(type: "int", nullable: false),
-                    GroupId = table.Column<int>(type: "int", nullable: false),
+                    GroupId = table.Column<int>(type: "int", nullable: true),
                     CompletionType = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
@@ -70,7 +70,7 @@ namespace AP8POSecretary.Infrastructure.Migrations
                         column: x => x.GroupId,
                         principalTable: "Groups",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(

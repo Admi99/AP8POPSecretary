@@ -23,8 +23,12 @@ namespace AP8POSecretary.Infrastructure.Configuration
         public void Build()
         {
             _kernel.Bind<DataContextFactory>().ToSelf();
+
             _kernel.Bind<IDataRepository<Group>>().To<GenericRepository<Group>>();
             _kernel.Bind<IDataService<Group>>().To<DataService<Group>>();
+
+            _kernel.Bind<IDataRepository<Subject>>().To<GenericRepository<Subject>>();
+            _kernel.Bind<IDataService<Subject>>().To<DataService<Subject>>();
         }
     }
 }
