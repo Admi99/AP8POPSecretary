@@ -25,6 +25,7 @@
                 <views:SubjectsView />
             </DataTemplate>
             <convertors:EnumToStringConverter x:Key='EnumConverter' />
+            <convertors:IntToStringConverter x:Key='IntConvertor' />
         </ResourceDictionary>
     </Application.Resources>
 </Application>

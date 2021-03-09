@@ -8,7 +8,7 @@
         xmlns:local="clr-namespace:AP8POSecretary"
         mc:Ignorable="d"
         Title="Secretary"
-        Height="550"
+        Height="600"
         Width="900">
 
     <Grid>

@@ -89,7 +89,7 @@ namespace AP8POSecretary.Controls {
                 return;
             }
             _contentLoaded = true;
-            System.Uri resourceLocater = new System.Uri("/AP8POSecretary;V1.0.0.0;component/controls/navigationbar.xaml", System.UriKind.Relative);
+            System.Uri resourceLocater = new System.Uri("/AP8POSecretary;component/controls/navigationbar.xaml", System.UriKind.Relative);
             
             #line 1 "..\..\..\..\Controls\NavigationBar.xaml"
             System.Windows.Application.LoadComponent(this, resourceLocater);

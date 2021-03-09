@@ -38,7 +38,6 @@ namespace AP8POSecretary.ViewModels
 
         public async void AddData(object obj = null)
         {
-    
             Subject newSubject = new Subject(){
                 Name = this.Name,
                 Shortcut = this.Shortcut,
@@ -117,7 +116,7 @@ namespace AP8POSecretary.ViewModels
                 OnPropertyChanged(nameof(WeeksCount));
             }
         }
-        private string _classSize = "2";
+        private string _classSize = "12";
         public string ClassSize
         {
             get { return _classSize; }
