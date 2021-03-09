@@ -16,6 +16,7 @@
             <RowDefinition Height="47*" />
             <RowDefinition Height="487*" />
         </Grid.RowDefinitions>
+        
 
         <controls:NavigationBar Grid.Row="0"
                                 DataContext="{Binding Navigator}"

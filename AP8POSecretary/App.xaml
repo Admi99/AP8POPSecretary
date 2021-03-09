@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:viewmodels="clr-namespace:AP8POSecretary.ViewModels"
              xmlns:views="clr-namespace:AP8POSecretary.Views"
+             xmlns:convertors="clr-namespace:AP8POSecretary.Converter"
              >
     <Application.Resources>
         <ResourceDictionary>
@@ -23,6 +24,7 @@
             <DataTemplate DataType="{x:Type viewmodels:SubjectsViewModel}">
                 <views:SubjectsView />
             </DataTemplate>
+            <convertors:EnumToStringConverter x:Key='EnumConverter' />
         </ResourceDictionary>
     </Application.Resources>
 </Application>

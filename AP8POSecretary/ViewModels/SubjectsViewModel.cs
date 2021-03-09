@@ -33,13 +33,17 @@ namespace AP8POSecretary.ViewModels
             InitAsync();
         }
 
+        public IEnumerable<string> CompletationTypes => new[] { CompletionType.EXAM.ToString(), CompletionType.CLASSIFIED.ToString()};
+        public IEnumerable<string> ClassSizes => new[] { "12", "24", "48", "96", "192", "384" };
+
         public async void AddData(object obj = null)
         {
+    
             Subject newSubject = new Subject(){
                 Name = this.Name,
                 Shortcut = this.Shortcut,
                 Language = this.Language,
-                ClassSize = this.ClassSize,
+                ClassSize = Convert.ToInt32(this.ClassSize),
                 CompletionType = CompletionType.CLASSIFIED,
                 Credit = this.Credit,
                 LectureCount = this.LectureCount,
@@ -113,14 +117,22 @@ namespace AP8POSecretary.ViewModels
                 OnPropertyChanged(nameof(WeeksCount));
             }
         }
-        private int _classSize = 2;
-        public int ClassSize
+        private string _classSize = "2";
+        public string ClassSize
         {
             get { return _classSize; }
             set
             {
-                _classSize = 2;
                 OnPropertyChanged(nameof(ClassSize));
+            }
+        }
+        private string _completion = "ahoj";
+        public string Completion
+        {
+            get { return _completion; }
+            set
+            {
+                OnPropertyChanged(nameof(Completion));
             }
         }
     }

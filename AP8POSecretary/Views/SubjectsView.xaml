@@ -5,9 +5,11 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              xmlns:local="clr-namespace:AP8POSecretary.Views"
+             xmlns:subject="clr-namespace:AP8POSecretary.Domain.Entities;assembly=AP8POSecretary.Domain"
              mc:Ignorable="d"
              d:DesignHeight="550"
              d:DesignWidth="900">
+    
     <Grid Background="AliceBlue">
         <Grid.RowDefinitions>
             <RowDefinition Height="300" />
@@ -15,27 +17,76 @@
             <RowDefinition Height="2*" />
         </Grid.RowDefinitions>
 
-        <ListView Margin="15,15,15,15"
-                  Grid.Row="0"
-                  Grid.Column="0"
-                  ItemsSource="{Binding Subjects}">
-            <ListView.View>
-                <GridView>
-                    <GridViewColumn DisplayMemberBinding="{Binding Name}"
-                                    Header="Name" />
-                    <GridViewColumn DisplayMemberBinding="{Binding Shortcut}"
-                                    Header="Shortcut" />
-                    <GridViewColumn DisplayMemberBinding="{Binding Language}"
-                                    Header="Language" />
-                    <GridViewColumn DisplayMemberBinding="{Binding Credit}"
-                                    Header="Credit" />
-                    <GridViewColumn DisplayMemberBinding="{Binding ClassSize}"
-                                    Header="Class size" />
-                    <GridViewColumn DisplayMemberBinding="{Binding CompletionType}"
-                                    Header="Completation type" />
-                </GridView>
-            </ListView.View>
-        </ListView>
+        <DataGrid Grid.Row="0" ItemsSource="{Binding Subjects}"
+                  CanUserAddRows="False"
+                  AutoGenerateColumns="False"
+                  HeadersVisibility="All">
+           
+            <DataGrid.Columns>
+
+                <DataGridTextColumn Binding="{Binding Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                    Header="Name"
+                                    ElementStyle="{StaticResource MaterialDesignDataGridTextColumnStyle}"
+                                    EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnEditingStyle}" />
+
+                <DataGridTextColumn Header="Shortcut"
+                                    Binding="{Binding Shortcut, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                    ElementStyle="{StaticResource MaterialDesignDataGridTextColumnStyle}"
+                                    EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnPopupEditingStyle}">
+                </DataGridTextColumn>
+       
+                <DataGridTextColumn Header="Language"
+                                    Binding="{Binding Language}"
+                                    ElementStyle="{StaticResource MaterialDesignDataGridTextColumnStyle}"
+                                    EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnEditingStyle}">
+                    
+                </DataGridTextColumn>
+                <DataGridTextColumn Binding="{Binding Credit}"
+                                                   Header="Credit"                                                  
+                                                   EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnPopupEditingStyle}">
+                    <DataGridTextColumn.HeaderStyle>
+                        <Style TargetType="{x:Type DataGridColumnHeader}"
+                               BasedOn="{StaticResource MaterialDesignDataGridColumnHeader}">
+                            <Setter Property="HorizontalContentAlignment"
+                                    Value="Right" />
+                            <Setter Property="ContentTemplate">
+                                <Setter.Value>
+                                    <DataTemplate>
+                                        <TextBlock TextWrapping="Wrap"
+                                                   Text="{Binding}"
+                                                   TextAlignment="Right" />
+                                    </DataTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </DataGridTextColumn.HeaderStyle>
+                    <DataGridTextColumn.ElementStyle>
+                        <Style TargetType="{x:Type TextBlock}"
+                               BasedOn="{StaticResource MaterialDesignDataGridTextColumnStyle}">
+                            <Setter Property="HorizontalAlignment"
+                                    Value="Right" />
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
+
+
+
+                <materialDesign:DataGridComboBoxColumn Header="Completion type"
+                                                       IsEditable="True"
+                                                       Width="150"
+                                                       SelectedValueBinding="{Binding CompletionType, Converter={StaticResource EnumConverter}}"
+                                                       ItemsSourceBinding="{Binding DataContext.CompletationTypes, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type DataGrid}}}">
+                </materialDesign:DataGridComboBoxColumn>
+                <materialDesign:DataGridComboBoxColumn Header="Class size"
+                                                       IsEditable="True"
+                                                       Width="100"
+                                                       SelectedValueBinding="{Binding ClassSize}"
+                                                       ItemsSourceBinding="{Binding DataContext.ClassSizes, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type DataGrid}}}">
+                </materialDesign:DataGridComboBoxColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+
+
         <Grid Grid.Row="1">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="95*" />
