@@ -32,7 +32,7 @@ namespace AP8POSecretary.ViewModels
         public SubjectsViewModel(IDataService<Subject> dataService)
         {
             _dataService = dataService;
-            AddButtonCommand = new RelayCommand(AddData);
+            AddButtonCommand = new RelayCommand(AddData, CheckDataBeforeAdding);
             ModifySubjectsCommand = new RelayCommand(ModifyAllData);
             DeleteSubjectsCommand = new RelayCommand(DeleteAllData);
             DeleteCommand = new RelayCommand(DeleteData);
@@ -92,7 +92,9 @@ namespace AP8POSecretary.ViewModels
                 IsDeleted = false;
             }   
         }
-
+        public bool CheckDataBeforeAdding(object obj = null)
+            => !String.IsNullOrEmpty(Name) && !String.IsNullOrEmpty(Language) && !String.IsNullOrEmpty(Language);
+            
 
         private async void InitAsync()
         {
