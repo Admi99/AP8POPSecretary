@@ -21,6 +21,7 @@
         <DataGrid Grid.Row="0"
                   ItemsSource="{Binding Subjects}"
                   CanUserAddRows="False"
+                  Name="dataGrid"
                   AutoGenerateColumns="False"
                   HeadersVisibility="All">
 
@@ -75,9 +76,9 @@
                     </materialDesign:DataGridTextColumn.Binding>
                 </materialDesign:DataGridTextColumn>
 
-                <materialDesign:DataGridComboBoxColumn Header="Completion type"
+                <materialDesign:DataGridComboBoxColumn Header="Completion"
                                                        IsEditable="True"
-                                                       Width="150"
+                                                       Width="110"
                                                        SelectedValueBinding="{Binding CompletionType, Converter={StaticResource EnumConverter}}"
                                                        ItemsSourceBinding="{Binding DataContext.CompletationTypes, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type DataGrid}}}">
                 </materialDesign:DataGridComboBoxColumn>
@@ -124,6 +125,19 @@
                     </materialDesign:DataGridTextColumn.Binding>
                 </materialDesign:DataGridTextColumn>
 
+
+                <materialDesign:DataGridTextColumn Header="Weeks"
+                                                   ElementStyle="{StaticResource MaterialDesignDataGridTextColumnStyle}"
+                                                   EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnPopupEditingStyle}">
+                    <materialDesign:DataGridTextColumn.Binding>
+                        <Binding Path="WeeksCount">
+                            <Binding.ValidationRules>
+                                <rules:IsNumericValidationRule />
+                            </Binding.ValidationRules>
+                        </Binding>
+                    </materialDesign:DataGridTextColumn.Binding>
+                </materialDesign:DataGridTextColumn>
+
             </DataGrid.Columns>
         </DataGrid>
 
@@ -148,40 +162,104 @@
                              materialDesign:HintAssist.Hint="Select subject language"
                              Style="{StaticResource MaterialDesignFloatingHintTextBox}"
                              VerticalAlignment="Center" />
+                    <TextBox Margin="10 0 10 0"
+                             materialDesign:HintAssist.Hint="Credit"
+                             Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                             VerticalAlignment="Center"
+                             PreviewTextInput="TextBox_PreviewTextInput"
+                             Text="{Binding Credit}" />
+                    <TextBox Margin="10 0 10 0"
+                             materialDesign:HintAssist.Hint="Weeks"
+                             Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                             VerticalAlignment="Center"
+                             Width="125"
+                             PreviewTextInput="TextBox_PreviewTextInput"
+                             Text="{Binding WeeksCount}" />
                     <ComboBox Margin="10 12 10 12"
-                              materialDesign:HintAssist.Hint="Credit"
-                              VerticalAlignment="Center"
-                              SelectedItem="{Binding Credit}">
-                        <ComboBoxItem Content="4" />
-                        <ComboBoxItem Content="5" />
-                        <ComboBoxItem Content="6" />
-                        <ComboBoxItem Content="7" />
-                    </ComboBox>
-                    <ComboBox Margin="10 12 10 0"
-                              
-                              materialDesign:HintAssist.Hint="Weeks Count">
-                        <ComboBoxItem Content="12" />
-                        <ComboBoxItem Content="24" />
-                        <ComboBoxItem Content="48" />
-                        <ComboBoxItem Content="92" />
-                    </ComboBox>
-                    <ComboBox Margin="10 12 10 12"
-                              
+                              Width="125"
+                              SelectedItem="{Binding Completion, Converter={StaticResource ComboboxItemToCompTypeConvertor}, UpdateSourceTrigger=PropertyChanged}"
                               materialDesign:HintAssist.Hint="Completation">
                         <ComboBoxItem Content="Exam" />
                         <ComboBoxItem Content="Classified" />
                     </ComboBox>
+                    <ComboBox Margin="10 12 10 0"
+                              Width="125"
+                              SelectedItem="{Binding ClassSize, Converter={StaticResource ComboboxItemIntToStringConverter}, UpdateSourceTrigger=PropertyChanged}"
+                              materialDesign:HintAssist.Hint="Class size">
+                        <ComboBoxItem Content="12" />
+                        <ComboBoxItem Content="24" />
+                        <ComboBoxItem Content="48" />
+                        <ComboBoxItem Content="96" />
+                        <ComboBoxItem Content="192" />
+                        <ComboBoxItem Content="384" />
+                    </ComboBox>
+                    <TextBox Margin="10 0 10 0"
+                             materialDesign:HintAssist.Hint="Lectures"
+                             Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                             VerticalAlignment="Center"
+                             Width="125"
+                             PreviewTextInput="TextBox_PreviewTextInput"
+                             Text="{Binding LectureCount}" />
+                    <TextBox Margin="10 0 10 0"
+                             materialDesign:HintAssist.Hint="Seminares"
+                             Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                             VerticalAlignment="Center"
+                             Width="125"
+                             PreviewTextInput="TextBox_PreviewTextInput"
+                             Text="{Binding SeminareCount}" />
+                    <TextBox Margin="10 0 10 0"
+                             materialDesign:HintAssist.Hint="Practises"
+                             Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                             VerticalAlignment="Center"
+                             Width="125"
+                             PreviewTextInput="TextBox_PreviewTextInput"
+                             Text="{Binding PractiseCount}" />
                 </WrapPanel>
+                <DockPanel >
 
-                <Button Style="{StaticResource MaterialDesignRaisedDarkButton}"
-                        materialDesign:ButtonAssist.CornerRadius="25"
-                        ToolTip="MaterialDesignRaisedDarkButton with Round Corners"
-                        Width="150"
-                        Height="45"
-                        HorizontalAlignment="Right"
-                        Command="{Binding AddButtonCommand}">
-                    <TextBlock Text="Add new subject" />
-                </Button>
+                    <Grid Width="150">
+                        <Button Style="{StaticResource MaterialDesignRaisedButton}"
+                                materialDesign:ButtonProgressAssist.Value="-1"
+                                materialDesign:ButtonProgressAssist.IsIndicatorVisible="True"
+                                materialDesign:ButtonProgressAssist.IsIndeterminate="{Binding IsSaved}"
+                                Command="{Binding ModifySubjectsCommand}"
+                                Content="Update table"
+                                Margin="10" />
+                    </Grid>
+
+                    <Grid Width="150">
+                        <Button Style="{StaticResource MaterialDesignRaisedButton}"
+                                materialDesign:ButtonProgressAssist.Value="-1"
+                                materialDesign:ButtonProgressAssist.IsIndicatorVisible="True"
+                                materialDesign:ButtonProgressAssist.IsIndeterminate="{Binding IsDeleted}"
+                                Command="{Binding DeleteCommand}"
+                                CommandParameter="{Binding ElementName=dataGrid, Path=SelectedItem}"
+                                Content="Delete selected"
+                                Margin="10" />
+                    </Grid>
+
+                    <Grid Width="150">
+                        <Button Style="{StaticResource MaterialDesignRaisedButton}"
+                                materialDesign:ButtonProgressAssist.Value="-1"
+                                materialDesign:ButtonProgressAssist.IsIndicatorVisible="True"
+                                materialDesign:ButtonProgressAssist.IsIndeterminate="{Binding IsDeleted}"
+                                Command="{Binding DeleteSubjectsCommand}"
+                                Content="Delete all"
+                                Margin="10" />
+                    </Grid>
+
+
+                    <Button Style="{StaticResource MaterialDesignRaisedDarkButton}"
+                            materialDesign:ButtonAssist.CornerRadius="25"
+                            ToolTip="MaterialDesignRaisedDarkButton with Round Corners"
+                            Width="150"
+                            Height="45"
+                            HorizontalAlignment="Right"
+                            Command="{Binding AddButtonCommand}">
+                        <TextBlock Text="Add new subject" />
+                    </Button>
+                </DockPanel>
+               
             </StackPanel>
         </GroupBox>
 

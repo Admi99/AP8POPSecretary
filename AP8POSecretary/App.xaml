@@ -26,6 +26,8 @@
             </DataTemplate>
             <convertors:EnumToStringConverter x:Key='EnumConverter' />
             <convertors:IntToStringConverter x:Key='IntConvertor' />
+            <convertors:ComboBoxItemToCompletationEnum x:Key='ComboboxItemToCompTypeConvertor' />
+            <convertors:ComboboxItemIntToStringConverter x:Key="ComboboxItemIntToStringConverter" />
         </ResourceDictionary>
     </Application.Resources>
 </Application>

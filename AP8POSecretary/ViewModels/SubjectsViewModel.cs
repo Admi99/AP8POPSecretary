@@ -26,10 +26,17 @@ namespace AP8POSecretary.ViewModels
         }
 
         public RelayCommand AddButtonCommand { get; private set; }
+        public RelayCommand ModifySubjectsCommand { get; private set; }
+        public RelayCommand DeleteSubjectsCommand { get; private set; }
+        public RelayCommand DeleteCommand { get; private set; }
         public SubjectsViewModel(IDataService<Subject> dataService)
         {
             _dataService = dataService;
             AddButtonCommand = new RelayCommand(AddData);
+            ModifySubjectsCommand = new RelayCommand(ModifyAllData);
+            DeleteSubjectsCommand = new RelayCommand(DeleteAllData);
+            DeleteCommand = new RelayCommand(DeleteData);
+
             InitAsync();
         }
 
@@ -38,12 +45,13 @@ namespace AP8POSecretary.ViewModels
 
         public async void AddData(object obj = null)
         {
+
             Subject newSubject = new Subject(){
                 Name = this.Name,
                 Shortcut = this.Shortcut,
                 Language = this.Language,
-                ClassSize = Convert.ToInt32(this.ClassSize),
-                CompletionType = CompletionType.CLASSIFIED,
+                ClassSize = this.ClassSize,
+                CompletionType = this.Completion,
                 Credit = this.Credit,
                 LectureCount = this.LectureCount,
                 SeminareCount = this.SeminareCount,
@@ -54,12 +62,63 @@ namespace AP8POSecretary.ViewModels
             await _dataService.Create(newSubject);
         }
 
+        public async void ModifyAllData(object obj = null)
+        {
+            IsSaved = true;
+            foreach (var item in Subjects)
+            {
+                await _dataService.Update(item.Id, item);
+            }
+            IsSaved = false;
+        }
+
+        public async void DeleteAllData(object obj = null)
+        {
+            IsDeleted = true;
+            foreach (var item in Subjects)
+            {
+                await _dataService.Delete(item.Id);
+            }
+            Subjects.Clear();
+            IsDeleted = false;
+        }
+        public async void DeleteData(object obj)
+        {
+            if(obj != null)
+            {
+                IsDeleted = true;
+                await _dataService.Delete((obj as Subject).Id);
+                Subjects.Remove(obj as Subject);
+                IsDeleted = false;
+            }   
+        }
+
+
         private async void InitAsync()
         {
             var subjects = await _dataService.GetAll();
             Subjects = new ObservableCollection<Subject>(subjects);
         }
 
+        private bool _isSaved;
+        public bool IsSaved {
+            get { return _isSaved; }
+            set
+            {
+                _isSaved = value;
+                OnPropertyChanged(nameof(IsSaved));
+            }
+        }
+        private bool _isDeleted;
+        public bool IsDeleted
+        {
+            get { return _isDeleted; }
+            set
+            {
+                _isDeleted = value;
+                OnPropertyChanged(nameof(IsDeleted));
+            }
+        }
         private string _name;
         public string Name
         {
@@ -93,44 +152,77 @@ namespace AP8POSecretary.ViewModels
                 OnPropertyChanged(nameof(Language));
             }
         }
-        public int LectureCount { get; set; } = 2;
-        public int SeminareCount { get; set; } = 2;
-        public int PractiseCount { get; set; } = 2;
-        private int _credit = 2;
+
+        private int _lectureCount = 2;
+        public int LectureCount 
+        { 
+            get { return _lectureCount; }
+            set 
+            { 
+                _lectureCount = value;
+                OnPropertyChanged(nameof(LectureCount)); 
+            }
+        }
+
+        private int _seminareCount = 2;
+        public int SeminareCount
+        {
+            get { return _seminareCount; }
+            set 
+            
+            {
+                _seminareCount = value;
+                OnPropertyChanged(nameof(SeminareCount)); 
+            }
+        }
+        private int _practiseCount = 2;
+        public int PractiseCount
+        {
+            get { return _practiseCount; }
+            set 
+            {
+                _practiseCount = value;
+                OnPropertyChanged(nameof(PractiseCount)); 
+            }
+        }
+
+        private int _credit = 5;
         public int Credit
         {
             get { return _credit; }
             set
             {
-                _credit = 2;
+                _credit = value;
                 OnPropertyChanged(nameof(Credit));
             }
         }
-        private int _weeksCount = 2;
+        private int _weeksCount = 13;
         public int WeeksCount
         {
             get { return _weeksCount; }
             set
             {
-                _weeksCount = 2;
+                _weeksCount = value;
                 OnPropertyChanged(nameof(WeeksCount));
             }
         }
-        private string _classSize = "12";
-        public string ClassSize
+        private int _classSize = 12;
+        public int ClassSize
         {
             get { return _classSize; }
             set
             {
+                _classSize = value;
                 OnPropertyChanged(nameof(ClassSize));
             }
         }
-        private string _completion = "ahoj";
-        public string Completion
+        private CompletionType _completion = CompletionType.EXAM;
+        public CompletionType Completion
         {
             get { return _completion; }
             set
             {
+                _completion = value;
                 OnPropertyChanged(nameof(Completion));
             }
         }
