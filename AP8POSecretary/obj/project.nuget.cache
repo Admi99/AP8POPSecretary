@@ -1,9 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "2irwrGaDAzaMortEL1FytRERElmyWBqRyHS8R9LRCTHdBxT/VEHLv4DeBXNzFMspLirKirsZ3IFAYEnxNMzwrA==",
+  "dgSpecHash": "ghmcGc3HV1TSsM+/X9KBAJUbDvSjhIB5t++j0PJz6aDXq5ipPUm1X68E250QfDSk+8k+Z2D7BNX3Mbn4Mzu78A==",
   "success": true,
   "projectFilePath": "C:\\Users\\adamm\\source\\repos\\AP8POSecretary\\AP8POSecretary\\AP8POSecretary.csproj",
   "expectedPackageFiles": [
+    "C:\\Users\\adamm\\.nuget\\packages\\gong-wpf-dragdrop\\2.3.2\\gong-wpf-dragdrop.2.3.2.nupkg.sha512",
     "C:\\Users\\adamm\\.nuget\\packages\\materialdesigncolors\\2.0.0\\materialdesigncolors.2.0.0.nupkg.sha512",
     "C:\\Users\\adamm\\.nuget\\packages\\materialdesignextensions\\3.2.0\\materialdesignextensions.3.2.0.nupkg.sha512",
     "C:\\Users\\adamm\\.nuget\\packages\\materialdesignthemes\\4.0.0\\materialdesignthemes.4.0.0.nupkg.sha512",

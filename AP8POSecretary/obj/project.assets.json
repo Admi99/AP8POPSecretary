@@ -2,6 +2,18 @@
   "version": 3,
   "targets": {
     ".NETCoreApp,Version=v3.1": {
+      "gong-wpf-dragdrop/2.3.2": {
+        "type": "package",
+        "compile": {
+          "lib/netcoreapp3.1/GongSolutions.WPF.DragDrop.dll": {}
+        },
+        "runtime": {
+          "lib/netcoreapp3.1/GongSolutions.WPF.DragDrop.dll": {}
+        },
+        "frameworkReferences": [
+          "Microsoft.WindowsDesktop.App.WPF"
+        ]
+      },
       "MaterialDesignColors/2.0.0": {
         "type": "package",
         "compile": {
@@ -1790,6 +1802,34 @@
     }
   },
   "libraries": {
+    "gong-wpf-dragdrop/2.3.2": {
+      "sha512": "DNDROdFmlwn544P2qVF+f+aHRZmEp8ub8IrjvWgT3VAK7LfdN3BcEi9mSEzmt8hUqIdt1+B1VHkJUdK7kO/zKw==",
+      "type": "package",
+      "path": "gong-wpf-dragdrop/2.3.2",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "GongSolutions.Wpf.DragDrop.png",
+        "LICENSE",
+        "gong-wpf-dragdrop.2.3.2.nupkg.sha512",
+        "gong-wpf-dragdrop.nuspec",
+        "lib/net45/GongSolutions.WPF.DragDrop.dll",
+        "lib/net45/GongSolutions.WPF.DragDrop.pdb",
+        "lib/net45/GongSolutions.WPF.DragDrop.xml",
+        "lib/net46/GongSolutions.WPF.DragDrop.dll",
+        "lib/net46/GongSolutions.WPF.DragDrop.pdb",
+        "lib/net46/GongSolutions.WPF.DragDrop.xml",
+        "lib/net47/GongSolutions.WPF.DragDrop.dll",
+        "lib/net47/GongSolutions.WPF.DragDrop.pdb",
+        "lib/net47/GongSolutions.WPF.DragDrop.xml",
+        "lib/netcoreapp3.0/GongSolutions.WPF.DragDrop.dll",
+        "lib/netcoreapp3.0/GongSolutions.WPF.DragDrop.pdb",
+        "lib/netcoreapp3.0/GongSolutions.WPF.DragDrop.xml",
+        "lib/netcoreapp3.1/GongSolutions.WPF.DragDrop.dll",
+        "lib/netcoreapp3.1/GongSolutions.WPF.DragDrop.pdb",
+        "lib/netcoreapp3.1/GongSolutions.WPF.DragDrop.xml"
+      ]
+    },
     "MaterialDesignColors/2.0.0": {
       "sha512": "+JoghC3QRK0u9Wul1To1ORjcfTbFTVzFPjJ02H7VREOdNzIIn427e8G9gP9hXu9pm1r2OneLnoCG/lTma5cG2w==",
       "type": "package",
@@ -6355,7 +6395,8 @@
       "MaterialDesignColors >= 2.0.0",
       "MaterialDesignExtensions >= 3.2.0",
       "MaterialDesignThemes >= 4.0.0",
-      "Ninject >= 3.3.4"
+      "Ninject >= 3.3.4",
+      "gong-wpf-dragdrop >= 2.3.2"
     ]
   },
   "packageFolders": {
@@ -6416,6 +6457,10 @@
           "Ninject": {
             "target": "Package",
             "version": "[3.3.4, )"
+          },
+          "gong-wpf-dragdrop": {
+            "target": "Package",
+            "version": "[2.3.2, )"
           }
         },
         "imports": [

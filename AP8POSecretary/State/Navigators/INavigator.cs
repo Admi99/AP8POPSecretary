@@ -13,6 +13,7 @@ namespace AP8POSecretary.State.Navigators
         Employees,
         GroupsManagment,
         WorkingLabels,
+        Settings
     };
     public interface INavigator
     {

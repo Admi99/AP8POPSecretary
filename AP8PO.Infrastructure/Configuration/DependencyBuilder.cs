@@ -29,6 +29,12 @@ namespace AP8POSecretary.Infrastructure.Configuration
 
             _kernel.Bind<IDataRepository<Subject>>().To<GenericRepository<Subject>>();
             _kernel.Bind<IDataService<Subject>>().To<DataService<Subject>>();
+
+            _kernel.Bind<IDataRepository<Employee>>().To<GenericRepository<Employee>>();
+            _kernel.Bind<IDataService<Employee>>().To<DataService<Employee>>();
+
+            _kernel.Bind<IDataRepository<WorkingLabel>>().To<GenericRepository<WorkingLabel>>();
+            _kernel.Bind<IDataService<WorkingLabel>>().To<DataService<WorkingLabel>>();
         }
     }
 }

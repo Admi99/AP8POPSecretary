@@ -24,6 +24,13 @@
             <DataTemplate DataType="{x:Type viewmodels:SubjectsViewModel}">
                 <views:SubjectsView />
             </DataTemplate>
+            
+            <DataTemplate DataType="{x:Type viewmodels:EmployeesViewModel}">
+                <views:EmployeeView />
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type viewmodels:GroupsManagmentViewModel}">
+                <views:GroupManagmentView />
+            </DataTemplate>
             <convertors:EnumToStringConverter x:Key='EnumConverter' />
             <convertors:IntToStringConverter x:Key='IntConvertor' />
             <convertors:ComboBoxItemToCompletationEnum x:Key='ComboboxItemToCompTypeConvertor' />

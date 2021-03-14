@@ -9,12 +9,22 @@ namespace AP8POSecretary.ViewModels.Factories
     {
         private readonly ISecretaryViewModelFactory<GroupsViewModel> _groupsViewModelFactory;
         private readonly ISecretaryViewModelFactory<SubjectsViewModel> _subjectsViewModelFactory;
+        private readonly ISecretaryViewModelFactory<EmployeesViewModel> _employeeViewModelFactory;
+        private readonly ISecretaryViewModelFactory<GroupsManagmentViewModel> _groupsManagmentViewModelFactory;
+        private readonly ISecretaryViewModelFactory<WorkingLabelsViewModel> _workingLabelsViewModelFactory;
 
         public SecretaryViewModelAbstractFactory(ISecretaryViewModelFactory<GroupsViewModel> groupsViewModelFactory, 
-            ISecretaryViewModelFactory<SubjectsViewModel> subjectsViewModelFactory)
+            ISecretaryViewModelFactory<SubjectsViewModel> subjectsViewModelFactory,
+            ISecretaryViewModelFactory<EmployeesViewModel> employeeViewModelFactory,
+            ISecretaryViewModelFactory<GroupsManagmentViewModel> groupsManagmentViewModelFactory,
+            ISecretaryViewModelFactory<WorkingLabelsViewModel> workingLabelsViewModelFactory
+            )
         {
             _groupsViewModelFactory = groupsViewModelFactory;
             _subjectsViewModelFactory = subjectsViewModelFactory;
+            _employeeViewModelFactory = employeeViewModelFactory;
+            _groupsManagmentViewModelFactory = groupsManagmentViewModelFactory;
+            _workingLabelsViewModelFactory = workingLabelsViewModelFactory;
         }
 
         public BaseViewModel CreateViewModel(ViewType viewType)
@@ -24,9 +34,15 @@ namespace AP8POSecretary.ViewModels.Factories
                 case ViewType.Groups:
                     return _groupsViewModelFactory.CreateViewModel();
                 case ViewType.WorkingLabels:
-                    return new WorkingLabelsViewModel();
+                    return _workingLabelsViewModelFactory.CreateViewModel();
                 case ViewType.Subjects:
                     return _subjectsViewModelFactory.CreateViewModel();
+                case ViewType.Employees:
+                    return _employeeViewModelFactory.CreateViewModel();
+                case ViewType.GroupsManagment:
+                    return _groupsManagmentViewModelFactory.CreateViewModel();
+                case ViewType.Settings:
+                    return new SettingsViewModel();
                 default:
                     throw new ArgumentException("View type doesnt exist");
             }

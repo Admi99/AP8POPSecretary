@@ -16,7 +16,7 @@ namespace AP8POSecretary.ViewModels
         {
             Navigator = navigator;
             _secretaryViewModelAbstractFactory = secretaryViewModelAbstractFactory;
-            ViewType viewType = ViewType.Groups;
+            ViewType viewType = ViewType.Subjects;
             Navigator.CurrentViewModel = _secretaryViewModelAbstractFactory.CreateViewModel(viewType);
         }
 

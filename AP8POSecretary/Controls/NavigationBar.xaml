@@ -30,20 +30,34 @@
                 <RadioButton Style="{StaticResource MaterialDesignTabRadioButton}"
                              x:Name="rbTab2"
                              Margin="4"
-                             IsChecked="True"
-                             Content="Groups managment"
+                             Content="Groups"
                              Command="{Binding UpdateCurrentViewModelCommand}"
                              CommandParameter="{x:Static nav:ViewType.Groups}" />
                 <RadioButton Style="{StaticResource MaterialDesignTabRadioButton}"
                              x:Name="rbTab3"
                              Margin="4"
+                             Content="Employees"
+                             Command="{Binding UpdateCurrentViewModelCommand}"
+                             CommandParameter="{x:Static nav:ViewType.Employees}" />
+                <RadioButton Style="{StaticResource MaterialDesignTabRadioButton}"
+                             x:Name="rbTab4"
+                             Margin="4"
+                             Content="Groups managment"
+                             Command="{Binding UpdateCurrentViewModelCommand}"
+                             CommandParameter="{x:Static nav:ViewType.GroupsManagment}" />
+                <RadioButton Style="{StaticResource MaterialDesignTabRadioButton}"
+                             x:Name="rbTab5"
+                             Margin="4"
                              Content="Working labels managment"
                              Command="{Binding UpdateCurrentViewModelCommand}"
                              CommandParameter="{x:Static nav:ViewType.WorkingLabels}" />
                 <RadioButton Style="{StaticResource MaterialDesignTabRadioButton}"
-                             x:Name="rbTab4"
+                             x:Name="rbTab6"
                              Margin="4"
-                             Content="Settings" />
+                             Content="Settings"
+                             Command="{Binding UpdateCurrentViewModelCommand}"
+                             CommandParameter="{x:Static nav:ViewType.Settings}"
+                             />
             </StackPanel>
         </materialDesign:ColorZone>
     </Grid>
