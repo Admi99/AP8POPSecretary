@@ -93,7 +93,7 @@ namespace AP8POSecretary.ViewModels
             }   
         }
         public bool CheckDataBeforeAdding(object obj = null)
-            => !String.IsNullOrEmpty(Name) && !String.IsNullOrEmpty(Language) && !String.IsNullOrEmpty(Language);
+            => !String.IsNullOrEmpty(Name) && !String.IsNullOrEmpty(Language) && !String.IsNullOrEmpty(Shortcut);
             
 
         private async void InitAsync()
@@ -102,25 +102,6 @@ namespace AP8POSecretary.ViewModels
             Subjects = new ObservableCollection<Subject>(subjects);
         }
 
-        private bool _isSaved;
-        public bool IsSaved {
-            get { return _isSaved; }
-            set
-            {
-                _isSaved = value;
-                OnPropertyChanged(nameof(IsSaved));
-            }
-        }
-        private bool _isDeleted;
-        public bool IsDeleted
-        {
-            get { return _isDeleted; }
-            set
-            {
-                _isDeleted = value;
-                OnPropertyChanged(nameof(IsDeleted));
-            }
-        }
         private string _name;
         public string Name
         {

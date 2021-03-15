@@ -3,11 +3,182 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:local="clr-namespace:AP8POSecretary.Views"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:rules="clr-namespace:AP8POSecretary.Rules"
              mc:Ignorable="d"
              d:DesignHeight="600"
-             d:DesignWidth="800">
+             d:DesignWidth="900">
     <Grid Background="AliceBlue">
-      
+        <Grid.RowDefinitions>
+            <RowDefinition Height="300" />
+            <RowDefinition Height="99*" />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+
+        <DataGrid Grid.Row="0"
+                  ItemsSource="{Binding Groups}"
+                  CanUserAddRows="False"
+                  Name="dataGrid"
+                  AutoGenerateColumns="False"
+                  HeadersVisibility="All">
+
+            <DataGrid.Columns>
+               
+                <materialDesign:DataGridTextColumn Header="Shortcut"
+                                                   ElementStyle="{StaticResource MaterialDesignDataGridTextColumnStyle}"
+                                                   EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnPopupEditingStyle}">
+                    <materialDesign:DataGridTextColumn.Binding>
+                        <Binding Path="Shortcut">
+                            <Binding.ValidationRules>
+                                <rules:NoEmptyValidationRule />
+                            </Binding.ValidationRules>
+                        </Binding>
+                    </materialDesign:DataGridTextColumn.Binding>
+                </materialDesign:DataGridTextColumn>
+
+                <materialDesign:DataGridTextColumn Header="Language"
+                                                   ElementStyle="{StaticResource MaterialDesignDataGridTextColumnStyle}"
+                                                   EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnPopupEditingStyle}">
+                    <materialDesign:DataGridTextColumn.Binding>
+                        <Binding Path="Language">
+                            <Binding.ValidationRules>
+                                <rules:NoEmptyValidationRule />
+                            </Binding.ValidationRules>
+                        </Binding>
+                    </materialDesign:DataGridTextColumn.Binding>
+                </materialDesign:DataGridTextColumn>
+
+                <materialDesign:DataGridTextColumn Header="Study year"
+                                                   ElementStyle="{StaticResource MaterialDesignDataGridTextColumnStyle}"
+                                                   EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnPopupEditingStyle}">
+                    <materialDesign:DataGridTextColumn.Binding>
+                        <Binding Path="StudyYear">
+                            <Binding.ValidationRules>
+                                <rules:IsNumericValidationRule />
+                            </Binding.ValidationRules>
+                        </Binding>
+                    </materialDesign:DataGridTextColumn.Binding>
+                </materialDesign:DataGridTextColumn>
+
+                <materialDesign:DataGridTextColumn Header="Students"
+                                                   ElementStyle="{StaticResource MaterialDesignDataGridTextColumnStyle}"
+                                                   EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnPopupEditingStyle}">
+                    <materialDesign:DataGridTextColumn.Binding>
+                        <Binding Path="StudentsCount">
+                            <Binding.ValidationRules>
+                                <rules:IsNumericValidationRule />
+                            </Binding.ValidationRules>
+                        </Binding>
+                    </materialDesign:DataGridTextColumn.Binding>
+                </materialDesign:DataGridTextColumn>
+              
+                <materialDesign:DataGridComboBoxColumn Header="Study type"
+                                                       IsEditable="True"
+                                                       Width="110"
+                                                       SelectedValueBinding="{Binding StudyType, Converter={StaticResource EnumConverter}}"
+                                                       ItemsSourceBinding="{Binding DataContext.StudyTypes, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type DataGrid}}}">
+                </materialDesign:DataGridComboBoxColumn>
+                <materialDesign:DataGridComboBoxColumn Header="Semester type"
+                                                       IsEditable="True"
+                                                       Width="150"
+                                                       SelectedValueBinding="{Binding SemesterType, Converter={StaticResource EnumConverter}}"
+                                                       ItemsSourceBinding="{Binding DataContext.SemesterTypes, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type DataGrid}}}">
+                </materialDesign:DataGridComboBoxColumn>
+
+            </DataGrid.Columns>
+        </DataGrid>
+
+        <GroupBox Grid.Row="1"
+                  Header="Add subject"
+                  Margin="10,10,10,10">
+            <StackPanel>
+                <WrapPanel Orientation="Vertical"
+                           Height="90">
+                    <TextBox Margin="10 0 10 0"
+                             Text="{Binding Shortcut}"
+                             materialDesign:HintAssist.Hint="Select subject shortcut"
+                             Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                             VerticalAlignment="Center" />
+                    <TextBox Margin="10 0 10 0"
+                             Text="{Binding Language}"
+                             materialDesign:HintAssist.Hint="Select subject language"
+                             Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                             VerticalAlignment="Center" />
+                    <TextBox Margin="10 0 10 0"
+                             materialDesign:HintAssist.Hint="Study year"
+                             Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                             VerticalAlignment="Center"
+                             PreviewTextInput="TextBox_PreviewTextInput"
+                             Text="{Binding StudyYear}" />
+                    <TextBox Margin="10 0 10 0"
+                             materialDesign:HintAssist.Hint="Students"
+                             Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                             VerticalAlignment="Center"
+                             Width="125"
+                             PreviewTextInput="TextBox_PreviewTextInput"
+                             Text="{Binding StudentsCount}" />
+                    <ComboBox Margin="10 12 10 12"
+                              Width="125"
+                              SelectedItem="{Binding StudyType, Converter={StaticResource ComboboxItemToStudyTypeConvertor}, UpdateSourceTrigger=PropertyChanged}"
+                              materialDesign:HintAssist.Hint="Study type">
+                        <ComboBoxItem Content="Daily" />
+                        <ComboBoxItem Content="Distance" />
+                    </ComboBox>
+                    <ComboBox Margin="10 12 10 12"
+                              Width="125"
+                              SelectedItem="{Binding SemesterType, Converter={StaticResource ComboBoxItemSemTypeConvertor}, UpdateSourceTrigger=PropertyChanged}"
+                              materialDesign:HintAssist.Hint="Semester type">
+                        <ComboBoxItem Content="Spring" />
+                        <ComboBoxItem Content="Winter" />
+                    </ComboBox>
+                </WrapPanel>
+                <DockPanel>
+
+                    <Grid Width="150">
+                        <Button Style="{StaticResource MaterialDesignRaisedButton}"
+                                materialDesign:ButtonProgressAssist.Value="-1"
+                                materialDesign:ButtonProgressAssist.IsIndicatorVisible="True"
+                                materialDesign:ButtonProgressAssist.IsIndeterminate="{Binding IsSaved}"
+                                Command="{Binding ModifySubjectsCommand}"
+                                Content="Update table"
+                                Margin="10" />
+                    </Grid>
+
+                    <Grid Width="150">
+                        <Button Style="{StaticResource MaterialDesignRaisedButton}"
+                                materialDesign:ButtonProgressAssist.Value="-1"
+                                materialDesign:ButtonProgressAssist.IsIndicatorVisible="True"
+                                materialDesign:ButtonProgressAssist.IsIndeterminate="{Binding IsDeleted}"
+                                Command="{Binding DeleteCommand}"
+                                CommandParameter="{Binding ElementName=dataGrid, Path=SelectedItem}"
+                                Content="Delete selected"
+                                Margin="10" />
+                    </Grid>
+
+                    <Grid Width="150">
+                        <Button Style="{StaticResource MaterialDesignRaisedButton}"
+                                materialDesign:ButtonProgressAssist.Value="-1"
+                                materialDesign:ButtonProgressAssist.IsIndicatorVisible="True"
+                                materialDesign:ButtonProgressAssist.IsIndeterminate="{Binding IsDeleted}"
+                                Command="{Binding DeleteSubjectsCommand}"
+                                Content="Delete all"
+                                Margin="10" />
+                    </Grid>
+
+
+                    <Button Style="{StaticResource MaterialDesignRaisedDarkButton}"
+                            materialDesign:ButtonAssist.CornerRadius="25"
+                            ToolTip="MaterialDesignRaisedDarkButton with Round Corners"
+                            Width="150"
+                            Height="45"
+                            HorizontalAlignment="Right"
+                            Command="{Binding AddButtonCommand}">
+                        <TextBlock Text="Add new subject" />
+                    </Button>
+                </DockPanel>
+
+            </StackPanel>
+        </GroupBox>
+
     </Grid>
 </UserControl>

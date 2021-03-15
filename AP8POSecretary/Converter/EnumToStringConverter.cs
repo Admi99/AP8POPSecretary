@@ -31,6 +31,14 @@ namespace AP8POSecretary.Converter
                     return CompletionType.EXAM;
                 case "CLASSIFIED":
                     return CompletionType.CLASSIFIED;
+                case "DAILY":
+                    return StudyType.DAILY;
+                case "DISTANCE":
+                    return StudyType.DISTANCE;
+                case "SPRING":
+                    return SemesterType.SPRING;
+                case "WINTER":
+                    return SemesterType.WINTER;
                 default:
                     return new NotImplementedException();
             }

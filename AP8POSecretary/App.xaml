@@ -35,6 +35,8 @@
             <convertors:IntToStringConverter x:Key='IntConvertor' />
             <convertors:ComboBoxItemToCompletationEnum x:Key='ComboboxItemToCompTypeConvertor' />
             <convertors:ComboboxItemIntToStringConverter x:Key="ComboboxItemIntToStringConverter" />
+            <convertors:ComboBoxItemStudyTypeConvertor x:Key="ComboboxItemToStudyTypeConvertor" />
+            <convertors:ComboBoxItemSemTypeConvertor x:Key="ComboBoxItemSemTypeConvertor" />
         </ResourceDictionary>
     </Application.Resources>
 </Application>
