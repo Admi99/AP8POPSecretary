@@ -2,11 +2,216 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:rules="clr-namespace:AP8POSecretary.Rules"
              xmlns:local="clr-namespace:AP8POSecretary.Views"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
-    <Grid>
-            
+             d:DesignHeight="600" d:DesignWidth="900">
+    <Grid Background="AliceBlue">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="300" />
+            <RowDefinition Height="99*" />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+
+        <DataGrid Grid.Row="0"
+                  ItemsSource="{Binding Employees}"
+                  CanUserAddRows="False"
+                  Name="dataGrid"
+                  AutoGenerateColumns="False"
+                  HeadersVisibility="All">
+
+            <DataGrid.Columns>
+
+                <materialDesign:DataGridTextColumn Header="First name"
+                                                   ElementStyle="{StaticResource MaterialDesignDataGridTextColumnStyle}"
+                                                   EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnPopupEditingStyle}">
+                    <materialDesign:DataGridTextColumn.Binding>
+                        <Binding Path="FirstName">
+                            <Binding.ValidationRules>
+                                <rules:NoEmptyValidationRule />
+                            </Binding.ValidationRules>
+                        </Binding>
+                    </materialDesign:DataGridTextColumn.Binding>
+                </materialDesign:DataGridTextColumn>
+
+                <materialDesign:DataGridTextColumn Header="Last name"
+                                                   ElementStyle="{StaticResource MaterialDesignDataGridTextColumnStyle}"
+                                                   EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnPopupEditingStyle}">
+                    <materialDesign:DataGridTextColumn.Binding>
+                        <Binding Path="LastName">
+                            <Binding.ValidationRules>
+                                <rules:NoEmptyValidationRule />
+                            </Binding.ValidationRules>
+                        </Binding>
+                    </materialDesign:DataGridTextColumn.Binding>
+                </materialDesign:DataGridTextColumn>
+
+                <materialDesign:DataGridTextColumn Header="Whole name"
+                                                   ElementStyle="{StaticResource MaterialDesignDataGridTextColumnStyle}"
+                                                   EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnPopupEditingStyle}">
+                    <materialDesign:DataGridTextColumn.Binding>
+                        <Binding Path="WholeName">
+                            <Binding.ValidationRules>
+                                <rules:NoEmptyValidationRule />
+                            </Binding.ValidationRules>
+                        </Binding>
+                    </materialDesign:DataGridTextColumn.Binding>
+                </materialDesign:DataGridTextColumn>
+
+                <materialDesign:DataGridTextColumn Header="Email"
+                                                   ElementStyle="{StaticResource MaterialDesignDataGridTextColumnStyle}"
+                                                   EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnPopupEditingStyle}">
+                    <materialDesign:DataGridTextColumn.Binding>
+                        <Binding Path="Email">
+                            <Binding.ValidationRules>
+                                <rules:NoEmptyValidationRule />
+                            </Binding.ValidationRules>
+                        </Binding>
+                    </materialDesign:DataGridTextColumn.Binding>
+                </materialDesign:DataGridTextColumn>
+
+                <materialDesign:DataGridTextColumn Header="Personal email"
+                                                   ElementStyle="{StaticResource MaterialDesignDataGridTextColumnStyle}"
+                                                   EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnPopupEditingStyle}">
+                    <materialDesign:DataGridTextColumn.Binding>
+                        <Binding Path="PersonalEmail">
+                            <Binding.ValidationRules>
+                                <rules:NoEmptyValidationRule />
+                            </Binding.ValidationRules>
+                        </Binding>
+                    </materialDesign:DataGridTextColumn.Binding>
+                </materialDesign:DataGridTextColumn>
+
+                <materialDesign:DataGridTextColumn Header="Phone number"
+                                                   ElementStyle="{StaticResource MaterialDesignDataGridTextColumnStyle}"
+                                                   EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnPopupEditingStyle}">
+                    <materialDesign:DataGridTextColumn.Binding>
+                        <Binding Path="PhoneNumber">
+                            <Binding.ValidationRules>
+                                <rules:NoEmptyValidationRule />
+                            </Binding.ValidationRules>
+                        </Binding>
+                    </materialDesign:DataGridTextColumn.Binding>
+                </materialDesign:DataGridTextColumn>
+
+                <materialDesign:DataGridTextColumn Header="Commitment rate"
+                                                   ElementStyle="{StaticResource MaterialDesignDataGridTextColumnStyle}"
+                                                   EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnPopupEditingStyle}">
+                    <materialDesign:DataGridTextColumn.Binding>
+                        <Binding Path="CommitmentRate">
+                            <Binding.ValidationRules>
+                                <rules:IsDoubleValidationRule />
+                            </Binding.ValidationRules>
+                        </Binding>
+                    </materialDesign:DataGridTextColumn.Binding>
+                </materialDesign:DataGridTextColumn>
+
+                <DataGridCheckBoxColumn Header="Is doctorant"
+                                        Binding="{Binding isDoctorant, UpdateSourceTrigger=PropertyChanged}"
+                                        ElementStyle="{StaticResource MaterialDesignDataGridCheckBoxColumnStyle}"
+                                        EditingElementStyle="{StaticResource MaterialDesignDataGridCheckBoxColumnEditingStyle}">
+                </DataGridCheckBoxColumn>
+
+
+            </DataGrid.Columns>
+        </DataGrid>
+
+        <GroupBox Grid.Row="1"
+                  Header="Add subject"
+                  Margin="10,10,10,10">
+            <StackPanel>
+                <WrapPanel Orientation="Vertical"
+                           Height="90">
+                    <TextBox Margin="10 0 10 0"
+                             Text="{Binding FirstName}"
+                             materialDesign:HintAssist.Hint="Select first name"
+                             Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                             VerticalAlignment="Center" />
+                    <TextBox Margin="10 0 10 0"
+                             Text="{Binding LastName}"
+                             materialDesign:HintAssist.Hint="Select last name"
+                             Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                             VerticalAlignment="Center" />
+                    <TextBox Margin="10 0 10 0"
+                             Text="{Binding WholeName}"
+                             materialDesign:HintAssist.Hint="Select whole name"
+                             Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                             VerticalAlignment="Center" />
+                    <TextBox Margin="10 0 10 0"
+                             Text="{Binding Email}"
+                             materialDesign:HintAssist.Hint="Select email"
+                             Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                             VerticalAlignment="Center" />
+                    <TextBox Margin="10 0 10 0"
+                             Text="{Binding PersonalEmail}"
+                             materialDesign:HintAssist.Hint="Select personal email"
+                             Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                             VerticalAlignment="Center" />
+                    <TextBox Margin="10 0 10 0"
+                             Text="{Binding PhoneNumber}"
+                             materialDesign:HintAssist.Hint="Select phone number"
+                             Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                             VerticalAlignment="Center" />
+                    <TextBox Margin="10 0 10 0"
+                             materialDesign:HintAssist.Hint="Commitment rate"
+                             Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                             VerticalAlignment="Center"
+                             Width="125"
+                             PreviewTextInput="TextBox_PreviewTextInput"
+                             Text="{Binding CommitmentRate}" />
+                    <CheckBox IsChecked="{Binding IsDoctorant}"
+                              Margin="10 18 10 10"
+                              Width="125"
+                              Content="Is doctorant" />
+                </WrapPanel>
+                <DockPanel>
+
+                    <Grid Width="150">
+                        <Button Style="{StaticResource MaterialDesignRaisedButton}"
+                                materialDesign:ButtonProgressAssist.Value="-1"
+                                materialDesign:ButtonProgressAssist.IsIndicatorVisible="True"
+                                materialDesign:ButtonProgressAssist.IsIndeterminate="{Binding IsSaved}"
+                                Command="{Binding ModifySubjectsCommand}"
+                                Content="Update table"
+                                Margin="10" />
+                    </Grid>
+
+                    <Grid Width="150">
+                        <Button Style="{StaticResource MaterialDesignRaisedButton}"
+                                materialDesign:ButtonProgressAssist.Value="-1"
+                                materialDesign:ButtonProgressAssist.IsIndicatorVisible="True"
+                                materialDesign:ButtonProgressAssist.IsIndeterminate="{Binding IsDeleted}"
+                                Command="{Binding DeleteCommand}"
+                                CommandParameter="{Binding ElementName=dataGrid, Path=SelectedItem}"
+                                Content="Delete selected"
+                                Margin="10" />
+                    </Grid>
+
+                    <Grid Width="150">
+                        <Button Style="{StaticResource MaterialDesignRaisedButton}"
+                                materialDesign:ButtonProgressAssist.Value="-1"
+                                materialDesign:ButtonProgressAssist.IsIndicatorVisible="True"
+                                materialDesign:ButtonProgressAssist.IsIndeterminate="{Binding IsDeleted}"
+                                Command="{Binding DeleteSubjectsCommand}"
+                                Content="Delete all"
+                                Margin="10" />
+                    </Grid>
+
+
+                    <Button Style="{StaticResource MaterialDesignRaisedDarkButton}"
+                            materialDesign:ButtonAssist.CornerRadius="25"
+                            ToolTip="MaterialDesignRaisedDarkButton with Round Corners"
+                            Width="150"
+                            Height="45"
+                            HorizontalAlignment="Right"
+                            Command="{Binding AddButtonCommand}">
+                        <TextBlock Text="Add new subject" />
+                    </Button>
+                </DockPanel>
+
+            </StackPanel>
+        </GroupBox>
     </Grid>
 </UserControl>

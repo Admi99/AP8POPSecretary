@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AP8POSecretary.Commands;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -7,7 +8,6 @@ namespace AP8POSecretary.ViewModels
     public class BaseViewModel : ObservableObject
     {
         protected bool _isSaved;
-
         public bool IsSaved
         {
             get { return _isSaved; }

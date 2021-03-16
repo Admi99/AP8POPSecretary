@@ -35,7 +35,7 @@
                         </Binding>
                     </materialDesign:DataGridTextColumn.Binding>
                 </materialDesign:DataGridTextColumn>
-
+                
                 <materialDesign:DataGridTextColumn Header="Language"
                                                    ElementStyle="{StaticResource MaterialDesignDataGridTextColumnStyle}"
                                                    EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnPopupEditingStyle}">
