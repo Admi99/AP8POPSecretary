@@ -19,6 +19,8 @@ namespace AP8POSecretary.ViewModels
 
         public CardDropHandler CardDropHandler { get; set; } = new CardDropHandler();
         public RelayCommand SaveSubjects { get; private set; }
+        public RelayCommand DeleteSubjects { get; private set; }
+        public RelayCommand RevertSubjects { get; private set; }
         public GroupsManagmentViewModel(IDataService<Group> groupDataService, IDataService<Subject> subjectDataService)
         {
             _groupDataService = groupDataService;
@@ -36,6 +38,14 @@ namespace AP8POSecretary.ViewModels
             foreach (var item in Groups)
             {
                 await _groupDataService.Update(item.Id, item);
+            }
+        }
+
+        private async void DeleteSubjectsAsync(object obj)
+        {
+            foreach (var item in Subjects)
+            {
+                
             }
         }
 

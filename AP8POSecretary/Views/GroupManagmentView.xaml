@@ -34,12 +34,13 @@
                                 Content="Save" />
                         <Button Style="{StaticResource MaterialDesignRaisedAccentButton}"                               
                                 Height="25"
+                                Margin="0 0 5 0"
                                 Background="Red"
                                 Command="{Binding SaveSubjects}"
-                                Content="Delete" />
+                                Content="Delete subjects" />
                         <Button Style="{StaticResource MaterialDesignRaisedAccentButton}"
                                 Height="25"
-                                Background="Blue"
+                                Background="LightBlue"
                                 Command="{Binding SaveSubjects}"
                                 Content="Revert" />
                     </StackPanel>

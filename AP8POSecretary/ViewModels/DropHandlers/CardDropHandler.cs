@@ -27,20 +27,22 @@ namespace AP8POSecretary.ViewModels.DropHandlers
             var card = dropInfo.VisualTarget as Card;
             var toGroup = card.DataContext as Group;
 
-           
-            var index = Groups.IndexOf(toGroup);
-            var group = Groups.ElementAt(index);
-
-            if(group.Subjects == null)
+            var isSame = toGroup.Subjects.Where(item => item.Id == fromSubject.Id);
+            if (isSame.Count() == 0)
             {
-                group.Subjects = new List<Subject>();
-                group.Subjects.Add(fromSubject);
-            }
-            else group.Subjects.Add(fromSubject);
+                var index = Groups.IndexOf(toGroup);
+                var group = Groups.ElementAt(index);
 
-            Groups.RemoveAt(index);
-            Groups.Insert(index, group);
-            
+                if (group.Subjects == null)
+                {
+                    group.Subjects = new List<Subject>();
+                    group.Subjects.Add(fromSubject);
+                }
+                else group.Subjects.Add(fromSubject);
+
+                Groups.RemoveAt(index);
+                Groups.Insert(index, group);
+            }                     
         }
     }
 }

@@ -19,6 +19,7 @@ namespace AP8POSecretary.Infrastructure.Data.Configurations
                 .WithOne(e => e.Group)
                 .HasForeignKey(e => e.GroupId)
                 .OnDelete(DeleteBehavior.Cascade);
+          
         }
     }
 }
