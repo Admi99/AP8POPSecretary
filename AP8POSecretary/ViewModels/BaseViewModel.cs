@@ -1,7 +1,10 @@
 ﻿using AP8POSecretary.Commands;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
 using System.Text;
+using System.Windows.Threading;
 
 namespace AP8POSecretary.ViewModels
 {

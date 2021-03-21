@@ -1,4 +1,5 @@
-﻿using AP8POSecretary.Domain.Repositories;
+﻿using AP8POSecretary.Domain.Entities;
+using AP8POSecretary.Domain.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -32,6 +33,11 @@ namespace AP8POSecretary.Domain.Services
         public Task<IEnumerable<T>> GetAll()
         {
             return _dataRepository.GetAll();
+        }
+
+        public Task<IEnumerable<Group>> GetAllGroups()
+        {
+            return _dataRepository.GetAllGroups();
         }
 
         public Task<T> Update(int id, T entity)

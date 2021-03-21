@@ -37,6 +37,7 @@
             <convertors:ComboboxItemIntToStringConverter x:Key="ComboboxItemIntToStringConverter" />
             <convertors:ComboBoxItemStudyTypeConvertor x:Key="ComboboxItemToStudyTypeConvertor" />
             <convertors:ComboBoxItemSemTypeConvertor x:Key="ComboBoxItemSemTypeConvertor" />
+            <convertors:SubjectToSubjectLenghtConverter x:Key="SubjectToSubjectLenghtConverter" />
         </ResourceDictionary>
     </Application.Resources>
 </Application>

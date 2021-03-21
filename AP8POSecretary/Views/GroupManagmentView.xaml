@@ -5,6 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              xmlns:local="clr-namespace:AP8POSecretary.Views"
+             xmlns:dd="urn:gong-wpf-dragdrop"
              mc:Ignorable="d"
              d:DesignHeight="600"
              d:DesignWidth="900">
@@ -19,9 +20,33 @@
             <RowDefinition Height="7*" />
         </Grid.RowDefinitions>
 
-        <GroupBox Header="Groups card area"
+        <GroupBox 
                   Margin="8,8,8,8"
                   Grid.Row="1">
+            <GroupBox.Header>
+                <DockPanel>
+                    <TextBlock Foreground="White" FontWeight="Bold">Groups card area</TextBlock>
+                    <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
+                        <Button Style="{StaticResource MaterialDesignRaisedAccentButton}"
+                                Margin="0 0 5 0"
+                                Height="25"
+                                Command="{Binding SaveSubjects}"
+                                Content="Save" />
+                        <Button Style="{StaticResource MaterialDesignRaisedAccentButton}"                               
+                                Height="25"
+                                Background="Red"
+                                Command="{Binding SaveSubjects}"
+                                Content="Delete" />
+                        <Button Style="{StaticResource MaterialDesignRaisedAccentButton}"
+                                Height="25"
+                                Background="Blue"
+                                Command="{Binding SaveSubjects}"
+                                Content="Revert" />
+                    </StackPanel>
+                   
+                    
+                </DockPanel>
+            </GroupBox.Header>
             <ScrollViewer>
                 <ItemsControl ItemsSource="{Binding Groups}">
                     <ItemsControl.ItemsPanel>
@@ -35,18 +60,66 @@
                                                  Foreground="{DynamicResource PrimaryHueLightForegroundBrush}"
                                                  Width="185"
                                                  Margin="5"
+                                                 dd:DragDrop.DragDropContext="10"
+                                                 dd:DragDrop.IsDropTarget="true"
+                                                 Tag="ahoj"
+                                                 dd:DragDrop.DropHandler="{Binding DataContext.CardDropHandler, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type GroupBox}}}"
                                                  Padding="8">
-                                <TextBlock FontSize="16"
-                                           Text="{Binding Shortcut}" />
+                                <StackPanel Orientation="Vertical">
+                                    <DockPanel>
+                                        <TextBlock Margin="10 0 5 0 "
+                                                   FontSize="16"
+                                                   Text="{Binding Shortcut, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                                        <TextBlock HorizontalAlignment="Right"
+                                                   FontSize="16"
+                                                   Margin="0 0 15 0"
+                                                   Text="{Binding StudyYear, StringFormat={}{0}st year}" />
+                                    </DockPanel>
+                                    <DockPanel>
+                                        <TextBlock Margin="10 0 5 0 "
+                                                   FontSize="16"
+                                                   Text="{Binding Language}" />
+                                        <TextBlock HorizontalAlignment="Right"
+                                                   FontSize="16"
+                                                   Margin="0 0 15 0"
+                                                   Text="{Binding StudentsCount, StringFormat={}{0} students}" />
+                                    </DockPanel>
+                                    <TextBlock 
+                                               FontSize="16"
+                                               Margin="10 0 0 0"
+                                               Text="{Binding Subjects, Converter={StaticResource SubjectToSubjectLenghtConverter}}" />
+                                </StackPanel>
+                               
                             </materialDesign:Card>
                         </DataTemplate>
                     </ItemsControl.ItemTemplate>
                 </ItemsControl>
             </ScrollViewer>
         </GroupBox>
-        <GroupBox Grid.Row="1" Grid.Column="1" Header="Subjects list area"
+        <GroupBox Grid.Row="1" Grid.Column="1"
                   Margin="8">
-            <TextBlock Text="My Content" />
+            <GroupBox.Header>
+                <TextBlock Height="25" Foreground="White"
+                               FontWeight="Bold">Subjects list area</TextBlock>
+                   
+            </GroupBox.Header>
+            <ListView 
+                dd:DragDrop.IsDragSource="true"
+                dd:DragDrop.IsDropTarget="true"
+                ItemsSource="{Binding Subjects}">
+                <ListView.View>
+                    <GridView>
+                        <GridViewColumn DisplayMemberBinding="{Binding Name}"
+                                        Header="Name" />
+                        <GridViewColumn DisplayMemberBinding="{Binding Shortcut}"
+                                        Header="Shortcut" />
+                        <GridViewColumn DisplayMemberBinding="{Binding Language}"
+                                        Header="Language" />
+                        <GridViewColumn DisplayMemberBinding="{Binding ClassSize}"
+                                        Header="Class size" />
+                    </GridView>
+                </ListView.View>
+            </ListView>
         </GroupBox>
     </Grid>
 </UserControl>

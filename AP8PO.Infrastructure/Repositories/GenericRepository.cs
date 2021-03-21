@@ -56,6 +56,16 @@ namespace AP8POSecretary.Infrastructure.Repositories
             }
         }
 
+        public async Task<IEnumerable<Group>> GetAllGroups()
+        {
+            using (DataContext context = _contextFactory.CreateDbContext())
+            {
+                var entities = await context.Groups.Include(item => item.Subjects).ToListAsync();
+                await context.SaveChangesAsync();
+                return entities;
+            }
+        }
+
         public async Task<T> Update(int id, T entity)
         {
             using (DataContext context = _contextFactory.CreateDbContext())
