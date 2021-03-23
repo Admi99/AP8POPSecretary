@@ -84,7 +84,8 @@ namespace AP8POSecretary.Infrastructure.Repositories
         public async Task Update(IEnumerable<T> entities)
         {
             using (DataContext context = _contextFactory.CreateDbContext())
-            {
+            { 
+
                 context.Set<T>().UpdateRange(entities);
                 await context.SaveChangesAsync();
             }

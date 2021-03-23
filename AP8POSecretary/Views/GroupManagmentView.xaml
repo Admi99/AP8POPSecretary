@@ -57,39 +57,83 @@
                     </ItemsControl.ItemsPanel>
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
-                            <materialDesign:Card Background="{DynamicResource PrimaryHueLightBrush}"
-                                                 Foreground="{DynamicResource PrimaryHueLightForegroundBrush}"
-                                                 Width="185"
+                            <materialDesign:Card Background="#03a9f4"
+                                                 Foreground="{DynamicResource PrimaryHueDarkForegroundBrush}"
+                                                 Padding="0"
                                                  Margin="5"
                                                  dd:DragDrop.DragDropContext="10"
                                                  dd:DragDrop.IsDropTarget="true"
-                                                 Tag="ahoj"
                                                  dd:DragDrop.DropHandler="{Binding DataContext.CardDropHandler, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type GroupBox}}}"
-                                                 Padding="8">
-                                <StackPanel Orientation="Vertical">
-                                    <DockPanel>
-                                        <TextBlock Margin="10 0 5 0 "
-                                                   FontSize="16"
-                                                   Text="{Binding Shortcut, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-                                        <TextBlock HorizontalAlignment="Right"
-                                                   FontSize="16"
-                                                   Margin="0 0 15 0"
-                                                   Text="{Binding StudyYear, StringFormat={}{0}st year}" />
-                                    </DockPanel>
-                                    <DockPanel>
-                                        <TextBlock Margin="10 0 5 0 "
-                                                   FontSize="16"
-                                                   Text="{Binding Language}" />
-                                        <TextBlock HorizontalAlignment="Right"
-                                                   FontSize="16"
-                                                   Margin="0 0 15 0"
+                                                 Height="150"
+                                                 Width="185">
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                    </Grid.RowDefinitions>
+                                    <TextBlock Grid.Row="0"
+                                               Margin="16 16 16 4"
+                                               Style="{StaticResource MaterialDesignHeadline5TextBlock}"
+                                               Text="{Binding Shortcut}" />
+                                    <Separator Grid.Row="1"
+                                               Style="{StaticResource MaterialDesignLightSeparator}" />
+                                    <StackPanel Grid.Row="2"
+                                                Orientation="Vertical">
+                                        <DockPanel>
+                                            <TextBlock Margin="16 0 16 0"
+                                                       VerticalAlignment="Center"
+                                                       HorizontalAlignment="Left"
+                                                       Style="{StaticResource MaterialDesignBody2TextBlock}"
+                                                       Text="{Binding Language}" />
+                                            <TextBlock HorizontalAlignment="Right"
+                                                       FontSize="16"
+                                                       Margin="0 0 15 0"
+                                                       Text="{Binding StudyYear, StringFormat={}{0}st year}" />
+                                        </DockPanel>
+                                        <TextBlock FontSize="16"
+                                                   Margin="15 0 0 0"
                                                    Text="{Binding StudentsCount, StringFormat={}{0} students}" />
-                                    </DockPanel>
-                                    <TextBlock FontSize="16"
-                                               Margin="10 0 0 0"
-                                               Text="{Binding GroupSubjects, Converter={StaticResource SubjectToSubjectLenghtConverter}}" />
-                                </StackPanel>
-
+                                        <DockPanel>
+                                            <TextBlock FontSize="16"
+                                                       Margin="15 0 0 0"
+                                                       Text="{Binding GroupSubjects, StringFormat={}{0} subjects, Converter={StaticResource SubjectToSubjectLenghtConverter}}" />
+                                            <Button Style="{StaticResource MaterialDesignFlatAccentBgButton}"
+                                                    ToolTip="MaterialDesignFlatAccentBackgroundButton"
+                                                    Command="{x:Static materialDesign:DialogHost.OpenDialogCommand}"
+                                                    Width="70"
+                                                    Margin="3"
+                                                    Height="28"
+                                                    Content="Show">
+                                                <Button.CommandParameter>
+                                                    <StackPanel Margin="16">
+                                                        <ListView ItemsSource="{Binding GroupSubjects}">
+                                                            <ListView.View>
+                                                                <GridView>
+                                                                    <GridViewColumn DisplayMemberBinding="{Binding Subject.Name}"
+                                                                                    Header="Name" />
+                                                                    <GridViewColumn DisplayMemberBinding="{Binding Subject.Shortcut}"
+                                                                                    Header="Shortcut" />
+                                                                    <GridViewColumn DisplayMemberBinding="{Binding Subject.Language}"
+                                                                                    Header="Language" />
+                                                                    <GridViewColumn DisplayMemberBinding="{Binding Subject.ClassSize}"
+                                                                                    Header="Class size" />
+                                                                </GridView>
+                                                            </ListView.View>
+                                                        </ListView>
+                                                        <Button Style="{StaticResource MaterialDesignFlatButton}"
+                                                                IsCancel="True"
+                                                                Command="{x:Static materialDesign:DialogHost.CloseDialogCommand}"
+                                                                CommandParameter="Sample2Cancel"
+                                                                HorizontalAlignment="Center"
+                                                                Content="CANCEL" />
+                                                    </StackPanel>
+                                                </Button.CommandParameter>
+                                            </Button>
+                                        </DockPanel>
+                                    </StackPanel>
+                                   
+                                </Grid>
                             </materialDesign:Card>
                         </DataTemplate>
                     </ItemsControl.ItemTemplate>

@@ -35,6 +35,10 @@ namespace AP8POSecretary.ViewModels
 
         private async void SaveSubjectsAsync(object obj)
         {
+            /*foreach (var item in Groups)
+            {
+                await _groupDataService.Update(item.Id, item);
+            }*/
             await _groupDataService.Update(Groups);
         }
 

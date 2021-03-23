@@ -53,5 +53,6 @@ namespace AP8POSecretary.Infrastructure.Repositories
                 return true;
             }
         }
+     
     }
 }
