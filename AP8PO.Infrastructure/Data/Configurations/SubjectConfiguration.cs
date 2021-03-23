@@ -15,6 +15,9 @@ namespace AP8POSecretary.Infrastructure.Data.Configurations
 
             builder.HasKey(e => e.Id);
 
+            /*builder.HasMany(e => e.Groups)
+                .WithMany(e => e.Subjects);*/
+
         }
     }
 }

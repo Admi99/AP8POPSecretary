@@ -9,8 +9,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AP8POSecretary.Infrastructure.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20210321151739_ModifySubject")]
-    partial class ModifySubject
+    [Migration("20210323170708_ModifyGroupSubject")]
+    partial class ModifyGroupSubject
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -84,6 +84,28 @@ namespace AP8POSecretary.Infrastructure.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Groups");
+                });
+
+            modelBuilder.Entity("AP8POSecretary.Domain.Entities.GroupSubject", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("GroupId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("SubjectId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("GroupId");
+
+                    b.HasIndex("SubjectId");
+
+                    b.ToTable("GroupSubjects");
                 });
 
             modelBuilder.Entity("AP8POSecretary.Domain.Entities.Subject", b =>
@@ -171,19 +193,21 @@ namespace AP8POSecretary.Infrastructure.Migrations
                     b.ToTable("WorkingLabels");
                 });
 
-            modelBuilder.Entity("GroupSubject", b =>
+            modelBuilder.Entity("AP8POSecretary.Domain.Entities.GroupSubject", b =>
                 {
-                    b.Property<int>("GroupsId")
-                        .HasColumnType("int");
+                    b.HasOne("AP8POSecretary.Domain.Entities.Group", null)
+                        .WithMany("GroupSubjects")
+                        .HasForeignKey("GroupId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-                    b.Property<int>("SubjectsId")
-                        .HasColumnType("int");
+                    b.HasOne("AP8POSecretary.Domain.Entities.Subject", "Subject")
+                        .WithMany("GroupSubjects")
+                        .HasForeignKey("SubjectId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-                    b.HasKey("GroupsId", "SubjectsId");
-
-                    b.HasIndex("SubjectsId");
-
-                    b.ToTable("GroupSubject");
+                    b.Navigation("Subject");
                 });
 
             modelBuilder.Entity("AP8POSecretary.Domain.Entities.WorkingLabel", b =>
@@ -205,24 +229,19 @@ namespace AP8POSecretary.Infrastructure.Migrations
                     b.Navigation("Subject");
                 });
 
-            modelBuilder.Entity("GroupSubject", b =>
-                {
-                    b.HasOne("AP8POSecretary.Domain.Entities.Group", null)
-                        .WithMany()
-                        .HasForeignKey("GroupsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("AP8POSecretary.Domain.Entities.Subject", null)
-                        .WithMany()
-                        .HasForeignKey("SubjectsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("AP8POSecretary.Domain.Entities.Employee", b =>
                 {
                     b.Navigation("WorkingLabels");
+                });
+
+            modelBuilder.Entity("AP8POSecretary.Domain.Entities.Group", b =>
+                {
+                    b.Navigation("GroupSubjects");
+                });
+
+            modelBuilder.Entity("AP8POSecretary.Domain.Entities.Subject", b =>
+                {
+                    b.Navigation("GroupSubjects");
                 });
 #pragma warning restore 612, 618
         }

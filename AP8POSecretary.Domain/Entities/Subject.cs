@@ -21,8 +21,7 @@ namespace AP8POSecretary.Domain.Entities
         public string Language { get; set; }
         public int ClassSize { get; set; }
         public CompletionType CompletionType { get; set; }
-        public int? GroupId { get; set; }
-        public Group Group { get; set; }
+        public virtual IList<GroupSubject> GroupSubjects { get; set; }
 
     }
 }

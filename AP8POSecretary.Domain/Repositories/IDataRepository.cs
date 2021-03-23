@@ -14,5 +14,6 @@ namespace AP8POSecretary.Domain.Repositories
         Task<T> Update(int id, T entity);
         Task<bool> Delete(int id);
         Task<IEnumerable<Group>> GetAllGroups();
+        Task Update(IEnumerable<T> entities);
     }
 }

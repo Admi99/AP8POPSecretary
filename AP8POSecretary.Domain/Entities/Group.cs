@@ -23,7 +23,7 @@ namespace AP8POSecretary.Domain.Entities
         public int StudentsCount { get; set; }
         public StudyType StudyType { get; set; }
         public SemesterType SemesterType { get; set; }
-        public IList<Subject> Subjects { get; set; }
+        public virtual IList<GroupSubject> GroupSubjects { get; set; }
 
     }
 }

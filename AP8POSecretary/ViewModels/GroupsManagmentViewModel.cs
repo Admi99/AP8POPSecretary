@@ -35,17 +35,14 @@ namespace AP8POSecretary.ViewModels
 
         private async void SaveSubjectsAsync(object obj)
         {
-            foreach (var item in Groups)
-            {
-                await _groupDataService.Update(item.Id, item);
-            }
+            await _groupDataService.Update(Groups);
         }
 
-        private async void DeleteSubjectsAsync(object obj)
+        private void DeleteSubjectsAsync(object obj)
         {
             foreach (var item in Subjects)
             {
-                
+                item.GroupSubjects = null;
             }
         }
 

@@ -44,5 +44,10 @@ namespace AP8POSecretary.Domain.Services
         {
             return _dataRepository.Update(id, entity);
         }
+
+        public Task Update(IEnumerable<T> entities)
+        {
+            return _dataRepository.Update(entities);
+        }
     }
 }

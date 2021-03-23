@@ -35,7 +35,7 @@ namespace AP8POSecretary.Infrastructure.Repositories
                 return true;
             }
         }
-
+      
         public async Task<T> Get(int id)
         {
             using (DataContext context = _contextFactory.CreateDbContext())
@@ -60,7 +60,11 @@ namespace AP8POSecretary.Infrastructure.Repositories
         {
             using (DataContext context = _contextFactory.CreateDbContext())
             {
-                var entities = await context.Groups.Include(item => item.Subjects).ToListAsync();
+                var entities = await context.Groups
+                    .Include(item => item.GroupSubjects)
+                    .ThenInclude(item => item.Subject)
+                    .ToListAsync();
+
                 await context.SaveChangesAsync();
                 return entities;
             }
@@ -74,6 +78,15 @@ namespace AP8POSecretary.Infrastructure.Repositories
                 context.Set<T>().Update(entity);
                 await context.SaveChangesAsync();
                 return entity;
+            }
+        }
+
+        public async Task Update(IEnumerable<T> entities)
+        {
+            using (DataContext context = _contextFactory.CreateDbContext())
+            {
+                context.Set<T>().UpdateRange(entities);
+                await context.SaveChangesAsync();
             }
         }
     }

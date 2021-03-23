@@ -11,7 +11,7 @@ namespace AP8POSecretary.Converter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            var val = (value as IList<Subject>);
+            var val = (value as IList<GroupSubject>);
             return val == null ? "0" : val.Count.ToString(); 
         }
 
