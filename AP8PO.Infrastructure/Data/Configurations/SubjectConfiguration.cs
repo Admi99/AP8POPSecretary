@@ -11,9 +11,15 @@ namespace AP8POSecretary.Infrastructure.Data.Configurations
     {
         public void Configure(EntityTypeBuilder<Subject> builder)
         {
-            builder.ToTable("Employee", "Secretary");
+            builder.ToTable("Subject", "Secretary");
 
             builder.HasKey(e => e.Id);
+
+            builder.HasMany(e => e.GroupSubjects)
+               .WithOne(e => e.Subject)
+               .HasForeignKey(e => e.SubjectId)
+               .OnDelete(DeleteBehavior.Cascade);
+
 
             /*builder.HasMany(e => e.Groups)
                 .WithMany(e => e.Subjects);*/

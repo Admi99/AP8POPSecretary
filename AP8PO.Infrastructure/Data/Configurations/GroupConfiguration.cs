@@ -15,8 +15,10 @@ namespace AP8POSecretary.Infrastructure.Data.Configurations
 
             builder.HasKey(e => e.Id);
 
-            /*builder.HasMany(e => e.GroupSubjects)
-                .WithMany(e => e.);*/
+            builder.HasMany(e => e.GroupSubjects)
+                .WithOne()
+                .HasForeignKey(e => e.GroupId)
+                .OnDelete(DeleteBehavior.Cascade);
           
             /*builder.HasMany(e => e.Subjects)
                 .WithOne(e => e.Group)

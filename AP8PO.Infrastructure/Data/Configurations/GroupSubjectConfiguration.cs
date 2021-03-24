@@ -17,11 +17,14 @@ namespace AP8POSecretary.Infrastructure.Data.Configurations
 
             builder.HasOne(e => e.Subject)
                 .WithMany(e => e.GroupSubjects)
-                .HasForeignKey(e => e.SubjectId);
+                .HasForeignKey(e => e.SubjectId)
+                .OnDelete(DeleteBehavior.Cascade);
 
-            builder.HasOne<Group>()
-                .WithMany()
-                .HasForeignKey(e => e.GroupId);
+            builder.HasOne(e => e.Group)
+                .WithMany(e => e.GroupSubjects)
+                .HasForeignKey(e => e.GroupId)
+                .OnDelete(DeleteBehavior.Cascade);
+
 
             /*builder.HasOne(e => e.Group)
                 .WithMany(e => e.GroupSubjects)

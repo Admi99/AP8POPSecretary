@@ -6,6 +6,7 @@ using System.Text;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Reflection;
 
 namespace AP8POSecretary.Infrastructure.Data
 {
@@ -18,6 +19,13 @@ namespace AP8POSecretary.Infrastructure.Data
         public DbSet<GroupSubject> GroupSubjects { get; set; }
 
         public DataContext(DbContextOptions options) : base(options) { }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
+        }
+
+
 
 
         /*public override int SaveChanges()

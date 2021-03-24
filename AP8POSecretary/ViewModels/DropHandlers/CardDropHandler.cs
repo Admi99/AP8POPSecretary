@@ -14,6 +14,7 @@ namespace AP8POSecretary.ViewModels.DropHandlers
     {
 
         public ObservableCollection<Group> Groups { get; set; }
+        public IList<GroupSubject> GroupSubjectsUpdated { get; set; }
 
         public void DragOver(IDropInfo dropInfo)
         {
@@ -33,7 +34,8 @@ namespace AP8POSecretary.ViewModels.DropHandlers
                 var index = Groups.IndexOf(toGroup);
                 var group = Groups.ElementAt(index);
 
-                var newGroupSub = new GroupSubject() { Subject = fromSubject };
+                var newGroupSub = new GroupSubject() { Subject = fromSubject, SubjectId = fromSubject.Id, Group = toGroup, GroupId = toGroup.Id };
+                GroupSubjectsUpdated.Add(new GroupSubject() { SubjectId = fromSubject.Id, GroupId = toGroup.Id });
                 if (group.GroupSubjects == null)
                 {
                     group.GroupSubjects = new List<GroupSubject>();

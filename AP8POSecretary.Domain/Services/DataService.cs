@@ -15,6 +15,11 @@ namespace AP8POSecretary.Domain.Services
             _dataRepository = dataRepository;
         }
 
+        public Task AddRange(IEnumerable<GroupSubject> entities)
+        {
+            return _dataRepository.AddRange(entities);
+        }
+
         public Task<T> Create(T entity)
         {
             return _dataRepository.Create(entity);

@@ -2,12 +2,16 @@
 
 namespace AP8POSecretary.Infrastructure.Migrations
 {
-    public partial class Init : Migration
+    public partial class init : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.EnsureSchema(
+                name: "Secretary");
+
             migrationBuilder.CreateTable(
-                name: "Employees",
+                name: "Employee",
+                schema: "Secretary",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -23,11 +27,12 @@ namespace AP8POSecretary.Infrastructure.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Employees", x => x.Id);
+                    table.PrimaryKey("PK_Employee", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Groups",
+                name: "Group",
+                schema: "Secretary",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -41,11 +46,12 @@ namespace AP8POSecretary.Infrastructure.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Groups", x => x.Id);
+                    table.PrimaryKey("PK_Group", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Subjects",
+                name: "Subject",
+                schema: "Secretary",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -63,11 +69,12 @@ namespace AP8POSecretary.Infrastructure.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Subjects", x => x.Id);
+                    table.PrimaryKey("PK_Subject", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
-                name: "GroupSubjects",
+                name: "GroupSubject",
+                schema: "Secretary",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -77,23 +84,26 @@ namespace AP8POSecretary.Infrastructure.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_GroupSubjects", x => x.Id);
+                    table.PrimaryKey("PK_GroupSubject", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_GroupSubjects_Groups_GroupId",
+                        name: "FK_GroupSubject_Group_GroupId",
                         column: x => x.GroupId,
-                        principalTable: "Groups",
+                        principalSchema: "Secretary",
+                        principalTable: "Group",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_GroupSubjects_Subjects_SubjectId",
+                        name: "FK_GroupSubject_Subject_SubjectId",
                         column: x => x.SubjectId,
-                        principalTable: "Subjects",
+                        principalSchema: "Secretary",
+                        principalTable: "Subject",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "WorkingLabels",
+                name: "WorkingLabel",
+                schema: "Secretary",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -110,58 +120,69 @@ namespace AP8POSecretary.Infrastructure.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_WorkingLabels", x => x.Id);
+                    table.PrimaryKey("PK_WorkingLabel", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_WorkingLabels_Employees_EmployeeId",
+                        name: "FK_WorkingLabel_Employee_EmployeeId",
                         column: x => x.EmployeeId,
-                        principalTable: "Employees",
+                        principalSchema: "Secretary",
+                        principalTable: "Employee",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_WorkingLabels_Subjects_SubjectId",
+                        name: "FK_WorkingLabel_Subject_SubjectId",
                         column: x => x.SubjectId,
-                        principalTable: "Subjects",
+                        principalSchema: "Secretary",
+                        principalTable: "Subject",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_GroupSubjects_GroupId",
-                table: "GroupSubjects",
+                name: "IX_GroupSubject_GroupId",
+                schema: "Secretary",
+                table: "GroupSubject",
                 column: "GroupId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_GroupSubjects_SubjectId",
-                table: "GroupSubjects",
+                name: "IX_GroupSubject_SubjectId",
+                schema: "Secretary",
+                table: "GroupSubject",
                 column: "SubjectId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_WorkingLabels_EmployeeId",
-                table: "WorkingLabels",
+                name: "IX_WorkingLabel_EmployeeId",
+                schema: "Secretary",
+                table: "WorkingLabel",
                 column: "EmployeeId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_WorkingLabels_SubjectId",
-                table: "WorkingLabels",
+                name: "IX_WorkingLabel_SubjectId",
+                schema: "Secretary",
+                table: "WorkingLabel",
                 column: "SubjectId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "GroupSubjects");
+                name: "GroupSubject",
+                schema: "Secretary");
 
             migrationBuilder.DropTable(
-                name: "WorkingLabels");
+                name: "WorkingLabel",
+                schema: "Secretary");
 
             migrationBuilder.DropTable(
-                name: "Groups");
+                name: "Group",
+                schema: "Secretary");
 
             migrationBuilder.DropTable(
-                name: "Employees");
+                name: "Employee",
+                schema: "Secretary");
 
             migrationBuilder.DropTable(
-                name: "Subjects");
+                name: "Subject",
+                schema: "Secretary");
         }
     }
 }

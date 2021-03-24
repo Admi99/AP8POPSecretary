@@ -2,8 +2,10 @@
 using AP8POSecretary.Domain.Repositories;
 using AP8POSecretary.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -18,6 +20,15 @@ namespace AP8POSecretary.Infrastructure.Repositories
         {
             _contextFactory = contextFactory;
             _nonQueryDataService = new NonQueryDataService<T>(contextFactory);
+        }
+
+        public async Task AddRange(IEnumerable<GroupSubject> entities)
+        {
+            using (DataContext context = _contextFactory.CreateDbContext())
+            {
+                await context.Set<GroupSubject>().AddRangeAsync(entities);
+                await context.SaveChangesAsync();
+            }
         }
 
         public async Task<T> Create(T entity)
@@ -35,7 +46,7 @@ namespace AP8POSecretary.Infrastructure.Repositories
                 return true;
             }
         }
-      
+
         public async Task<T> Get(int id)
         {
             using (DataContext context = _contextFactory.CreateDbContext())
@@ -84,11 +95,16 @@ namespace AP8POSecretary.Infrastructure.Repositories
         public async Task Update(IEnumerable<T> entities)
         {
             using (DataContext context = _contextFactory.CreateDbContext())
-            { 
-
+            {                                      
                 context.Set<T>().UpdateRange(entities);
                 await context.SaveChangesAsync();
             }
         }
     }
 }
+
+
+/*var haha = entities.Last() as Group;
+               haha.GroupSubjects.RemoveAt(0);
+               //haha.GroupSubjects.RemoveAt(0);
+               context.Set<T>().Update(haha as T);*/

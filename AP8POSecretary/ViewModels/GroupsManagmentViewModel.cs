@@ -16,6 +16,7 @@ namespace AP8POSecretary.ViewModels
         private readonly IDataService<Subject> _subjectDataService;
         public ObservableCollection<Group> Groups { get; set; } = new ObservableCollection<Group>();
         public ObservableCollection<Subject> Subjects { get; set; } = new ObservableCollection<Subject>();
+        public IList<GroupSubject> GroupSubjectUpdated { get; set; }
 
         public CardDropHandler CardDropHandler { get; set; } = new CardDropHandler();
         public RelayCommand SaveSubjects { get; private set; }
@@ -26,6 +27,8 @@ namespace AP8POSecretary.ViewModels
             _groupDataService = groupDataService;
             _subjectDataService = subjectDataService;
 
+            GroupSubjectUpdated = new List<GroupSubject>();
+
             SaveSubjects = new RelayCommand(SaveSubjectsAsync);
 
             InitGroupsAsync();
@@ -35,11 +38,9 @@ namespace AP8POSecretary.ViewModels
 
         private async void SaveSubjectsAsync(object obj)
         {
-            /*foreach (var item in Groups)
-            {
-                await _groupDataService.Update(item.Id, item);
-            }*/
-            await _groupDataService.Update(Groups);
+            //await _groupDataService.Update(Groups);
+            await _groupDataService.AddRange(GroupSubjectUpdated);
+            GroupSubjectUpdated.Clear();
         }
 
         private void DeleteSubjectsAsync(object obj)
@@ -56,6 +57,7 @@ namespace AP8POSecretary.ViewModels
             AppendItems(groups);
  
             CardDropHandler.Groups = Groups;
+            CardDropHandler.GroupSubjectsUpdated = GroupSubjectUpdated;
         }
 
         private async void InitSubjectsAsync()

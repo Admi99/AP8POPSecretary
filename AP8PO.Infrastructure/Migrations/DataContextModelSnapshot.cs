@@ -51,7 +51,7 @@ namespace AP8POSecretary.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Employees");
+                    b.ToTable("Employee", "Secretary");
                 });
 
             modelBuilder.Entity("AP8POSecretary.Domain.Entities.Group", b =>
@@ -81,7 +81,7 @@ namespace AP8POSecretary.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Groups");
+                    b.ToTable("Group", "Secretary");
                 });
 
             modelBuilder.Entity("AP8POSecretary.Domain.Entities.GroupSubject", b =>
@@ -103,7 +103,7 @@ namespace AP8POSecretary.Infrastructure.Migrations
 
                     b.HasIndex("SubjectId");
 
-                    b.ToTable("GroupSubjects");
+                    b.ToTable("GroupSubject", "Secretary");
                 });
 
             modelBuilder.Entity("AP8POSecretary.Domain.Entities.Subject", b =>
@@ -145,7 +145,7 @@ namespace AP8POSecretary.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Subjects");
+                    b.ToTable("Subject", "Secretary");
                 });
 
             modelBuilder.Entity("AP8POSecretary.Domain.Entities.WorkingLabel", b =>
@@ -188,12 +188,12 @@ namespace AP8POSecretary.Infrastructure.Migrations
 
                     b.HasIndex("SubjectId");
 
-                    b.ToTable("WorkingLabels");
+                    b.ToTable("WorkingLabel", "Secretary");
                 });
 
             modelBuilder.Entity("AP8POSecretary.Domain.Entities.GroupSubject", b =>
                 {
-                    b.HasOne("AP8POSecretary.Domain.Entities.Group", null)
+                    b.HasOne("AP8POSecretary.Domain.Entities.Group", "Group")
                         .WithMany("GroupSubjects")
                         .HasForeignKey("GroupId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -204,6 +204,8 @@ namespace AP8POSecretary.Infrastructure.Migrations
                         .HasForeignKey("SubjectId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Group");
 
                     b.Navigation("Subject");
                 });
