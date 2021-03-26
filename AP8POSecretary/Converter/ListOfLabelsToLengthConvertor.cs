@@ -7,11 +7,11 @@ using System.Windows.Data;
 
 namespace AP8POSecretary.Converter
 {
-    public class SubjectToSubjectLenghtConverter : IValueConverter
+    class ListOfLabelsToLengthConvertor : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            var val = (value as IList<GroupSubject>);
+            var val = (value as IList<WorkingLabel>);
             return val == null ? "0" : val.Count.ToString();
         }
 

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 
 namespace AP8POSecretary.Domain.Entities
-{//přednáška, cvičení, seminář, zápočet, klasifikovaný zápočet zkouška
+{
     public enum EventType
     {
         LECTURE,

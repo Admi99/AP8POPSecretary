@@ -45,6 +45,11 @@ namespace AP8POSecretary.Domain.Services
             return _dataRepository.GetAll();
         }
 
+        public Task<IEnumerable<Employee>> GetAllEmployees()
+        {
+            return _dataRepository.GetAllEmployees();
+        }
+
         public Task<IEnumerable<Group>> GetAllGroups()
         {
             return _dataRepository.GetAllGroups();
