@@ -20,7 +20,7 @@ namespace AP8POSecretary.ViewModels
 
         public CardDropHandler CardDropHandler { get; set; } = new CardDropHandler();
         public RelayCommand SaveSubjects { get; private set; }
-        public RelayCommand DeleteSubjects { get; private set; }
+        public RelayCommand DeleteGroupSubjects { get; private set; }
         public RelayCommand RevertSubjects { get; private set; }
         public GroupsManagmentViewModel(IDataService<Group> groupDataService, IDataService<Subject> subjectDataService)
         {
@@ -30,6 +30,8 @@ namespace AP8POSecretary.ViewModels
             GroupSubjectUpdated = new List<GroupSubject>();
 
             SaveSubjects = new RelayCommand(SaveSubjectsAsync);
+            DeleteGroupSubjects = new RelayCommand(DeleteSubjectsAsync);
+            RevertSubjects = new RelayCommand(RevertSubjectsAsync);
 
             InitGroupsAsync();
             InitSubjectsAsync();      
@@ -38,17 +40,23 @@ namespace AP8POSecretary.ViewModels
 
         private async void SaveSubjectsAsync(object obj)
         {
-            //await _groupDataService.Update(Groups);
             await _groupDataService.AddRange(GroupSubjectUpdated);
             GroupSubjectUpdated.Clear();
         }
 
-        private void DeleteSubjectsAsync(object obj)
+        private async void DeleteSubjectsAsync(object obj)
         {
-            foreach (var item in Subjects)
-            {
-                item.GroupSubjects = null;
-            }
+            await _groupDataService.DeleteAllGroupSubject();
+            Groups.Clear();
+            GroupSubjectUpdated.Clear();
+            InitGroupsAsync();
+        }
+
+        private void RevertSubjectsAsync(object obj)
+        {
+            Groups.Clear();
+            GroupSubjectUpdated.Clear();
+            InitGroupsAsync();
         }
 
         private async void InitGroupsAsync()

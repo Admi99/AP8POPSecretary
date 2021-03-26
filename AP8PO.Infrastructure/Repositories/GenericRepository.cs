@@ -47,6 +47,17 @@ namespace AP8POSecretary.Infrastructure.Repositories
             }
         }
 
+        public async Task<bool> DeleteAllGroupSubject()
+        {
+            using (DataContext context = _contextFactory.CreateDbContext())
+            {
+                var entities = await context.GroupSubjects.ToListAsync();
+                context.GroupSubjects.RemoveRange(entities);
+                await context.SaveChangesAsync();
+                return true;
+            }
+        }
+
         public async Task<T> Get(int id)
         {
             using (DataContext context = _contextFactory.CreateDbContext())

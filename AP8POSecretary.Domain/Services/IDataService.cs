@@ -16,5 +16,6 @@ namespace AP8POSecretary.Domain.Services
         Task<bool> Delete(int id);
         Task<IEnumerable<Group>> GetAllGroups();
         Task AddRange(IEnumerable<GroupSubject> entities);
+        Task<bool> DeleteAllGroupSubject();
     }
 }

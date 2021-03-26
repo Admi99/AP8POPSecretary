@@ -30,6 +30,11 @@ namespace AP8POSecretary.Domain.Services
             return _dataRepository.Delete(id);
         }
 
+        public Task<bool> DeleteAllGroupSubject()
+        {
+            return _dataRepository.DeleteAllGroupSubject();
+        }
+
         public Task<T> Get(int id)
         {
             return _dataRepository.Get(id);
