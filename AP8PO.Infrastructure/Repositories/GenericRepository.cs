@@ -31,6 +31,15 @@ namespace AP8POSecretary.Infrastructure.Repositories
             }
         }
 
+        public async Task AddWorkingLabels(IEnumerable<WorkingLabel> entities)
+        {
+            using (DataContext context = _contextFactory.CreateDbContext())
+            {
+                await context.Set<WorkingLabel>().AddRangeAsync(entities);
+                await context.SaveChangesAsync();
+            }
+        }
+
         public async Task<T> Create(T entity)
         {
             return await _nonQueryDataService.Create(entity);

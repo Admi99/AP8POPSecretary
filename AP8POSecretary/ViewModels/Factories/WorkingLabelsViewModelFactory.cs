@@ -8,18 +8,22 @@ namespace AP8POSecretary.ViewModels.Factories
 {
     public class WorkingLabelsViewModelFactory : ISecretaryViewModelFactory<WorkingLabelsViewModel>
     {
-        private readonly IDataService<Employee> _groupDataService;
-        private readonly IDataService<WorkingLabel> _subjectDataService;
+        private readonly IDataService<Employee> _employeeDataService;
+        private readonly IDataService<WorkingLabel> _workingLabelDataService;
+        private readonly IDataService<Group> _groupDataService;
 
-        public WorkingLabelsViewModelFactory(IDataService<Employee> groupDataService, IDataService<WorkingLabel> subjectDataService)
+        public WorkingLabelsViewModelFactory(IDataService<Employee> employeeDataService, 
+            IDataService<WorkingLabel> workingLabelDataService, 
+            IDataService<Group> groupDataService)
         {
+            _employeeDataService = employeeDataService;
+            _workingLabelDataService = workingLabelDataService;
             _groupDataService = groupDataService;
-            _subjectDataService = subjectDataService;
         }
 
         public WorkingLabelsViewModel CreateViewModel()
         {
-            return new WorkingLabelsViewModel(_groupDataService, _subjectDataService);
+            return new WorkingLabelsViewModel(_employeeDataService, _workingLabelDataService, _groupDataService);
         }
     }
 }

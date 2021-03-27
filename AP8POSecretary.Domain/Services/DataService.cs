@@ -20,6 +20,11 @@ namespace AP8POSecretary.Domain.Services
             return _dataRepository.AddRange(entities);
         }
 
+        public Task AddWorkingLabels(IEnumerable<WorkingLabel> entities)
+        {
+            return _dataRepository.AddWorkingLabels(entities);
+        }
+
         public Task<T> Create(T entity)
         {
             return _dataRepository.Create(entity);

@@ -17,13 +17,13 @@ namespace AP8POSecretary.Domain.Entities
     {
         public string Name { get; set; }
         public int StudentsCount { get; set; }
-        public int EmploymentPoints { get; set; }
+        public double EmploymentPoints { get; set; }
         public EventType EventType { get; set; }
         public int HoursCount { get; set; }
         public int WeekCount { get; set; }
         public string Language { get; set; }
-        public int SubjectId { get; set; }
-        public int EmployeeId { get; set; }
+        public int? SubjectId { get; set; }
+        public int? EmployeeId { get; set; }
         public Subject Subject { get; set; }
         public Employee Employee { get; set; }
 
