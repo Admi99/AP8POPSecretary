@@ -1,4 +1,5 @@
-﻿using AP8POSecretary.Domain.Entities;
+﻿using AP8POSecretary.Commands;
+using AP8POSecretary.Domain.Entities;
 using AP8POSecretary.Domain.Services;
 using AP8POSecretary.ViewModels.DropHandlers;
 using System;
@@ -19,6 +20,7 @@ namespace AP8POSecretary.ViewModels
         public ObservableCollection<WorkingLabel> WorkingLabels { get; set; } = new ObservableCollection<WorkingLabel>();
         public IList<Group> Groups { get; set; }
         public LabelDropHandler LabelDropHandler { get; set; } = new LabelDropHandler();
+        public RelayCommand GenerateLabels { get; private set; }
         public WorkingLabelsViewModel(IDataService<Employee> employeeDataService,
             IDataService<WorkingLabel> workingLabelDataService,
             IDataService<Group> groupDataService)
@@ -27,9 +29,19 @@ namespace AP8POSecretary.ViewModels
             _workingLabelDataService = workingLabelDataService;
             _groupDataService = groupDataService;
 
+            GenerateLabels = new RelayCommand(GenerateWorkingLabels);
+
             InitEmployeesAsync();
             InitGroupsAsync();
+            InitWorkingLabelsAsync();
         }
+
+        private async void InitWorkingLabelsAsync()
+        {
+            var workingLabels = await _workingLabelDataService.GetAllWorkingLabels();
+            AppendItems(workingLabels);
+        }
+
         private async void InitEmployeesAsync()
         {
             var employees = await _employeeDataService.GetAllEmployees();
@@ -41,7 +53,6 @@ namespace AP8POSecretary.ViewModels
         {
             var groups = await _groupDataService.GetAllGroups();
             Groups = new List<Group>(groups);
-            GenerateWorkingLabels();
         }
 
 
@@ -58,7 +69,7 @@ namespace AP8POSecretary.ViewModels
                     WorkingLabels.Add(item as WorkingLabel);
             }
         }
-        public async void GenerateWorkingLabels()
+        public async void GenerateWorkingLabels(object obj)
         {
             if(Groups != null)
             {
@@ -83,14 +94,13 @@ namespace AP8POSecretary.ViewModels
 
                 labels.Add(new WorkingLabel()
                 {
-                    Name = item.Subject.Name + " - " + group.Shortcut,
+                    Name = item.Subject.Name + " - " + "Lecture",
                     StudentsCount = group.StudentsCount,
                     EmploymentPoints = item.Subject.LectureCount * 1.8,
                     Language = group.Language,
                     WeekCount = item.Subject.WeeksCount,
                     HoursCount = item.Subject.LectureCount,
                     EventType = EventType.LECTURE,
-                    //Subject = item.Subject,
                     SubjectId = item.SubjectId
                 });
 
@@ -98,14 +108,13 @@ namespace AP8POSecretary.ViewModels
                 {
                     labels.Add(new WorkingLabel()
                     {
-                        Name = i.ToString() + "." + item.Subject.Name,
+                        Name = item.Subject.Name + " - " + "practise",
                         StudentsCount = numberOfStudentsPerClass,
                         EmploymentPoints = item.Subject.PractiseCount * 1.2,
                         Language = group.Language,
                         WeekCount = item.Subject.WeeksCount,
                         HoursCount = item.Subject.LectureCount,
                         EventType = EventType.PRACTISE,
-                        //Subject = item.Subject,
                         SubjectId = item.SubjectId
                     });
                 }
@@ -114,25 +123,33 @@ namespace AP8POSecretary.ViewModels
                 {
                     StudentsCount = 12,
                     Language = group.Language,
-                    //Subject = item.Subject,
                     SubjectId = item.SubjectId
                 };
 
                 if(item.Subject.CompletionType == CompletionType.CLASSIFIED)
                 {
+                    examPredicate.Name = item.Subject.Name + " - " + "Classified exam";
                     examPredicate.EventType = EventType.CLASSIFIEDCREDIT;
                     examPredicate.EmploymentPoints = 0.3;
                     labels.Add(examPredicate);
                 }
                 else
                 {
+                    examPredicate.Name = item.Subject.Name + " - " + "Credit";
                     examPredicate.EventType = EventType.CREDIT;
                     examPredicate.EmploymentPoints = 0.2;
                     labels.Add(examPredicate);
 
-                    examPredicate.EventType = EventType.EXAM;
-                    examPredicate.EmploymentPoints = 0.4;
-                    labels.Add(examPredicate);
+                    WorkingLabel examPredicate2 = new WorkingLabel()
+                    {
+                        Name = item.Subject.Name + " - " + "Exam",
+                        StudentsCount = 24,
+                        Language = group.Language,
+                        SubjectId = item.SubjectId
+                    };
+                    examPredicate2.EventType = EventType.EXAM;
+                    examPredicate2.EmploymentPoints = 0.4;
+                    labels.Add(examPredicate2);
 
                 }
             }

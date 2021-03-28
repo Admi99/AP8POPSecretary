@@ -19,5 +19,6 @@ namespace AP8POSecretary.Domain.Services
         Task<bool> DeleteAllGroupSubject();
         Task<IEnumerable<Employee>> GetAllEmployees();
         Task AddWorkingLabels(IEnumerable<WorkingLabel> entities);
+        Task<IEnumerable<WorkingLabel>> GetAllWorkingLabels();
     }
 }

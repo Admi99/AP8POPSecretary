@@ -114,6 +114,20 @@ namespace AP8POSecretary.Infrastructure.Repositories
             }
         }
 
+        public async Task<IEnumerable<WorkingLabel>> GetAllWorkingLabels()
+        {
+            using (DataContext context = _contextFactory.CreateDbContext())
+            {
+                var entities = await context.WorkingLabels
+                    .Include(item => item.Subject)
+                    .Include(item => item.Employee)
+                    .ToListAsync();
+
+                await context.SaveChangesAsync();
+                return entities;
+            }
+        }
+
         public async Task<T> Update(int id, T entity)
         {
             using (DataContext context = _contextFactory.CreateDbContext())

@@ -60,6 +60,11 @@ namespace AP8POSecretary.Domain.Services
             return _dataRepository.GetAllGroups();
         }
 
+        public Task<IEnumerable<WorkingLabel>> GetAllWorkingLabels()
+        {
+            return _dataRepository.GetAllWorkingLabels();
+        }
+
         public Task<T> Update(int id, T entity)
         {
             return _dataRepository.Update(id, entity);
