@@ -18,6 +18,7 @@ namespace AP8POSecretary.Domain.Repositories
         Task<IEnumerable<WorkingLabel>> GetAllWorkingLabels();
         Task Update(IEnumerable<T> entities);
         Task AddRange(IEnumerable<GroupSubject> entities);
+        Task AddEmployeesRange(IEnumerable<Employee> entities);
         Task AddWorkingLabels(IEnumerable<WorkingLabel> entities);
         Task<bool> DeleteAllGroupSubject();
     }

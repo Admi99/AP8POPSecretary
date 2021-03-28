@@ -20,7 +20,10 @@ namespace AP8POSecretary.ViewModels
         public ObservableCollection<WorkingLabel> WorkingLabels { get; set; } = new ObservableCollection<WorkingLabel>();
         public IList<Group> Groups { get; set; }
         public LabelDropHandler LabelDropHandler { get; set; } = new LabelDropHandler();
+
         public RelayCommand GenerateLabels { get; private set; }
+        public RelayCommand SaveEmployees { get; private set; }
+
         public WorkingLabelsViewModel(IDataService<Employee> employeeDataService,
             IDataService<WorkingLabel> workingLabelDataService,
             IDataService<Group> groupDataService)
@@ -30,10 +33,16 @@ namespace AP8POSecretary.ViewModels
             _groupDataService = groupDataService;
 
             GenerateLabels = new RelayCommand(GenerateWorkingLabels);
+            SaveEmployees = new RelayCommand(SaveEmployyesAsync);
 
             InitEmployeesAsync();
             InitGroupsAsync();
             InitWorkingLabelsAsync();
+        }
+
+        private async void SaveEmployyesAsync(object obj)
+        {
+            await _employeeDataService.Update(Employees);
         }
 
         private async void InitWorkingLabelsAsync()
@@ -48,6 +57,7 @@ namespace AP8POSecretary.ViewModels
             AppendItems(employees);
 
             LabelDropHandler.Employees = Employees;
+            LabelDropHandler.WorkingLabels = WorkingLabels;
         }
         private async void InitGroupsAsync()
         {

@@ -31,6 +31,15 @@ namespace AP8POSecretary.Infrastructure.Repositories
             }
         }
 
+        public async Task AddEmployeesRange(IEnumerable<Employee> entities)
+        {
+            using (DataContext context = _contextFactory.CreateDbContext())
+            {
+                await context.Set<Employee>().AddRangeAsync(entities);
+                await context.SaveChangesAsync();
+            }
+        }
+
         public async Task AddWorkingLabels(IEnumerable<WorkingLabel> entities)
         {
             using (DataContext context = _contextFactory.CreateDbContext())

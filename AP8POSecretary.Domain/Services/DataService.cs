@@ -20,6 +20,11 @@ namespace AP8POSecretary.Domain.Services
             return _dataRepository.AddRange(entities);
         }
 
+        public Task AddEmployeesRange(IEnumerable<Employee> entities)
+        {
+            return _dataRepository.AddEmployeesRange(entities);
+        }
+
         public Task AddWorkingLabels(IEnumerable<WorkingLabel> entities)
         {
             return _dataRepository.AddWorkingLabels(entities);

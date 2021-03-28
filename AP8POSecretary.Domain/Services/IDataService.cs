@@ -20,5 +20,6 @@ namespace AP8POSecretary.Domain.Services
         Task<IEnumerable<Employee>> GetAllEmployees();
         Task AddWorkingLabels(IEnumerable<WorkingLabel> entities);
         Task<IEnumerable<WorkingLabel>> GetAllWorkingLabels();
+        Task AddEmployeesRange(IEnumerable<Employee> entities);
     }
 }
