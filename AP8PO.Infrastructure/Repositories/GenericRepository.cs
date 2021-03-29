@@ -156,6 +156,15 @@ namespace AP8POSecretary.Infrastructure.Repositories
                 await context.SaveChangesAsync();
             }
         }
+
+        public async Task DeleteAll(IEnumerable<T> entities)
+        {
+            using (DataContext context = _contextFactory.CreateDbContext())
+            {
+                context.Set<T>().RemoveRange(entities);
+                await context.SaveChangesAsync();
+            }
+        }
     }
 }
 

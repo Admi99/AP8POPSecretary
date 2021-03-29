@@ -14,6 +14,7 @@ namespace AP8POSecretary.ViewModels.DropHandlers
     {
         public ObservableCollection<Employee> Employees { get; set; }
         public ObservableCollection<WorkingLabel> WorkingLabels { get; set; }
+        public IList<WorkingLabel> DeletedWorkingLabels { get; set; }
 
         public void DragOver(IDropInfo dropInfo)
         {
@@ -41,6 +42,7 @@ namespace AP8POSecretary.ViewModels.DropHandlers
             Employees.Insert(index, employee);
 
             WorkingLabels.Remove(fromWorkingLabel);
+            DeletedWorkingLabels.Add(fromWorkingLabel);
         }
     }
 }

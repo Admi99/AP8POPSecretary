@@ -9,6 +9,12 @@ namespace AP8POSecretary.Domain.Entities
         EXAM,
         CLASSIFIED
     };
+
+    public enum SubjectLanguage
+    {
+        CZECH,
+        ENGLISH
+    };
     public class Subject : Entity
     {
         public string Name { get; set; }

@@ -18,6 +18,7 @@ namespace AP8POSecretary.ViewModels
 
         public ObservableCollection<Employee> Employees { get; set; } = new ObservableCollection<Employee>();
         public ObservableCollection<WorkingLabel> WorkingLabels { get; set; } = new ObservableCollection<WorkingLabel>();
+        public IList<WorkingLabel> DeletedWorkingLabels { get; set; }
         public IList<Group> Groups { get; set; }
         public LabelDropHandler LabelDropHandler { get; set; } = new LabelDropHandler();
 
@@ -35,6 +36,8 @@ namespace AP8POSecretary.ViewModels
             GenerateLabels = new RelayCommand(GenerateWorkingLabels);
             SaveEmployees = new RelayCommand(SaveEmployyesAsync);
 
+            DeletedWorkingLabels = new List<WorkingLabel>();
+
             InitEmployeesAsync();
             InitGroupsAsync();
             InitWorkingLabelsAsync();
@@ -48,7 +51,13 @@ namespace AP8POSecretary.ViewModels
         private async void InitWorkingLabelsAsync()
         {
             var workingLabels = await _workingLabelDataService.GetAllWorkingLabels();
-            AppendItems(workingLabels);
+            IList<WorkingLabel> onlyNotJoinedToEmployee = new List<WorkingLabel>();
+            foreach (var item in workingLabels)
+            {
+                if (item.EmployeeId == null)
+                    onlyNotJoinedToEmployee.Add(item);
+            }
+            AppendItems(onlyNotJoinedToEmployee);
         }
 
         private async void InitEmployeesAsync()
@@ -58,6 +67,7 @@ namespace AP8POSecretary.ViewModels
 
             LabelDropHandler.Employees = Employees;
             LabelDropHandler.WorkingLabels = WorkingLabels;
+            LabelDropHandler.DeletedWorkingLabels = DeletedWorkingLabels;
         }
         private async void InitGroupsAsync()
         {
@@ -81,12 +91,13 @@ namespace AP8POSecretary.ViewModels
         }
         public async void GenerateWorkingLabels(object obj)
         {
-            if(Groups != null)
+            if (Groups != null)
             {
                 foreach (var item in Groups)
                 {
                     var generatedLabelsFromGroup = GenerateLectures(item);
                     await AddWorkingLabels(generatedLabelsFromGroup);
+                    AppendItems(generatedLabelsFromGroup);
                 }
             }
         }
@@ -102,32 +113,58 @@ namespace AP8POSecretary.ViewModels
                 double labelsCount = Math.Ceiling(students / classSize);
                 int numberOfStudentsPerClass = Convert.ToInt32(Math.Ceiling(students / labelsCount));
 
-                labels.Add(new WorkingLabel()
-                {
-                    Name = item.Subject.Name + " - " + "Lecture",
-                    StudentsCount = group.StudentsCount,
-                    EmploymentPoints = item.Subject.LectureCount * 1.8,
-                    Language = group.Language,
-                    WeekCount = item.Subject.WeeksCount,
-                    HoursCount = item.Subject.LectureCount,
-                    EventType = EventType.LECTURE,
-                    SubjectId = item.SubjectId
-                });
-
-                for (int i = 0; i < (int)labelsCount; i++)
+                // Lecture
+                if (item.Subject.CompletionType == CompletionType.EXAM)
                 {
                     labels.Add(new WorkingLabel()
                     {
-                        Name = item.Subject.Name + " - " + "practise",
-                        StudentsCount = numberOfStudentsPerClass,
-                        EmploymentPoints = item.Subject.PractiseCount * 1.2,
-                        Language = group.Language,
+                        Name = item.Subject.Name + " - " + "Lecture",
+                        StudentsCount = group.StudentsCount,
+                        EmploymentPoints = item.Subject.LectureCount * 1.8,
+                        Language = item.Subject.Language,
                         WeekCount = item.Subject.WeeksCount,
                         HoursCount = item.Subject.LectureCount,
-                        EventType = EventType.PRACTISE,
+                        EventType = EventType.LECTURE,
                         SubjectId = item.SubjectId
                     });
                 }
+
+                // Practise and seminare
+
+
+                for (int i = 0; i < (int)labelsCount; i++)
+                {
+                    if (item.Subject.PractiseCount != 0)
+                    {
+                        labels.Add(new WorkingLabel()
+                        {
+                            Name = item.Subject.Name + " - " + "practise",
+                            StudentsCount = numberOfStudentsPerClass,
+                            EmploymentPoints = item.Subject.PractiseCount * 1.2,
+                            Language = item.Subject.Language,
+                            WeekCount = item.Subject.WeeksCount,
+                            HoursCount = item.Subject.LectureCount,
+                            EventType = EventType.PRACTISE,
+                            SubjectId = item.SubjectId
+                        });
+                    }
+                    if(item.Subject.SeminareCount != 0)
+                    {
+                        labels.Add(new WorkingLabel()
+                        {
+                            Name = item.Subject.Name + " - " + "practise",
+                            StudentsCount = numberOfStudentsPerClass,
+                            EmploymentPoints = item.Subject.PractiseCount * 1.2,
+                            Language = item.Subject.Language,
+                            WeekCount = item.Subject.WeeksCount,
+                            HoursCount = item.Subject.LectureCount,
+                            EventType = EventType.PRACTISE,
+                            SubjectId = item.SubjectId
+                        });
+                    }
+                }
+
+
 
                 WorkingLabel examPredicate = new WorkingLabel()
                 {
@@ -136,7 +173,7 @@ namespace AP8POSecretary.ViewModels
                     SubjectId = item.SubjectId
                 };
 
-                if(item.Subject.CompletionType == CompletionType.CLASSIFIED)
+                if (item.Subject.CompletionType == CompletionType.CLASSIFIED)
                 {
                     examPredicate.Name = item.Subject.Name + " - " + "Classified exam";
                     examPredicate.EventType = EventType.CLASSIFIEDCREDIT;

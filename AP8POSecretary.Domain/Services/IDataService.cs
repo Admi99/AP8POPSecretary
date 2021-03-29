@@ -14,6 +14,7 @@ namespace AP8POSecretary.Domain.Services
         Task<T> Update(int id, T entity);
         Task Update(IEnumerable<T> entities);
         Task<bool> Delete(int id);
+        Task DeleteAll(IEnumerable<T> entities);
         Task<IEnumerable<Group>> GetAllGroups();
         Task AddRange(IEnumerable<GroupSubject> entities);
         Task<bool> DeleteAllGroupSubject();

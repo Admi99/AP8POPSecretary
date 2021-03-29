@@ -13,6 +13,7 @@ namespace AP8POSecretary.Domain.Repositories
         Task<T> Create(T entity);
         Task<T> Update(int id, T entity);
         Task<bool> Delete(int id);
+        Task DeleteAll(IEnumerable<T> entities);
         Task<IEnumerable<Group>> GetAllGroups();
         Task<IEnumerable<Employee>> GetAllEmployees();
         Task<IEnumerable<WorkingLabel>> GetAllWorkingLabels();
