@@ -5,6 +5,7 @@ using AP8POSecretary.ViewModels.DropHandlers;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Data;
@@ -52,6 +53,7 @@ namespace AP8POSecretary.ViewModels
         private async void SaveEmployyesAsync(object obj)
         {
             await _employeeDataService.Update(Employees);
+            await _workingLabelDataService.Update(WorkingLabels);
         }
         private async void ReturnLabels(object obj = null)
         {
@@ -86,6 +88,25 @@ namespace AP8POSecretary.ViewModels
 
         private void ReturnOneLabel(object obj)
         {
+            foreach (var item in Employees)
+            {
+                var label = item.WorkingLabels.Where(item => item.Id == (int)obj).FirstOrDefault();
+                if(label != null)
+                {
+                    item.WorkingLabels.Remove(label);
+
+                    var index = Employees.IndexOf(item);
+                    var employee = Employees.ElementAt(index);
+                
+                    Employees.RemoveAt(index);
+                    Employees.Insert(index, employee);
+
+                    label.Employee = null;
+                    label.EmployeeId = null;
+                    WorkingLabels.Insert(0, label);
+                    break;
+                }
+            }
 
         }
 

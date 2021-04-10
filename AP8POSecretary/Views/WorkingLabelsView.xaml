@@ -10,7 +10,7 @@
              xmlns:proxy="clr-namespace:AP8POSecretary.Utils"
              d:DesignHeight="600"
              d:DesignWidth="900">
-    
+
     <Grid Background="AliceBlue">
         <Grid.ColumnDefinitions>
             <ColumnDefinition />
@@ -117,12 +117,25 @@
                                                                     <GridViewColumn>
                                                                         <GridViewColumn.CellTemplate>
                                                                             <DataTemplate>
-                                                                                <Button Style="{StaticResource MaterialDesignRaisedDarkButton}"
-                                                                                        Width="200"
-                                                                                        Command="{Binding Data.ReturnOneLab, Source={StaticResource proxy}}"
-                                                                                        CommandParameter="{Binding Id}"
-                                                                                        ToolTip="Resource name: MaterialDesignRaisedLightDarkButton"
-                                                                                        Content="Return to the pool" />
+                                                                                <StackPanel Orientation="Horizontal">
+                                                                                    <TextBlock Text="Return to the pool:"
+                                                                                               Margin="0,8,5,0"
+                                                                                               FontWeight="Medium" />
+                                                                                    <RadioButton Content="Move"
+                                                                                                 Width="70"
+                                                                                                 Command="{Binding Data.ReturnOneLab, Source={StaticResource proxy}}"
+                                                                                                 CommandParameter="{Binding Id}"
+                                                                                                 IsChecked="False"
+                                                                                                 ToolTip="Move label back to pool"
+                                                                                                 Style="{StaticResource MaterialDesignActionToggleButton}" />
+                                                                                    <!--<ToggleButton Content="Move"
+                                                                                                  Width="70"
+                                                                                                  Style="{StaticResource MaterialDesignActionToggleButton}"
+                                                                                                  IsChecked="False"
+                                                                                                  Command="{Binding Data.ReturnOneLab, Source={StaticResource proxy}}"
+                                                                                                  CommandParameter="{Binding Id}"
+                                                                                                  ToolTip="Move label back to pool" />-->
+                                                                                </StackPanel>
                                                                             </DataTemplate>
                                                                         </GridViewColumn.CellTemplate>
                                                                     </GridViewColumn>
