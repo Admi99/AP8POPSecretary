@@ -39,6 +39,10 @@ namespace AP8POSecretary.Converter
                     return SemesterType.SPRING;
                 case "WINTER":
                     return SemesterType.WINTER;
+                case "CZECH":
+                    return SubjectLanguage.CZECH;
+                case "ENGLISH":
+                    return SubjectLanguage.ENGLISH;
                 default:
                     return new NotImplementedException();
             }

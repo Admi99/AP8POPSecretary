@@ -4,6 +4,7 @@
              xmlns:viewmodels="clr-namespace:AP8POSecretary.ViewModels"
              xmlns:views="clr-namespace:AP8POSecretary.Views"
              xmlns:convertors="clr-namespace:AP8POSecretary.Converter"
+             xmlns:proxy="clr-namespace:AP8POSecretary.Utils"
              >
     <Application.Resources>
         <ResourceDictionary>
@@ -39,6 +40,10 @@
             <convertors:ComboBoxItemSemTypeConvertor x:Key="ComboBoxItemSemTypeConvertor" />
             <convertors:SubjectToSubjectLenghtConverter x:Key="SubjectToSubjectLenghtConverter" />
             <convertors:ListOfLabelsToLengthConvertor x:Key="ListOfLabelsToLengthConvertor" />
+            <convertors:ComboboxItemToLanguageEnum x:Key="ComboboxItemToLanguageEnum" />
+
+            <!--<proxy:BindingProxy x:Key="proxy"
+                                Data="{Binding}" />-->
         </ResourceDictionary>
     </Application.Resources>
 </Application>

@@ -50,17 +50,12 @@
                     </materialDesign:DataGridTextColumn.Binding>
                 </materialDesign:DataGridTextColumn>
 
-                <materialDesign:DataGridTextColumn Header="Language"
-                                                   ElementStyle="{StaticResource MaterialDesignDataGridTextColumnStyle}"
-                                                   EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnPopupEditingStyle}">
-                    <materialDesign:DataGridTextColumn.Binding>
-                        <Binding Path="Language">
-                            <Binding.ValidationRules>
-                                <rules:NoEmptyValidationRule />
-                            </Binding.ValidationRules>
-                        </Binding>
-                    </materialDesign:DataGridTextColumn.Binding>
-                </materialDesign:DataGridTextColumn>
+                <materialDesign:DataGridComboBoxColumn Header="Language"
+                                                       IsEditable="True"
+                                                       Width="110"
+                                                       SelectedValueBinding="{Binding Language, Converter={StaticResource EnumConverter}}"
+                                                       ItemsSourceBinding="{Binding DataContext.Languages, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type DataGrid}}}">
+                </materialDesign:DataGridComboBoxColumn>
 
                 <materialDesign:DataGridTextColumn Header="Credit"
                                                    ElementStyle="{StaticResource MaterialDesignDataGridTextColumnStyle}"
@@ -155,11 +150,13 @@
                              materialDesign:HintAssist.Hint="Select subject shortcut"
                              Style="{StaticResource MaterialDesignFloatingHintTextBox}"
                              VerticalAlignment="Center" />
-                    <TextBox Margin="10 0 10 0"
-                             Text="{Binding Language}"
-                             materialDesign:HintAssist.Hint="Select subject language"
-                             Style="{StaticResource MaterialDesignFloatingHintTextBox}"
-                             VerticalAlignment="Center" />
+                    <ComboBox Margin="10 12 10 0"
+                              Width="125"
+                              SelectedItem="{Binding Language, Converter={StaticResource ComboboxItemToLanguageEnum}, UpdateSourceTrigger=PropertyChanged}"
+                              materialDesign:HintAssist.Hint="Czech">
+                        <ComboBoxItem Content="Czech" />
+                        <ComboBoxItem Content="English" />
+                    </ComboBox>
                     <TextBox Margin="10 0 10 0"
                              materialDesign:HintAssist.Hint="Credit"
                              Style="{StaticResource MaterialDesignFloatingHintTextBox}"

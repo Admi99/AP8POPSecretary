@@ -7,8 +7,10 @@
              xmlns:dd="urn:gong-wpf-dragdrop"
              xmlns:local="clr-namespace:AP8POSecretary.Views"
              mc:Ignorable="d"
+             xmlns:proxy="clr-namespace:AP8POSecretary.Utils"
              d:DesignHeight="600"
              d:DesignWidth="900">
+    
     <Grid Background="AliceBlue">
         <Grid.ColumnDefinitions>
             <ColumnDefinition />
@@ -21,7 +23,12 @@
         </Grid.RowDefinitions>
 
         <GroupBox Margin="8,8,8,8"
+                  Name="Test1"
                   Grid.Row="1">
+            <GroupBox.Resources>
+                <proxy:BindingProxy x:Key="proxy"
+                                    Data="{Binding}" />
+            </GroupBox.Resources>
             <GroupBox.Header>
                 <DockPanel>
                     <TextBlock Foreground="White"
@@ -35,13 +42,9 @@
                                 Content="Save" />
                         <Button Style="{StaticResource MaterialDesignRaisedAccentButton}"
                                 Height="25"
-                                Margin="0 0 5 0"
-                                Background="LightBlue"
-                                Content="Revert" />
-                        <Button Style="{StaticResource MaterialDesignRaisedAccentButton}"
-                                Height="25"
                                 Background="Red"
-                                Content="Delete subjects" />
+                                Command="{Binding ReturnLab}"
+                                Content="Return labels" />
                     </StackPanel>
                 </DockPanel>
             </GroupBox.Header>
@@ -100,17 +103,29 @@
                                                     Content="Show">
                                                 <Button.CommandParameter>
                                                     <StackPanel Margin="16">
-                                                        <ListView ItemsSource="{Binding GroupSubjects}">
+                                                        <ListView ItemsSource="{Binding WorkingLabels}">
                                                             <ListView.View>
                                                                 <GridView>
-                                                                    <GridViewColumn DisplayMemberBinding="{Binding Subject.Name}"
+                                                                    <GridViewColumn DisplayMemberBinding="{Binding Name}"
                                                                                     Header="Name" />
-                                                                    <GridViewColumn DisplayMemberBinding="{Binding Subject.Shortcut}"
-                                                                                    Header="Shortcut" />
-                                                                    <GridViewColumn DisplayMemberBinding="{Binding Subject.Language}"
+                                                                    <GridViewColumn DisplayMemberBinding="{Binding Language}"
                                                                                     Header="Language" />
-                                                                    <GridViewColumn DisplayMemberBinding="{Binding Subject.ClassSize}"
-                                                                                    Header="Class size" />
+                                                                    <GridViewColumn DisplayMemberBinding="{Binding StudentsCount}"
+                                                                                    Header="Students" />
+                                                                    <GridViewColumn DisplayMemberBinding="{Binding EmploymentPoints}"
+                                                                                    Header="Employement points" />
+                                                                    <GridViewColumn>
+                                                                        <GridViewColumn.CellTemplate>
+                                                                            <DataTemplate>
+                                                                                <Button Style="{StaticResource MaterialDesignRaisedDarkButton}"
+                                                                                        Width="200"
+                                                                                        Command="{Binding Data.ReturnOneLab, Source={StaticResource proxy}}"
+                                                                                        CommandParameter="{Binding Id}"
+                                                                                        ToolTip="Resource name: MaterialDesignRaisedLightDarkButton"
+                                                                                        Content="Return to the pool" />
+                                                                            </DataTemplate>
+                                                                        </GridViewColumn.CellTemplate>
+                                                                    </GridViewColumn>
                                                                 </GridView>
                                                             </ListView.View>
                                                         </ListView>

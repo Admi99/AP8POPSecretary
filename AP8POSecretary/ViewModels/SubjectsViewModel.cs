@@ -42,6 +42,7 @@ namespace AP8POSecretary.ViewModels
 
         public IEnumerable<string> CompletationTypes => new[] { CompletionType.EXAM.ToString(), CompletionType.CLASSIFIED.ToString()};
         public IEnumerable<string> ClassSizes => new[] { "12", "24", "48", "96", "192", "384" };
+        public IEnumerable<string> Languages => new[] { SubjectLanguage.CZECH.ToString(), SubjectLanguage.ENGLISH.ToString() };
 
         public async void AddData(object obj = null)
         {
@@ -93,7 +94,7 @@ namespace AP8POSecretary.ViewModels
             }   
         }
         public bool CheckDataBeforeAdding(object obj = null)
-            => !String.IsNullOrEmpty(Name) && !String.IsNullOrEmpty(Language) && !String.IsNullOrEmpty(Shortcut);
+            => !String.IsNullOrEmpty(Name) && !String.IsNullOrEmpty(Shortcut);
             
 
         private async void InitAsync()
@@ -125,8 +126,8 @@ namespace AP8POSecretary.ViewModels
                 OnPropertyChanged(nameof(Shortcut));
             }
         }
-        private string _language;
-        public string Language
+        private SubjectLanguage _language = SubjectLanguage.CZECH;
+        public SubjectLanguage Language
         {
             get { return _language; }
             set

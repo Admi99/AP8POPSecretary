@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Data;
 
 namespace AP8POSecretary.ViewModels
 {
@@ -21,9 +22,12 @@ namespace AP8POSecretary.ViewModels
         public IList<WorkingLabel> DeletedWorkingLabels { get; set; }
         public IList<Group> Groups { get; set; }
         public LabelDropHandler LabelDropHandler { get; set; } = new LabelDropHandler();
+        public IList<WorkingLabel> JoinedToEmployee { get; set; } = new List<WorkingLabel>();
 
         public RelayCommand GenerateLabels { get; private set; }
         public RelayCommand SaveEmployees { get; private set; }
+        public RelayCommand ReturnLab { get; private set; }
+        public RelayCommand ReturnOneLab { get; private set; }
 
         public WorkingLabelsViewModel(IDataService<Employee> employeeDataService,
             IDataService<WorkingLabel> workingLabelDataService,
@@ -35,6 +39,8 @@ namespace AP8POSecretary.ViewModels
 
             GenerateLabels = new RelayCommand(GenerateWorkingLabels);
             SaveEmployees = new RelayCommand(SaveEmployyesAsync);
+            ReturnLab = new RelayCommand(ReturnLabels);
+            ReturnOneLab = new RelayCommand(ReturnOneLabel);
 
             DeletedWorkingLabels = new List<WorkingLabel>();
 
@@ -46,6 +52,41 @@ namespace AP8POSecretary.ViewModels
         private async void SaveEmployyesAsync(object obj)
         {
             await _employeeDataService.Update(Employees);
+        }
+        private async void ReturnLabels(object obj = null)
+        {
+            foreach (var item in Employees)
+            {
+                if (item.WorkingLabels == null)
+                    continue;
+                foreach (var innerItem in item.WorkingLabels)
+                {
+                    JoinedToEmployee.Add(innerItem);
+                }
+                item.WorkingLabels = null;
+            }
+
+            if(JoinedToEmployee.Count != 0)
+            {
+                IList<Employee> employees = new List<Employee>(Employees);
+                Employees.Clear();
+                AppendItems(employees);
+                PrependItems(JoinedToEmployee);
+
+                Parallel.ForEach(WorkingLabels, item =>
+                {
+                    item.EmployeeId = null;
+                    item.Employee = null;
+                });
+
+                await _workingLabelDataService.Update(WorkingLabels);
+                JoinedToEmployee.Clear();
+            }           
+        }
+
+        private void ReturnOneLabel(object obj)
+        {
+
         }
 
         private async void InitWorkingLabelsAsync()
@@ -75,7 +116,6 @@ namespace AP8POSecretary.ViewModels
             Groups = new List<Group>(groups);
         }
 
-
         private void AppendItems<T>(IEnumerable<T> items)
         {
             if (typeof(T).Name is "Employee")
@@ -89,6 +129,20 @@ namespace AP8POSecretary.ViewModels
                     WorkingLabels.Add(item as WorkingLabel);
             }
         }
+        private void PrependItems<T>(IEnumerable<T> items)
+        {
+            if (typeof(T).Name is "Employee")
+            {
+                foreach (var item in items)
+                    Employees.Insert(0, item as Employee);
+            }
+            else
+            {
+                foreach (var item in items)
+                    WorkingLabels.Insert(0, item as WorkingLabel);
+            }
+        }
+
         public async void GenerateWorkingLabels(object obj)
         {
             if (Groups != null)
@@ -113,15 +167,18 @@ namespace AP8POSecretary.ViewModels
                 double labelsCount = Math.Ceiling(students / classSize);
                 int numberOfStudentsPerClass = Convert.ToInt32(Math.Ceiling(students / labelsCount));
 
+
                 // Lecture
                 if (item.Subject.CompletionType == CompletionType.EXAM)
                 {
+                    double coeficient = item.Subject.Language == SubjectLanguage.CZECH ? 1.8 : 2.4;
+
                     labels.Add(new WorkingLabel()
                     {
                         Name = item.Subject.Name + " - " + "Lecture",
                         StudentsCount = group.StudentsCount,
-                        EmploymentPoints = item.Subject.LectureCount * 1.8,
-                        Language = item.Subject.Language,
+                        EmploymentPoints = item.Subject.LectureCount * coeficient,
+                        Language = item.Subject.Language.ToString(),
                         WeekCount = item.Subject.WeeksCount,
                         HoursCount = item.Subject.LectureCount,
                         EventType = EventType.LECTURE,
@@ -131,17 +188,17 @@ namespace AP8POSecretary.ViewModels
 
                 // Practise and seminare
 
-
                 for (int i = 0; i < (int)labelsCount; i++)
                 {
+                    double coeficient = item.Subject.Language == SubjectLanguage.CZECH ? 1.2 : 1.8;
                     if (item.Subject.PractiseCount != 0)
                     {
                         labels.Add(new WorkingLabel()
                         {
                             Name = item.Subject.Name + " - " + "practise",
                             StudentsCount = numberOfStudentsPerClass,
-                            EmploymentPoints = item.Subject.PractiseCount * 1.2,
-                            Language = item.Subject.Language,
+                            EmploymentPoints = item.Subject.PractiseCount * coeficient,
+                            Language = item.Subject.Language.ToString(),
                             WeekCount = item.Subject.WeeksCount,
                             HoursCount = item.Subject.LectureCount,
                             EventType = EventType.PRACTISE,
@@ -152,10 +209,10 @@ namespace AP8POSecretary.ViewModels
                     {
                         labels.Add(new WorkingLabel()
                         {
-                            Name = item.Subject.Name + " - " + "practise",
+                            Name = item.Subject.Name + " - " + "seminare",
                             StudentsCount = numberOfStudentsPerClass,
-                            EmploymentPoints = item.Subject.PractiseCount * 1.2,
-                            Language = item.Subject.Language,
+                            EmploymentPoints = item.Subject.PractiseCount * coeficient,
+                            Language = item.Subject.Language.ToString(),
                             WeekCount = item.Subject.WeeksCount,
                             HoursCount = item.Subject.LectureCount,
                             EventType = EventType.PRACTISE,
@@ -175,6 +232,7 @@ namespace AP8POSecretary.ViewModels
 
                 if (item.Subject.CompletionType == CompletionType.CLASSIFIED)
                 {
+                    double coeficient = item.Subject.Language == SubjectLanguage.CZECH ? 0.3 : 0.3;
                     examPredicate.Name = item.Subject.Name + " - " + "Classified exam";
                     examPredicate.EventType = EventType.CLASSIFIEDCREDIT;
                     examPredicate.EmploymentPoints = 0.3;
@@ -182,22 +240,23 @@ namespace AP8POSecretary.ViewModels
                 }
                 else
                 {
+                    double coeficient = item.Subject.Language == SubjectLanguage.CZECH ? 0.2 : 0.2;
                     examPredicate.Name = item.Subject.Name + " - " + "Credit";
                     examPredicate.EventType = EventType.CREDIT;
-                    examPredicate.EmploymentPoints = 0.2;
+                    examPredicate.EmploymentPoints = coeficient;
                     labels.Add(examPredicate);
 
+                    coeficient = item.Subject.Language == SubjectLanguage.CZECH ? 0.4 : 0.4;
                     WorkingLabel examPredicate2 = new WorkingLabel()
                     {
                         Name = item.Subject.Name + " - " + "Exam",
                         StudentsCount = 24,
                         Language = group.Language,
-                        SubjectId = item.SubjectId
+                        SubjectId = item.SubjectId,
+                        EventType = EventType.EXAM,
+                        EmploymentPoints = coeficient
                     };
-                    examPredicate2.EventType = EventType.EXAM;
-                    examPredicate2.EmploymentPoints = 0.4;
                     labels.Add(examPredicate2);
-
                 }
             }
             return labels;
