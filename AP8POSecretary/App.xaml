@@ -32,6 +32,9 @@
             <DataTemplate DataType="{x:Type viewmodels:GroupsManagmentViewModel}">
                 <views:GroupManagmentView />
             </DataTemplate>
+            <DataTemplate DataType="{x:Type viewmodels:SettingsViewModel}">
+                <views:SettingsView />
+            </DataTemplate>
             <convertors:EnumToStringConverter x:Key='EnumConverter' />
             <convertors:IntToStringConverter x:Key='IntConvertor' />
             <convertors:ComboBoxItemToCompletationEnum x:Key='ComboboxItemToCompTypeConvertor' />
