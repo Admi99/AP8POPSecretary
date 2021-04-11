@@ -2,6 +2,7 @@
 using AP8POSecretary.Domain.Entities;
 using AP8POSecretary.Domain.Services;
 using AP8POSecretary.ViewModels.DropHandlers;
+using MaterialDesignThemes.Wpf;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -29,6 +30,8 @@ namespace AP8POSecretary.ViewModels
         public RelayCommand SaveEmployees { get; private set; }
         public RelayCommand ReturnLab { get; private set; }
         public RelayCommand ReturnOneLab { get; private set; }
+        public RelayCommand UpdateLabel { get; private set; }
+        public RelayCommand DeleteSpecificLabel { get; private set; }
 
         public WorkingLabelsViewModel(IDataService<Employee> employeeDataService,
             IDataService<WorkingLabel> workingLabelDataService,
@@ -42,6 +45,8 @@ namespace AP8POSecretary.ViewModels
             SaveEmployees = new RelayCommand(SaveEmployyesAsync);
             ReturnLab = new RelayCommand(ReturnLabels);
             ReturnOneLab = new RelayCommand(ReturnOneLabel);
+            UpdateLabel = new RelayCommand(UpdateLabelAsync);
+            DeleteSpecificLabel = new RelayCommand(DeleteSpecificLabelAsync);
 
             DeletedWorkingLabels = new List<WorkingLabel>();
 
@@ -108,6 +113,22 @@ namespace AP8POSecretary.ViewModels
                 }
             }
 
+        }
+
+        public async void UpdateLabelAsync(object obj)
+        {
+            var id = (int)obj;
+            var item = WorkingLabels.Where(item => item.Id == id).First();
+            await _workingLabelDataService.Update(id, item);
+            DialogHost.CloseDialogCommand.Execute(null, null);               
+        }
+        public async void DeleteSpecificLabelAsync(object obj)
+        {
+            var id = (int)obj;
+            var item = WorkingLabels.Where(item => item.Id == id).First();
+            await _workingLabelDataService.Delete(id);
+            WorkingLabels.Remove(item);
+            DialogHost.CloseDialogCommand.Execute(null, null);
         }
 
         private async void InitWorkingLabelsAsync()

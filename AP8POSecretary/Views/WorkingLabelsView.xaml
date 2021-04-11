@@ -164,6 +164,10 @@
         <GroupBox Grid.Row="1"
                   Grid.Column="1"
                   Margin="8">
+            <GroupBox.Resources>
+                <proxy:BindingProxy x:Key="proxy"
+                                    Data="{Binding}" />
+            </GroupBox.Resources>
             <GroupBox.Header>
                 <DockPanel>
                     <TextBlock Height="25"
@@ -244,20 +248,73 @@
                                                     Content="Details">
                                                 <Button.CommandParameter>
                                                     <StackPanel Margin="16">
-                                                        <ListView ItemsSource="{Binding GroupSubjects}">
-                                                            <ListView.View>
-                                                                <GridView>
-                                                                    <GridViewColumn DisplayMemberBinding="{Binding Subject.Name}"
-                                                                                    Header="Name" />
-                                                                    <GridViewColumn DisplayMemberBinding="{Binding Subject.Shortcut}"
-                                                                                    Header="Shortcut" />
-                                                                    <GridViewColumn DisplayMemberBinding="{Binding Subject.Language}"
-                                                                                    Header="Language" />
-                                                                    <GridViewColumn DisplayMemberBinding="{Binding Subject.ClassSize}"
-                                                                                    Header="Class size" />
-                                                                </GridView>
-                                                            </ListView.View>
-                                                        </ListView>
+
+                                                        <GroupBox Grid.Row="1"
+                                                                  Header="Add subject"
+                                                                  Margin="10,10,10,10">
+                                                            <StackPanel>
+                                                                <WrapPanel Orientation="Vertical"
+                                                                           Height="90">
+                                                                    <TextBox Margin="10 0 10 0"
+                                                                             Text="{Binding Name}"
+                                                                             materialDesign:HintAssist.Hint="Select label name"
+                                                                             Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                                                                             VerticalAlignment="Center" />
+                                                                    <ComboBox Margin="10 12 10 0"
+                                                                              Width="125"
+                                                                              SelectedItem="{Binding Language, Converter={StaticResource ComboboxItemToLanguageEnum}, UpdateSourceTrigger=PropertyChanged}"
+                                                                              materialDesign:HintAssist.Hint="Czech">
+                                                                        <ComboBoxItem Content="Czech" />
+                                                                        <ComboBoxItem Content="English" />
+                                                                    </ComboBox>
+                                                                    <TextBox Margin="10 0 10 0"
+                                                                             materialDesign:HintAssist.Hint="Employment points"
+                                                                             Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                                                                             VerticalAlignment="Center"
+                                                                             Width="125"
+                                                                             PreviewTextInput="TextBox_PreviewTextInput"
+                                                                             Text="{Binding EmploymentPoints}" />
+                                                                    <TextBox Margin="10 0 10 0"
+                                                                             materialDesign:HintAssist.Hint="Students"
+                                                                             Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                                                                             VerticalAlignment="Center"
+                                                                             PreviewTextInput="TextBox_PreviewTextInput_1"
+                                                                             Text="{Binding StudentsCount}" />
+                                                                    <TextBox Margin="10 0 10 0"
+                                                                             materialDesign:HintAssist.Hint="Weeks"
+                                                                             Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                                                                             VerticalAlignment="Center"
+                                                                             PreviewTextInput="TextBox_PreviewTextInput_1"
+                                                                             Text="{Binding WeekCount}" />
+                                                                    <TextBox Margin="10 0 10 0"
+                                                                             materialDesign:HintAssist.Hint="Hours"
+                                                                             Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                                                                             VerticalAlignment="Center"
+                                                                             PreviewTextInput="TextBox_PreviewTextInput_1"
+                                                                             Text="{Binding HoursCount}" />
+                                                                </WrapPanel>
+                                                                <DockPanel>
+                                                                    <Button Style="{StaticResource MaterialDesignRaisedButton}"
+                                                                            materialDesign:ButtonProgressAssist.Value="-1"
+                                                                            materialDesign:ButtonProgressAssist.IsIndicatorVisible="True"
+                                                                            Command="{Binding Data.UpdateLabel, Source={StaticResource proxy}}"
+                                                                            CommandParameter="{Binding Id}"
+                                                                            Content="Update label"
+                                                                            DockPanel.Dock="Left"
+                                                                            Margin="10" />
+                                                                    <Button Style="{StaticResource MaterialDesignRaisedButton}"
+                                                                            materialDesign:ButtonProgressAssist.Value="-1"
+                                                                            materialDesign:ButtonProgressAssist.IsIndicatorVisible="True"
+                                                                            DockPanel.Dock="Right"
+                                                                            Command="{Binding Data.DeleteSpecificLabel, Source={StaticResource proxy}}"
+                                                                            CommandParameter="{Binding Id}"
+                                                                            Width="150"
+                                                                            Content="Delete label"
+                                                                            Margin="300 0 0 0" />
+                                                                </DockPanel>
+                                                            </StackPanel>
+                                                        </GroupBox>
+
                                                         <Button Style="{StaticResource MaterialDesignFlatButton}"
                                                                 IsCancel="True"
                                                                 Command="{x:Static materialDesign:DialogHost.CloseDialogCommand}"
