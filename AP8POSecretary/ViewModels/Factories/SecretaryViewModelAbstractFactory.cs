@@ -12,12 +12,14 @@ namespace AP8POSecretary.ViewModels.Factories
         private readonly ISecretaryViewModelFactory<EmployeesViewModel> _employeeViewModelFactory;
         private readonly ISecretaryViewModelFactory<GroupsManagmentViewModel> _groupsManagmentViewModelFactory;
         private readonly ISecretaryViewModelFactory<WorkingLabelsViewModel> _workingLabelsViewModelFactory;
+        private readonly ISecretaryViewModelFactory<SettingsViewModel> _settingsViewModelFactory;
 
         public SecretaryViewModelAbstractFactory(ISecretaryViewModelFactory<GroupsViewModel> groupsViewModelFactory, 
             ISecretaryViewModelFactory<SubjectsViewModel> subjectsViewModelFactory,
             ISecretaryViewModelFactory<EmployeesViewModel> employeeViewModelFactory,
             ISecretaryViewModelFactory<GroupsManagmentViewModel> groupsManagmentViewModelFactory,
-            ISecretaryViewModelFactory<WorkingLabelsViewModel> workingLabelsViewModelFactory
+            ISecretaryViewModelFactory<WorkingLabelsViewModel> workingLabelsViewModelFactory,
+            ISecretaryViewModelFactory<SettingsViewModel> settingsViewModelFactory
             )
         {
             _groupsViewModelFactory = groupsViewModelFactory;
@@ -25,6 +27,7 @@ namespace AP8POSecretary.ViewModels.Factories
             _employeeViewModelFactory = employeeViewModelFactory;
             _groupsManagmentViewModelFactory = groupsManagmentViewModelFactory;
             _workingLabelsViewModelFactory = workingLabelsViewModelFactory;
+            _settingsViewModelFactory = settingsViewModelFactory;
         }
 
         public BaseViewModel CreateViewModel(ViewType viewType)
@@ -42,7 +45,7 @@ namespace AP8POSecretary.ViewModels.Factories
                 case ViewType.GroupsManagment:
                     return _groupsManagmentViewModelFactory.CreateViewModel();
                 case ViewType.Settings:
-                    return new SettingsViewModel();
+                    return _settingsViewModelFactory.CreateViewModel();
                 default:
                     throw new ArgumentException("View type doesnt exist");
             }

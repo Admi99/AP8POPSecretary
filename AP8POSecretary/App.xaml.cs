@@ -38,6 +38,7 @@ namespace AP8POSecretary
             kernel.Bind<ISecretaryViewModelFactory<EmployeesViewModel>>().To<EmployeesViewModelFactory>();
             kernel.Bind<ISecretaryViewModelFactory<GroupsManagmentViewModel>>().To<GroupsManagmentViewModelFactory>();
             kernel.Bind<ISecretaryViewModelFactory<WorkingLabelsViewModel>>().To<WorkingLabelsViewModelFactory>();
+            kernel.Bind<ISecretaryViewModelFactory<SettingsViewModel>>().To<SettingsViewModelFactory>();
 
             return kernel;
         }

@@ -18,6 +18,7 @@ namespace AP8POSecretary.ViewModels
         private readonly IDataService<Employee> _employeeDataService;
         private readonly IDataService<WorkingLabel> _workingLabelDataService;
         private readonly IDataService<Group> _groupDataService;
+        private readonly IDataService<WorkingPointsWeight> _workingPointsWeight;
 
         public ObservableCollection<Employee> Employees { get; set; } = new ObservableCollection<Employee>();
         public ObservableCollection<WorkingLabel> WorkingLabels { get; set; } = new ObservableCollection<WorkingLabel>();
@@ -25,6 +26,7 @@ namespace AP8POSecretary.ViewModels
         public IList<Group> Groups { get; set; }
         public LabelDropHandler LabelDropHandler { get; set; } = new LabelDropHandler();
         public IList<WorkingLabel> JoinedToEmployee { get; set; } = new List<WorkingLabel>();
+        public IList<WorkingPointsWeight> WorkingPointsWeights { get; set; } = new List<WorkingPointsWeight>();
 
         public RelayCommand GenerateLabels { get; private set; }
         public RelayCommand SaveEmployees { get; private set; }
@@ -32,14 +34,18 @@ namespace AP8POSecretary.ViewModels
         public RelayCommand ReturnOneLab { get; private set; }
         public RelayCommand UpdateLabel { get; private set; }
         public RelayCommand DeleteSpecificLabel { get; private set; }
+        public RelayCommand DeleteAllLabels { get; private set; }
+        public RelayCommand RegenerateLabels { get; private set; }
 
         public WorkingLabelsViewModel(IDataService<Employee> employeeDataService,
             IDataService<WorkingLabel> workingLabelDataService,
-            IDataService<Group> groupDataService)
+            IDataService<Group> groupDataService,
+            IDataService<WorkingPointsWeight> workingPointsWeight)
         {
             _employeeDataService = employeeDataService;
             _workingLabelDataService = workingLabelDataService;
             _groupDataService = groupDataService;
+            _workingPointsWeight = workingPointsWeight;
 
             GenerateLabels = new RelayCommand(GenerateWorkingLabels);
             SaveEmployees = new RelayCommand(SaveEmployyesAsync);
@@ -47,12 +53,21 @@ namespace AP8POSecretary.ViewModels
             ReturnOneLab = new RelayCommand(ReturnOneLabel);
             UpdateLabel = new RelayCommand(UpdateLabelAsync);
             DeleteSpecificLabel = new RelayCommand(DeleteSpecificLabelAsync);
+            DeleteAllLabels = new RelayCommand(DeleteAllLabelsAsync);
+            RegenerateLabels = new RelayCommand(RegenerateWorkingLabels);
 
             DeletedWorkingLabels = new List<WorkingLabel>();
 
             InitEmployeesAsync();
             InitGroupsAsync();
             InitWorkingLabelsAsync();
+            InitWorkingPointsWeight();
+        }
+
+        private async void InitWorkingPointsWeight()
+        {
+            var items = await _workingPointsWeight.GetAll();
+            WorkingPointsWeights = items.ToList();
         }
 
         private async void SaveEmployyesAsync(object obj)
@@ -158,6 +173,12 @@ namespace AP8POSecretary.ViewModels
             Groups = new List<Group>(groups);
         }
 
+        private async void DeleteAllLabelsAsync(object obj)
+        {
+            await _workingLabelDataService.DeleteAll(WorkingLabels);
+            WorkingLabels.Clear();
+        }
+
         private void AppendItems<T>(IEnumerable<T> items)
         {
             if (typeof(T).Name is "Employee")
@@ -213,7 +234,9 @@ namespace AP8POSecretary.ViewModels
                 // Lecture
                 if (item.Subject.CompletionType == CompletionType.EXAM)
                 {
-                    double coeficient = item.Subject.Language == SubjectLanguage.CZECH ? 1.8 : 2.4;
+                    var lectureConf = WorkingPointsWeights.ElementAt((int)WorkingWeightTypes.Lecture).Value;
+                    var lectureEngConf = WorkingPointsWeights.ElementAt((int)WorkingWeightTypes.LectureEng).Value;
+                    double coeficient = item.Subject.Language == SubjectLanguage.CZECH ? lectureConf : lectureEngConf;
 
                     labels.Add(new WorkingLabel()
                     {
@@ -232,14 +255,21 @@ namespace AP8POSecretary.ViewModels
 
                 for (int i = 0; i < (int)labelsCount; i++)
                 {
-                    double coeficient = item.Subject.Language == SubjectLanguage.CZECH ? 1.2 : 1.8;
+                    var lectureConf = WorkingPointsWeights.ElementAt((int)WorkingWeightTypes.Practise).Value;
+                    var lectureEngConf = WorkingPointsWeights.ElementAt((int)WorkingWeightTypes.PractiseEng).Value;
+                    double coeficientPractise = item.Subject.Language == SubjectLanguage.CZECH ? lectureConf : lectureEngConf;
+
+                    var seminareConf = WorkingPointsWeights.ElementAt((int)WorkingWeightTypes.Seminare).Value;
+                    var seminareEngConf = WorkingPointsWeights.ElementAt((int)WorkingWeightTypes.SeminareEng).Value;
+                    double coeficienSeminare = item.Subject.Language == SubjectLanguage.CZECH ? seminareConf : seminareEngConf;
+
                     if (item.Subject.PractiseCount != 0)
                     {
                         labels.Add(new WorkingLabel()
                         {
                             Name = item.Subject.Name + " - " + "practise",
                             StudentsCount = numberOfStudentsPerClass,
-                            EmploymentPoints = item.Subject.PractiseCount * coeficient,
+                            EmploymentPoints = item.Subject.PractiseCount * coeficientPractise,
                             Language = item.Subject.Language.ToString(),
                             WeekCount = item.Subject.WeeksCount,
                             HoursCount = item.Subject.LectureCount,
@@ -253,7 +283,7 @@ namespace AP8POSecretary.ViewModels
                         {
                             Name = item.Subject.Name + " - " + "seminare",
                             StudentsCount = numberOfStudentsPerClass,
-                            EmploymentPoints = item.Subject.PractiseCount * coeficient,
+                            EmploymentPoints = item.Subject.PractiseCount * coeficienSeminare,
                             Language = item.Subject.Language.ToString(),
                             WeekCount = item.Subject.WeeksCount,
                             HoursCount = item.Subject.LectureCount,
@@ -263,37 +293,41 @@ namespace AP8POSecretary.ViewModels
                     }
                 }
 
-
-
                 WorkingLabel examPredicate = new WorkingLabel()
                 {
                     StudentsCount = 12,
-                    Language = group.Language,
+                    Language = item.Subject.Language.ToString(),
                     SubjectId = item.SubjectId
                 };
 
                 if (item.Subject.CompletionType == CompletionType.CLASSIFIED)
                 {
-                    double coeficient = item.Subject.Language == SubjectLanguage.CZECH ? 0.3 : 0.3;
+                    var classifiedConf = WorkingPointsWeights.ElementAt((int)WorkingWeightTypes.ClassifiedCredit).Value;
+                    var classifiedEngConf = WorkingPointsWeights.ElementAt((int)WorkingWeightTypes.ClassifiedCreditEng).Value;
+                    double coeficient = item.Subject.Language == SubjectLanguage.CZECH ? classifiedConf : classifiedEngConf;
                     examPredicate.Name = item.Subject.Name + " - " + "Classified exam";
                     examPredicate.EventType = EventType.CLASSIFIEDCREDIT;
-                    examPredicate.EmploymentPoints = 0.3;
+                    examPredicate.EmploymentPoints = coeficient;
                     labels.Add(examPredicate);
                 }
                 else
                 {
-                    double coeficient = item.Subject.Language == SubjectLanguage.CZECH ? 0.2 : 0.2;
+                    var credit = WorkingPointsWeights.ElementAt((int)WorkingWeightTypes.Credit).Value;
+                    var creditEng = WorkingPointsWeights.ElementAt((int)WorkingWeightTypes.CreditEng).Value;
+                    double coeficient = item.Subject.Language == SubjectLanguage.CZECH ? credit : creditEng;
                     examPredicate.Name = item.Subject.Name + " - " + "Credit";
                     examPredicate.EventType = EventType.CREDIT;
                     examPredicate.EmploymentPoints = coeficient;
                     labels.Add(examPredicate);
 
-                    coeficient = item.Subject.Language == SubjectLanguage.CZECH ? 0.4 : 0.4;
+                    var exam = WorkingPointsWeights.ElementAt((int)WorkingWeightTypes.Exam).Value;
+                    var examEng = WorkingPointsWeights.ElementAt((int)WorkingWeightTypes.ExamEng).Value;
+                    coeficient = item.Subject.Language == SubjectLanguage.CZECH ? exam : examEng;
                     WorkingLabel examPredicate2 = new WorkingLabel()
                     {
                         Name = item.Subject.Name + " - " + "Exam",
                         StudentsCount = 24,
-                        Language = group.Language,
+                        Language = item.Subject.Language.ToString(),
                         SubjectId = item.SubjectId,
                         EventType = EventType.EXAM,
                         EmploymentPoints = coeficient
@@ -302,6 +336,12 @@ namespace AP8POSecretary.ViewModels
                 }
             }
             return labels;
+        }
+
+        public void RegenerateWorkingLabels(object obj)
+        {
+            DeleteAllLabelsAsync(null);
+            GenerateWorkingLabels(null);
         }
 
         private async Task AddWorkingLabels(IList<WorkingLabel> labels)

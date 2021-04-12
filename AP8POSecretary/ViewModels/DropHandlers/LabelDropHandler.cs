@@ -31,6 +31,13 @@ namespace AP8POSecretary.ViewModels.DropHandlers
             var index = Employees.IndexOf(toEmployee);
             var employee = Employees.ElementAt(index);
 
+            if(fromWorkingLabel.Language == SubjectLanguage.CZECH.ToString())
+            {
+                employee.WorkingPoints += fromWorkingLabel.EmploymentPoints;
+            }
+
+            employee.WorkingPointsWithEng += fromWorkingLabel.EmploymentPoints;
+          
             if (employee.WorkingLabels == null)
             {
                 employee.WorkingLabels = new List<WorkingLabel>();

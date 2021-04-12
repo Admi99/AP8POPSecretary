@@ -20,7 +20,9 @@
                   Margin="10,10,10,10">
             <StackPanel Orientation="Horizontal">
                 <Button Style="{StaticResource MaterialDesignRaisedAccentButton}"
+                        Margin="5,5,5,5"
                         Width="150"
+                        Command="{Binding TransformToXml}"
                         ToolTip="Resource name: MaterialDesignRaisedAccentButton"
                         Content="Export to xml" />
             </StackPanel>
@@ -50,6 +52,7 @@
                     <TextBox Margin="10 0 10 0"
                              materialDesign:HintAssist.Hint="Lecture points"
                              Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                             Text="{Binding LectureType}"
                              VerticalAlignment="Center" />
                     <TextBox Margin="10 0 10 0"
                              materialDesign:HintAssist.Hint="Practise points"
@@ -100,6 +103,7 @@
                     <Button Style="{StaticResource MaterialDesignRaisedButton}"
                             Content="Update points"
                             Width="125"
+                            Command="{Binding UpdatePoints}"
                             Margin="8" />
                 </StackPanel>
                
