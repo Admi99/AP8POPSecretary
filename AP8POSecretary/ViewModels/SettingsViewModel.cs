@@ -59,7 +59,17 @@ namespace AP8POSecretary.ViewModels
             WorkingPointsWeights = points.ToList();
 
             LectureType = WorkingPointsWeights.ElementAt((int)WorkingWeightTypes.Lecture).Value;
-
+            PractiseType = WorkingPointsWeights.ElementAt((int)WorkingWeightTypes.Practise).Value;
+            SeminareType = WorkingPointsWeights.ElementAt((int)WorkingWeightTypes.Seminare).Value;
+            LectureTypeEng = WorkingPointsWeights.ElementAt((int)WorkingWeightTypes.LectureEng).Value;
+            PractiseTypeEng = WorkingPointsWeights.ElementAt((int)WorkingWeightTypes.PractiseEng).Value;
+            SeminareTypeEng = WorkingPointsWeights.ElementAt((int)WorkingWeightTypes.SeminareEng).Value;
+            CreditType = WorkingPointsWeights.ElementAt((int)WorkingWeightTypes.Credit).Value;
+            ClassifiedCreditType = WorkingPointsWeights.ElementAt((int)WorkingWeightTypes.ClassifiedCredit).Value;
+            ExamType = WorkingPointsWeights.ElementAt((int)WorkingWeightTypes.Exam).Value;
+            CreditTypeEng = WorkingPointsWeights.ElementAt((int)WorkingWeightTypes.CreditEng).Value;
+            ClassifiedCreditTypeEng = WorkingPointsWeights.ElementAt((int)WorkingWeightTypes.ClassifiedCreditEng).Value;
+            ExamTypeEng = WorkingPointsWeights.ElementAt((int)WorkingWeightTypes.ExamEng).Value;
         }
 
         private void GenerateXml(object obj)
@@ -79,6 +89,17 @@ namespace AP8POSecretary.ViewModels
         private void UpdatePointsHandler(object obj)
         {
             WorkingPointsWeights.ElementAt((int)WorkingWeightTypes.Lecture).Value = LectureType;
+            WorkingPointsWeights.ElementAt((int)WorkingWeightTypes.Practise).Value = PractiseType;
+            WorkingPointsWeights.ElementAt((int)WorkingWeightTypes.Seminare).Value = SeminareType;
+            WorkingPointsWeights.ElementAt((int)WorkingWeightTypes.LectureEng).Value = LectureTypeEng;
+            WorkingPointsWeights.ElementAt((int)WorkingWeightTypes.PractiseEng).Value = PractiseTypeEng;
+            WorkingPointsWeights.ElementAt((int)WorkingWeightTypes.SeminareEng).Value = SeminareTypeEng;
+            WorkingPointsWeights.ElementAt((int)WorkingWeightTypes.Credit).Value = CreditType;
+            WorkingPointsWeights.ElementAt((int)WorkingWeightTypes.ClassifiedCredit).Value = ClassifiedCreditType;
+            WorkingPointsWeights.ElementAt((int)WorkingWeightTypes.Exam).Value = ExamType;
+            WorkingPointsWeights.ElementAt((int)WorkingWeightTypes.Credit).Value = CreditTypeEng;
+            WorkingPointsWeights.ElementAt((int)WorkingWeightTypes.ClassifiedCredit).Value = ClassifiedCreditTypeEng;
+            WorkingPointsWeights.ElementAt((int)WorkingWeightTypes.Exam).Value = ExamTypeEng;
 
             _workingPointsWeight.Update(WorkingPointsWeights);
 
@@ -92,6 +113,116 @@ namespace AP8POSecretary.ViewModels
             {
                 _lectureType = value;
                 OnPropertyChanged(nameof(LectureType));
+            }
+        }
+        private double _practiseType;
+        public double PractiseType
+        {
+            get { return _practiseType; }
+            set
+            {
+                _practiseType = value;
+                OnPropertyChanged(nameof(PractiseType));
+            }
+        }
+        private double _seminareType;
+        public double SeminareType
+        {
+            get { return _seminareType; }
+            set
+            {
+                _seminareType = value;
+                OnPropertyChanged(nameof(SeminareType));
+            }
+        }
+        private double _lectureTypeEng;
+        public double LectureTypeEng
+        {
+            get { return _lectureTypeEng; }
+            set
+            {
+                _lectureTypeEng = value;
+                OnPropertyChanged(nameof(LectureTypeEng));
+            }
+        }
+        private double _practiseTypeEng;
+        public double PractiseTypeEng
+        {
+            get { return _practiseTypeEng; }
+            set
+            {
+                _practiseTypeEng = value;
+                OnPropertyChanged(nameof(PractiseTypeEng));
+            }
+        }
+        private double _seminareTypeEng;
+        public double SeminareTypeEng
+        {
+            get { return _seminareTypeEng; }
+            set
+            {
+                _seminareTypeEng = value;
+                OnPropertyChanged(nameof(SeminareTypeEng));
+            }
+        }
+        private double _creditType;
+        public double CreditType
+        {
+            get { return _creditType; }
+            set
+            {
+                _creditType = value;
+                OnPropertyChanged(nameof(CreditType));
+            }
+        }
+        private double _classifiedCreditType;
+        public double ClassifiedCreditType
+        {
+            get { return _classifiedCreditType; }
+            set
+            {
+                _classifiedCreditType = value;
+                OnPropertyChanged(nameof(ClassifiedCreditType));
+            }
+        }
+        private double _examType;
+        public double ExamType
+        {
+            get { return _examType; }
+            set
+            {
+                _examType = value;
+                OnPropertyChanged(nameof(ExamType));
+            }
+        }
+        private double _creditTypeEng;
+        public double CreditTypeEng
+        {
+            get { return _creditTypeEng; }
+            set
+            {
+                _creditTypeEng = value;
+                OnPropertyChanged(nameof(CreditTypeEng));
+            }
+        }
+        private double _classifiedCreditTypeEng;
+        public double ClassifiedCreditTypeEng
+        {
+            get { return _classifiedCreditTypeEng; }
+            set
+            {
+                _classifiedCreditTypeEng = value;
+                OnPropertyChanged(nameof(ClassifiedCreditTypeEng));
+            }
+        }
+        private double _examTypeEng;
+        public double ExamTypeEng
+        {
+            get { return _examTypeEng; }
+            set
+            {
+                _examTypeEng = value;
+                OnPropertyChanged(nameof(ExamTypeEng));
             }
         }
 
