@@ -15,6 +15,11 @@ namespace AP8POSecretary.Infrastructure.Data.Configurations
 
             builder.HasKey(e => e.Id);
 
+            builder.HasOne(e => e.Employee)
+                .WithMany(e => e.WorkingLabels)
+                .HasForeignKey(e => e.EmployeeId)
+                .OnDelete(DeleteBehavior.Cascade);  
+
             builder.HasOne(e => e.Subject)
                 .WithMany()
                 .IsRequired()

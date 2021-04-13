@@ -14,6 +14,8 @@ namespace AP8POSecretary.Domain.Entities
         public string PhoneNumber { get; set; }
         public bool isDoctorant { get; set; }
         public double CommitmentRate { get; set; }
+        public double WorkingPoints { get; set; }
+        public double WorkingPointsWithEng { get; set; }
         public IList<WorkingLabel> WorkingLabels { get; set; }
     }
-}
+}  

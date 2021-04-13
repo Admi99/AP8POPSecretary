@@ -4,14 +4,16 @@ using AP8POSecretary.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace AP8POSecretary.Infrastructure.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20210411095618_AddWorkingPointsWeightsTable")]
+    partial class AddWorkingPointsWeightsTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -46,12 +48,6 @@ namespace AP8POSecretary.Infrastructure.Migrations
 
                     b.Property<string>("WholeName")
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<double>("WorkingPoints")
-                        .HasColumnType("float");
-
-                    b.Property<double>("WorkingPointsWithEng")
-                        .HasColumnType("float");
 
                     b.Property<bool>("isDoctorant")
                         .HasColumnType("bit");

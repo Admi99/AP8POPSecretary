@@ -23,9 +23,11 @@ namespace AP8POSecretary.Domain.Entities
         public int WeekCount { get; set; }
         public string Language { get; set; }
         public int? SubjectId { get; set; }
-        public int? EmployeeId { get; set; }
         public Subject Subject { get; set; }
+        public int? EmployeeId { get; set; }
         public Employee Employee { get; set; }
+        
+        
 
     }
 }

@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "LXn7tkLq2YbccwhETCI1X1nrFWhfarjt3IztDskOYyuMRhFrhEgeRiVQQ/qpawc6lp61cZxDKEMhI9we8V/70g==",
+  "dgSpecHash": "atAKtCVvFFClLvuE90nOXX/5pXmpTdN64n827E+r6zhoLV3nxZ0eWA0aE3SETbc5e9IAXEbd1rDJPnQZ6sLdUA==",
   "success": true,
-  "projectFilePath": "C:\\Users\\adamm\\source\\repos\\AP8POSecretary\\AP8PO.Infrastructure\\AP8POSecretary.Infrastructure.csproj",
+  "projectFilePath": "C:\\Projects\\AP8POSecretary\\AP8PO.Infrastructure\\AP8POSecretary.Infrastructure.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\adamm\\.nuget\\packages\\humanizer.core\\2.8.26\\humanizer.core.2.8.26.nupkg.sha512",
     "C:\\Users\\adamm\\.nuget\\packages\\microsoft.csharp\\4.7.0\\microsoft.csharp.4.7.0.nupkg.sha512",

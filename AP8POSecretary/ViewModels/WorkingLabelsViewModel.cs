@@ -242,7 +242,7 @@ namespace AP8POSecretary.ViewModels
                     {
                         Name = item.Subject.Name + " - " + "Lecture",
                         StudentsCount = group.StudentsCount,
-                        EmploymentPoints = item.Subject.LectureCount * coeficient,
+                        EmploymentPoints = Math.Round(item.Subject.LectureCount * coeficient, 2),
                         Language = item.Subject.Language.ToString(),
                         WeekCount = item.Subject.WeeksCount,
                         HoursCount = item.Subject.LectureCount,
@@ -269,7 +269,7 @@ namespace AP8POSecretary.ViewModels
                         {
                             Name = item.Subject.Name + " - " + "practise",
                             StudentsCount = numberOfStudentsPerClass,
-                            EmploymentPoints = item.Subject.PractiseCount * coeficientPractise,
+                            EmploymentPoints = Math.Round(item.Subject.PractiseCount * coeficientPractise, 2),
                             Language = item.Subject.Language.ToString(),
                             WeekCount = item.Subject.WeeksCount,
                             HoursCount = item.Subject.LectureCount,
@@ -283,7 +283,7 @@ namespace AP8POSecretary.ViewModels
                         {
                             Name = item.Subject.Name + " - " + "seminare",
                             StudentsCount = numberOfStudentsPerClass,
-                            EmploymentPoints = item.Subject.PractiseCount * coeficienSeminare,
+                            EmploymentPoints = Math.Round(item.Subject.SeminareCount * coeficienSeminare, 2),
                             Language = item.Subject.Language.ToString(),
                             WeekCount = item.Subject.WeeksCount,
                             HoursCount = item.Subject.LectureCount,

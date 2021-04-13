@@ -24,7 +24,7 @@ namespace AP8POSecretary.Domain.Entities
         public int PractiseCount { get; set; }
         public int Credit { get; set; }
         public int WeeksCount { get; set; }
-        public string Language { get; set; }
+        public SubjectLanguage Language { get; set; }
         public int ClassSize { get; set; }
         public CompletionType CompletionType { get; set; }
         public virtual IList<GroupSubject> GroupSubjects { get; set; }

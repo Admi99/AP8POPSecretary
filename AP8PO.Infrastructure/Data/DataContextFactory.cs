@@ -11,7 +11,7 @@ namespace AP8POSecretary.Infrastructure.Data
         public DataContext CreateDbContext(string[] args = null)
         {
             var options = new DbContextOptionsBuilder<DataContext>();
-            options.UseSqlServer("Server=(localdb)\\MSSQLLocalDB;Database=SecretaryTest;Trusted_Connection=True;");
+            options.UseSqlServer("Server=DESKTOP-MNV9LV1\\SQLEXPRESS;Database=SecretaryTest;Trusted_Connection=True;");
             options.EnableSensitiveDataLogging(true);
             return new DataContext(options.Options);
         }

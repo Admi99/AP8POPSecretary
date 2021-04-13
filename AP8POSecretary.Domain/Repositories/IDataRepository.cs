@@ -22,5 +22,6 @@ namespace AP8POSecretary.Domain.Repositories
         Task AddEmployeesRange(IEnumerable<Employee> entities);
         Task AddWorkingLabels(IEnumerable<WorkingLabel> entities);
         Task<bool> DeleteAllGroupSubject();
+        Task AddAllIfTableEmpty(IEnumerable<T> entities);
     }
 }

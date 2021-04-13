@@ -35,6 +35,9 @@ namespace AP8POSecretary.Infrastructure.Configuration
 
             _kernel.Bind<IDataRepository<WorkingLabel>>().To<GenericRepository<WorkingLabel>>();
             _kernel.Bind<IDataService<WorkingLabel>>().To<DataService<WorkingLabel>>();
+
+            _kernel.Bind<IDataRepository<WorkingPointsWeight>>().To<GenericRepository<WorkingPointsWeight>>();
+            _kernel.Bind<IDataService<WorkingPointsWeight>>().To<DataService<WorkingPointsWeight>>();
         }
     }
 }

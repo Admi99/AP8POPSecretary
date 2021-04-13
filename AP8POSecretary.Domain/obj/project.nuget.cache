@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "Bkud+rVKfH0oNYlNwWJxchh4VkFsIho2uvFG24hu6EinmqLVh6zun2e6JqMMVIynYfq0vLo66dQZkTJh240EoQ==",
+  "dgSpecHash": "0OS/bRMOBwF3GWZRRcjwl1nDEOLfm45L8r4PmECACnuc/Lpmkka8j7hRpIFpxXSXj17T+WXQVJ1+BrfHet+eAQ==",
   "success": true,
-  "projectFilePath": "C:\\Users\\adamm\\source\\repos\\AP8POSecretary\\AP8POSecretary.Domain\\AP8POSecretary.Domain.csproj",
+  "projectFilePath": "C:\\Projects\\AP8POSecretary\\AP8POSecretary.Domain\\AP8POSecretary.Domain.csproj",
   "expectedPackageFiles": [],
   "logs": []
 }

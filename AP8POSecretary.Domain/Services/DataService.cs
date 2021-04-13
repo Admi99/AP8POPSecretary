@@ -84,5 +84,10 @@ namespace AP8POSecretary.Domain.Services
         {
             return _dataRepository.DeleteAll(entities);
         }
+
+        public Task AddAllIfTableEmpty(IEnumerable<T> entities)
+        {
+            return _dataRepository.AddAllIfTableEmpty(entities);
+        }
     }
 }

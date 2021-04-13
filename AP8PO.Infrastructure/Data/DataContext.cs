@@ -17,6 +17,7 @@ namespace AP8POSecretary.Infrastructure.Data
         public DbSet<Employee> Employees { get; set; }
         public DbSet<WorkingLabel> WorkingLabels { get; set; }
         public DbSet<GroupSubject> GroupSubjects { get; set; }
+        public DbSet<WorkingPointsWeight> WorkingPointsWeights { get; set; }
 
         public DataContext(DbContextOptions options) : base(options) { }
 
@@ -26,26 +27,5 @@ namespace AP8POSecretary.Infrastructure.Data
         }
 
 
-
-
-        /*public override int SaveChanges()
-        {
-            foreach (var entry in ChangeTracker.Entries<GroupS>())
-            {
-                if (entry.State == EntityState.Modified)
-                {
-                    // Get the changed values.
-                    var modifiedProps = ObjectStateManager.GetObjectStateEntry(entry.EntityKey).GetModifiedProperties();
-                    var currentValues = ObjectStateManager.GetObjectStateEntry(entry.EntityKey).CurrentValues;
-                    foreach (var propName in modifiedProps)
-                    {
-                        var newValue = currentValues[propName];
-                        //log changes
-                    }
-                }
-            }
-
-            return base.SaveChanges();
-        }*/
     }
 }

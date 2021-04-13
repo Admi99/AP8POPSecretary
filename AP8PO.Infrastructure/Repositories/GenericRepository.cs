@@ -165,6 +165,18 @@ namespace AP8POSecretary.Infrastructure.Repositories
                 await context.SaveChangesAsync();
             }
         }
+
+        public async Task AddAllIfTableEmpty(IEnumerable<T> entities)
+        {
+            using (DataContext context = _contextFactory.CreateDbContext())
+            {
+                if (!context.WorkingPointsWeights.Any())
+                {
+                    context.Set<T>().UpdateRange(entities);
+                    await context.SaveChangesAsync();
+                }               
+            }
+        }
     }
 }
 
