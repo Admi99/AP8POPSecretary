@@ -90,7 +90,7 @@
                                                    Text="{Binding PhoneNumber}" />
                                         <TextBlock FontSize="16"
                                                    Margin="15 0 0 0"
-                                                   Text="{Binding CommitmentRate, StringFormat={}{0} - commitment rate}" />
+                                                   Text="{Binding WorkingPoints, StringFormat={}{0} - points}" />
                                         <DockPanel>
                                             <TextBlock FontSize="16"
                                                        Margin="15 0 0 0"
@@ -129,13 +129,6 @@
                                                                                                  IsChecked="False"
                                                                                                  ToolTip="Move label back to pool"
                                                                                                  Style="{StaticResource MaterialDesignActionToggleButton}" />
-                                                                                    <!--<ToggleButton Content="Move"
-                                                                                                  Width="70"
-                                                                                                  Style="{StaticResource MaterialDesignActionToggleButton}"
-                                                                                                  IsChecked="False"
-                                                                                                  Command="{Binding Data.ReturnOneLab, Source={StaticResource proxy}}"
-                                                                                                  CommandParameter="{Binding Id}"
-                                                                                                  ToolTip="Move label back to pool" />-->
                                                                                 </StackPanel>
                                                                             </DataTemplate>
                                                                         </GridViewColumn.CellTemplate>
@@ -175,7 +168,7 @@
                                Foreground="White"
                                FontWeight="Bold">Labels list area</TextBlock>
                     <WrapPanel HorizontalAlignment="Right"
-                                Orientation="Horizontal">
+                               Orientation="Horizontal">
                         <Button Style="{StaticResource MaterialDesignRaisedAccentButton}"
                                 Height="25"
                                 Margin="0 0 5 0"
@@ -189,75 +182,87 @@
                                 Background="LightBlue"
                                 Content="Regenerate labels" />
                         <Button Style="{StaticResource MaterialDesignRaisedAccentButton}"
-                                                    ToolTip="MaterialDesignFlatAccentBackgroundButton"
-                                                    Command="{x:Static materialDesign:DialogHost.OpenDialogCommand}"
-                                                    Height="25"
-                                                    Margin="0 5 5 0"
-                                                    Width="130"
-                                                    Background="LightBlue"
-                                                    HorizontalAlignment="Right"                                                  
-                                                    Content="Add new label">
+                                ToolTip="MaterialDesignFlatAccentBackgroundButton"
+                                Command="{x:Static materialDesign:DialogHost.OpenDialogCommand}"
+                                Height="25"
+                                Margin="0 5 5 0"
+                                Width="130"
+                                Background="LightBlue"
+                                HorizontalAlignment="Right"
+                                Content="Add new label">
                             <Button.CommandParameter>
                                 <StackPanel Margin="16">
                                     <GroupBox Grid.Row="1"
-                                                                  Header="Add new working label"
-                                                                  Margin="10,10,10,10">
+                                              Header="Add new working label"
+                                              Margin="10,10,10,10">
                                         <StackPanel>
                                             <WrapPanel Orientation="Vertical"
-                                                                           Height="90">
+                                                       Height="90">
                                                 <TextBox Margin="10 0 10 0"
-                                                                             Text="{Binding Name}"
-                                                                             materialDesign:HintAssist.Hint="Select label name"
-                                                                             Style="{StaticResource MaterialDesignFloatingHintTextBox}"
-                                                                             VerticalAlignment="Center" />
+                                                         Text="{Binding Name}"
+                                                         materialDesign:HintAssist.Hint="Select label name"
+                                                         Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                                                         VerticalAlignment="Center" />
                                                 <ComboBox Margin="10 12 10 0"
-                                                                              Width="125"
-                                                                              SelectedItem="{Binding Language, Converter={StaticResource ComboboxItemToLanguageEnum}, UpdateSourceTrigger=PropertyChanged}"
-                                                                              materialDesign:HintAssist.Hint="Czech">
+                                                          Width="125"
+                                                          HorizontalAlignment="Left"
+                                                          SelectedItem="{Binding Language, Converter={StaticResource ComboboxItemToLanguageEnum}, UpdateSourceTrigger=PropertyChanged}"
+                                                          materialDesign:HintAssist.Hint="Czech">
                                                     <ComboBoxItem Content="Czech" />
                                                     <ComboBoxItem Content="English" />
                                                 </ComboBox>
                                                 <TextBox Margin="10 0 10 0"
-                                                                             materialDesign:HintAssist.Hint="Employment points"
-                                                                             Style="{StaticResource MaterialDesignFloatingHintTextBox}"
-                                                                             VerticalAlignment="Center"
-                                                                             Width="125"
-                                                                             PreviewTextInput="TextBox_PreviewTextInput"
-                                                                             Text="{Binding EmploymentPoints}" />
+                                                         materialDesign:HintAssist.Hint="Employment points"
+                                                         Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                                                         VerticalAlignment="Center"
+                                                         Width="125"
+                                                         PreviewTextInput="TextBox_PreviewTextInput"
+                                                         Text="{Binding EmploymentPoints}" />
                                                 <TextBox Margin="10 0 10 0"
-                                                                             materialDesign:HintAssist.Hint="Students"
-                                                                             Style="{StaticResource MaterialDesignFloatingHintTextBox}"
-                                                                             VerticalAlignment="Center"
-                                                                             PreviewTextInput="TextBox_PreviewTextInput_1"
-                                                                             Text="{Binding StudentsCount}" />
+                                                         materialDesign:HintAssist.Hint="Students"
+                                                         Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                                                         VerticalAlignment="Center"
+                                                         PreviewTextInput="TextBox_PreviewTextInput_1"
+                                                         Text="{Binding StudentsCount}" />
                                                 <TextBox Margin="10 0 10 0"
-                                                                             materialDesign:HintAssist.Hint="Weeks"
-                                                                             Style="{StaticResource MaterialDesignFloatingHintTextBox}"
-                                                                             VerticalAlignment="Center"
-                                                                             PreviewTextInput="TextBox_PreviewTextInput_1"
-                                                                             Text="{Binding WeekCount}" />
+                                                         materialDesign:HintAssist.Hint="Weeks"
+                                                         Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                                                         VerticalAlignment="Center"
+                                                         PreviewTextInput="TextBox_PreviewTextInput_1"
+                                                         Text="{Binding WeekCount}" />
                                                 <TextBox Margin="10 0 10 0"
-                                                                             materialDesign:HintAssist.Hint="Hours"
-                                                                             Style="{StaticResource MaterialDesignFloatingHintTextBox}"
-                                                                             VerticalAlignment="Center"
-                                                                             PreviewTextInput="TextBox_PreviewTextInput_1"
-                                                                             Text="{Binding HoursCount}" />
+                                                         materialDesign:HintAssist.Hint="Hours"
+                                                         Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                                                         VerticalAlignment="Center"
+                                                         PreviewTextInput="TextBox_PreviewTextInput_1"
+                                                         Text="{Binding HoursCount}" />
+                                                <ComboBox Margin="10 12 10 0"
+                                                          Width="125"
+                                                          HorizontalAlignment="Left"
+                                                          SelectedItem="{Binding EventType, Converter={StaticResource ComboboxItemToEventType}, UpdateSourceTrigger=PropertyChanged}"
+                                                          materialDesign:HintAssist.Hint="Lecture">
+                                                    <ComboBoxItem Content="Lecture" />
+                                                    <ComboBoxItem Content="Seminare" />
+                                                    <ComboBoxItem Content="Practise" />
+                                                    <ComboBoxItem Content="Exam" />
+                                                    <ComboBoxItem Content="Credit" />
+                                                    <ComboBoxItem Content="Classified credit" />
+                                                </ComboBox>
                                             </WrapPanel>
                                             <Button Style="{StaticResource MaterialDesignRaisedButton}"
-                                                                            materialDesign:ButtonProgressAssist.Value="-1"
-                                                                            materialDesign:ButtonProgressAssist.IsIndicatorVisible="True"
-                                                                            Command="{Binding Data.UpdateLabel, Source={StaticResource proxy}}"
-                                                                            CommandParameter="{Binding Id}"
-                                                                            Content="Add"
-                                                                            Margin="10" />
+                                                    materialDesign:ButtonProgressAssist.Value="-1"
+                                                    materialDesign:ButtonProgressAssist.IsIndicatorVisible="True"
+                                                    Command="{Binding Data.AddLabel, Source={StaticResource proxy}}"
+                                                    Content="Add"
+                                                    Margin="10" />
                                         </StackPanel>
                                     </GroupBox>
                                     <Button Style="{StaticResource MaterialDesignFlatButton}"
-                                                                IsCancel="True"
-                                                                Command="{x:Static materialDesign:DialogHost.CloseDialogCommand}"
-                                                                CommandParameter="Sample2Cancel"
-                                                                HorizontalAlignment="Center"
-                                                                Content="CANCEL" />
+                                            IsCancel="True"
+                                            Command="{x:Static materialDesign:DialogHost.CloseDialogCommand}"
+                                            CommandParameter="Sample2Cancel"
+                                            HorizontalAlignment="Center"
+                                            Content="CANCEL" />
                                 </StackPanel>
                             </Button.CommandParameter>
                         </Button>
@@ -351,6 +356,7 @@
                                                                              VerticalAlignment="Center" />
                                                                     <ComboBox Margin="10 12 10 0"
                                                                               Width="125"
+                                                                              HorizontalAlignment="Left"
                                                                               SelectedItem="{Binding Language, Converter={StaticResource ComboboxItemToLanguageEnum}, UpdateSourceTrigger=PropertyChanged}"
                                                                               materialDesign:HintAssist.Hint="Czech">
                                                                         <ComboBoxItem Content="Czech" />

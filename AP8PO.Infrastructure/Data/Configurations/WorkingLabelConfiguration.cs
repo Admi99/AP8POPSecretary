@@ -22,7 +22,6 @@ namespace AP8POSecretary.Infrastructure.Data.Configurations
 
             builder.HasOne(e => e.Subject)
                 .WithMany()
-                .IsRequired()
                 .HasForeignKey(e => e.SubjectId)
                 .OnDelete(DeleteBehavior.Cascade);
         }

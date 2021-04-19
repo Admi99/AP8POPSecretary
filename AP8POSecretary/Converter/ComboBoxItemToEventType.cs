@@ -8,7 +8,7 @@ using System.Windows.Data;
 
 namespace AP8POSecretary.Converter
 {
-    public class ComboboxItemToLanguageEnum : IValueConverter
+    public class ComboboxItemToEventType : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
@@ -20,10 +20,18 @@ namespace AP8POSecretary.Converter
             ComboBoxItem item = value as ComboBoxItem;
             switch (item.Content)
             {
-                case "Czech":
-                    return SubjectLanguage.CZECH;
-                case "English":
-                    return SubjectLanguage.ENGLISH;
+                case "Lecture":
+                    return EventType.LECTURE;
+                case "Seminare":
+                    return EventType.SEMINARE;
+                case "Practise":
+                    return EventType.PRACTISE;
+                case "Exam":
+                    return EventType.EXAM;
+                case "Credit":
+                    return EventType.CREDIT;
+                case "Classified credit":
+                    return EventType.CLASSIFIEDCREDIT;
                 default:
                     return null;
             }

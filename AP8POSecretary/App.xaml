@@ -44,6 +44,7 @@
             <convertors:SubjectToSubjectLenghtConverter x:Key="SubjectToSubjectLenghtConverter" />
             <convertors:ListOfLabelsToLengthConvertor x:Key="ListOfLabelsToLengthConvertor" />
             <convertors:ComboboxItemToLanguageEnum x:Key="ComboboxItemToLanguageEnum" />
+            <convertors:ComboboxItemToEventType x:Key="ComboboxItemToEventType" />
 
             <!--<proxy:BindingProxy x:Key="proxy"
                                 Data="{Binding}" />-->

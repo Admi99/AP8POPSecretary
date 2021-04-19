@@ -33,6 +33,7 @@ namespace AP8POSecretary.ViewModels
         public RelayCommand ReturnLab { get; private set; }
         public RelayCommand ReturnOneLab { get; private set; }
         public RelayCommand UpdateLabel { get; private set; }
+        public RelayCommand AddLabel { get; private set; }
         public RelayCommand DeleteSpecificLabel { get; private set; }
         public RelayCommand DeleteAllLabels { get; private set; }
         public RelayCommand RegenerateLabels { get; private set; }
@@ -52,6 +53,7 @@ namespace AP8POSecretary.ViewModels
             ReturnLab = new RelayCommand(ReturnLabels);
             ReturnOneLab = new RelayCommand(ReturnOneLabel);
             UpdateLabel = new RelayCommand(UpdateLabelAsync);
+            AddLabel = new RelayCommand(AddLabelAsync);
             DeleteSpecificLabel = new RelayCommand(DeleteSpecificLabelAsync);
             DeleteAllLabels = new RelayCommand(DeleteAllLabelsAsync);
             RegenerateLabels = new RelayCommand(RegenerateWorkingLabels);
@@ -117,7 +119,13 @@ namespace AP8POSecretary.ViewModels
 
                     var index = Employees.IndexOf(item);
                     var employee = Employees.ElementAt(index);
-                
+                    
+                    if(label.Language == SubjectLanguage.CZECH.ToString())
+                    {
+                        item.WorkingPoints -= label.EmploymentPoints;
+                    }
+                    item.WorkingPointsWithEng -= label.EmploymentPoints;
+
                     Employees.RemoveAt(index);
                     Employees.Insert(index, employee);
 
@@ -137,6 +145,21 @@ namespace AP8POSecretary.ViewModels
             await _workingLabelDataService.Update(id, item);
             DialogHost.CloseDialogCommand.Execute(null, null);               
         }
+        private async void AddLabelAsync(object obj)
+        {
+            await _workingLabelDataService.Create(new WorkingLabel()
+            {
+                Name = this.Name,
+                Language = this.Language,
+                HoursCount = this.HoursCount,
+                EventType = this.EventType,
+                EmploymentPoints = this.EmploymentPoints,
+                StudentsCount = this.StudentsCount,
+                WeekCount = this.WeekCount
+            });
+            DialogHost.CloseDialogCommand.Execute(null, null);
+        }
+
         public async void DeleteSpecificLabelAsync(object obj)
         {
             var id = (int)obj;
@@ -349,5 +372,77 @@ namespace AP8POSecretary.ViewModels
             await _workingLabelDataService.AddWorkingLabels(labels);
         }
 
+        private string _name;
+        public string Name
+        {
+            get { return _name; }
+            set
+            {
+                _name = value;
+                OnPropertyChanged(nameof(Name));
+            }
+        }
+        private string _language;
+        public string Language
+        {
+            get { return _language; }
+            set
+            {
+                _language = value.ToString();
+                OnPropertyChanged(nameof(Language));
+            }
+        }
+        private int _studentsCount;
+        public int StudentsCount
+        {
+            get { return _studentsCount; }
+            set
+            {
+                _studentsCount = value;
+                OnPropertyChanged(nameof(StudentsCount));
+            }
+        }
+        private double _employmentPoints;
+        public double EmploymentPoints
+        {
+            get { return _employmentPoints; }
+            set
+            {
+                _employmentPoints = value;
+                OnPropertyChanged(nameof(EmploymentPoints));
+            }
+        }
+        private EventType _eventType;
+        public EventType EventType
+        {
+            get { return _eventType; }
+            set
+            {
+                _eventType = value;
+                OnPropertyChanged(nameof(EventType));
+            }
+        }
+        private int _hoursCount;
+        public int HoursCount
+        {
+            get { return _hoursCount; }
+            set
+            {
+                _hoursCount = value;
+                OnPropertyChanged(nameof(HoursCount));
+            }
+        }
+        private int _weekCount;
+        public int WeekCount
+        {
+            get { return _weekCount; }
+            set
+            {
+                _weekCount = value;
+                OnPropertyChanged(nameof(WeekCount));
+            }
+        }
+
     }
+
 }

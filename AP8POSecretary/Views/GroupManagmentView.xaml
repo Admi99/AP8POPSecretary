@@ -41,6 +41,7 @@
                         <Button Style="{StaticResource MaterialDesignRaisedAccentButton}"
                                 Height="25"
                                 Background="Red"
+                                BorderBrush="Red"
                                 Command="{Binding DeleteGroupSubjects}"
                                 Content="Delete subjects" />
                     </StackPanel>
