@@ -38,6 +38,9 @@ namespace AP8POSecretary.Infrastructure.Configuration
 
             _kernel.Bind<IDataRepository<WorkingPointsWeight>>().To<GenericRepository<WorkingPointsWeight>>();
             _kernel.Bind<IDataService<WorkingPointsWeight>>().To<DataService<WorkingPointsWeight>>();
+
+            _kernel.Bind<IDataRepository<GroupSubject>>().To<GenericRepository<GroupSubject>>();
+            _kernel.Bind<IDataService<GroupSubject>>().To<DataService<GroupSubject>>();
         }
     }
 }

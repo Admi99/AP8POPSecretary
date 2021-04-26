@@ -13,18 +13,21 @@ namespace AP8POSecretary.ViewModels.Factories
         private readonly IDataService<Subject> _subjectDataService;
         private readonly IDataService<WorkingLabel> _workingLabelDataService;
         private readonly IDataService<WorkingPointsWeight> _workingPointsWeight;
+        private readonly IDataService<GroupSubject> _groupSubjectDataService;
 
         public SettingsViewModelFactory(IDataService<Employee> employeeDataService
             , IDataService<Group> groupDataService
             , IDataService<Subject> subjectDataService
             , IDataService<WorkingLabel> workingLabelDataService
-            , IDataService<WorkingPointsWeight> workingPointsWeight)
+            , IDataService<WorkingPointsWeight> workingPointsWeight
+            , IDataService<GroupSubject> groupSubjectDataService)
         {
             _employeeDataService = employeeDataService;
             _groupDataService = groupDataService;
             _subjectDataService = subjectDataService;
             _workingLabelDataService = workingLabelDataService;
             _workingPointsWeight = workingPointsWeight;
+            _groupSubjectDataService = groupSubjectDataService;
         }
 
         public SettingsViewModel CreateViewModel()
@@ -33,7 +36,9 @@ namespace AP8POSecretary.ViewModels.Factories
                 _groupDataService, 
                 _subjectDataService, 
                 _workingLabelDataService,
-                _workingPointsWeight);
+                _workingPointsWeight,
+                _groupSubjectDataService
+                );
         }
     }
 }

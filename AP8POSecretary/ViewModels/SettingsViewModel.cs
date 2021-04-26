@@ -1,6 +1,7 @@
 ﻿using AP8POSecretary.Commands;
 using AP8POSecretary.Domain.Entities;
 using AP8POSecretary.Domain.Services;
+using AP8POSecretary.ViewModels.Wrappers;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -20,37 +21,61 @@ namespace AP8POSecretary.ViewModels
         private readonly IDataService<Subject> _subjectDataService;
         private readonly IDataService<WorkingLabel> _workingLabelDataService;
         private readonly IDataService<WorkingPointsWeight> _workingPointsWeight;
+        private readonly IDataService<GroupSubject> _groupSubjectDataService;
 
+        public EntitiesWrapper EntitiesWrapper { get; set; } = new EntitiesWrapper();
         public IList<WorkingPointsWeight> WorkingPointsWeights { get; set; }
         public IEnumerable<Employee> Employees { get; set; }
-        
+        public IEnumerable<Subject> Subjects { get; set; }
+        public IEnumerable<Group> Groups { get; set; }
+        public IEnumerable<WorkingLabel> WorkingLabels { get; set; }
+        public IEnumerable<GroupSubject> GroupSubjects { get; set; }
+        public IEnumerable<WorkingPointsWeight> WorkingPointsWeightsXML { get; set; }
+
 
         public RelayCommand TransformToXml { get; private set; }
         public RelayCommand UpdatePoints { get; private set; }
+        public RelayCommand DeserializeXml { get; private set; }
 
         public SettingsViewModel(IDataService<Employee> employeeDataService
             , IDataService<Group> groupDataService
             , IDataService<Subject> subjectDataService
             , IDataService<WorkingLabel> workingLabelDataService
-            , IDataService<WorkingPointsWeight> workingPointsWeight)
+            , IDataService<WorkingPointsWeight> workingPointsWeight
+            , IDataService<GroupSubject> groupSubjectDataService)
         {
             _employeeDataService = employeeDataService;
             _groupDataService = groupDataService;
             _subjectDataService = subjectDataService;
             _workingLabelDataService = workingLabelDataService;
             _workingPointsWeight = workingPointsWeight;
+            _groupSubjectDataService = groupSubjectDataService;
 
             TransformToXml = new RelayCommand(GenerateXml);
             UpdatePoints = new RelayCommand(UpdatePointsHandler);
+            DeserializeXml = new RelayCommand(ImportFromXml);
 
-            GetEmployees();
+            GetEntities();
             GetWorkingPointsWeights();
            
         }
 
-        private async void GetEmployees()
+        private async void GetEntities()
         {
             Employees = await _employeeDataService.GetAll();
+            Subjects = await _subjectDataService.GetAll();
+            Groups = await _groupDataService.GetAll();
+            WorkingLabels = await _workingLabelDataService.GetAll();
+            WorkingPointsWeightsXML = await _workingPointsWeight.GetAll();
+            GroupSubjects = await _groupSubjectDataService.GetAll();
+
+
+            EntitiesWrapper.Subjects = Subjects;
+            EntitiesWrapper.Employees = Employees;
+            EntitiesWrapper.Groups = Groups;
+            EntitiesWrapper.GroupSubjects = GroupSubjects;
+            EntitiesWrapper.WorkingLabels = WorkingLabels;
+            EntitiesWrapper.WorkingPointsWeights = WorkingPointsWeightsXML;
         }
 
         private async void GetWorkingPointsWeights()
@@ -74,16 +99,29 @@ namespace AP8POSecretary.ViewModels
 
         private void GenerateXml(object obj)
         {
-            DataContractSerializer xs = new DataContractSerializer(typeof(List<Employee>));
+            DataContractSerializer xs = new DataContractSerializer(typeof(EntitiesWrapper));
             TextWriter filestream = new StreamWriter(@"C:\School\haha.xml");
 
             using (var xmlWriter = XmlWriter.Create(filestream, new XmlWriterSettings { Indent = true }))
             {
-                xs.WriteObject(xmlWriter, Employees);
+                xs.WriteObject(xmlWriter, EntitiesWrapper);
+                
             }
 
-            filestream.Close();
+            filestream.Close();            
+        }
 
+        private void ImportFromXml(object obj)
+        {
+            DataContractSerializer xs = new DataContractSerializer(typeof(EntitiesWrapper));
+            TextReader filestream2 = new StreamReader(@"C:\School\haha.xml");
+            using (var xmlReader = XmlReader.Create(filestream2))
+            {
+                var test = xs.ReadObject(xmlReader, true);
+
+            }
+
+            filestream2.Close();
         }
 
         private void UpdatePointsHandler(object obj)
