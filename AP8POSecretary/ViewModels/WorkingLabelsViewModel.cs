@@ -19,6 +19,7 @@ namespace AP8POSecretary.ViewModels
         private readonly IDataService<WorkingLabel> _workingLabelDataService;
         private readonly IDataService<Group> _groupDataService;
         private readonly IDataService<WorkingPointsWeight> _workingPointsWeight;
+        private readonly IDataService<Subject> _subjectDataService;
 
         public ObservableCollection<Employee> Employees { get; set; } = new ObservableCollection<Employee>();
         public ObservableCollection<WorkingLabel> WorkingLabels { get; set; } = new ObservableCollection<WorkingLabel>();
@@ -27,6 +28,8 @@ namespace AP8POSecretary.ViewModels
         public LabelDropHandler LabelDropHandler { get; set; } = new LabelDropHandler();
         public IList<WorkingLabel> JoinedToEmployee { get; set; } = new List<WorkingLabel>();
         public IList<WorkingPointsWeight> WorkingPointsWeights { get; set; } = new List<WorkingPointsWeight>();
+        public IList<Subject> Subjects { get; set; }
+        public Subject TempSubject { get; set; }
 
         public RelayCommand GenerateLabels { get; private set; }
         public RelayCommand SaveEmployees { get; private set; }
@@ -37,16 +40,21 @@ namespace AP8POSecretary.ViewModels
         public RelayCommand DeleteSpecificLabel { get; private set; }
         public RelayCommand DeleteAllLabels { get; private set; }
         public RelayCommand RegenerateLabels { get; private set; }
+        public RelayCommand OnSubjectSelectionChanged { get; private set; }
+        public RelayCommand OnSubjectChangeForLabels { get; set; }
 
         public WorkingLabelsViewModel(IDataService<Employee> employeeDataService,
             IDataService<WorkingLabel> workingLabelDataService,
             IDataService<Group> groupDataService,
-            IDataService<WorkingPointsWeight> workingPointsWeight)
+            IDataService<WorkingPointsWeight> workingPointsWeight,
+            IDataService<Subject> subjectDataService
+            )
         {
             _employeeDataService = employeeDataService;
             _workingLabelDataService = workingLabelDataService;
             _groupDataService = groupDataService;
             _workingPointsWeight = workingPointsWeight;
+            _subjectDataService = subjectDataService;
 
             GenerateLabels = new RelayCommand(GenerateWorkingLabels);
             SaveEmployees = new RelayCommand(SaveEmployyesAsync);
@@ -57,6 +65,9 @@ namespace AP8POSecretary.ViewModels
             DeleteSpecificLabel = new RelayCommand(DeleteSpecificLabelAsync);
             DeleteAllLabels = new RelayCommand(DeleteAllLabelsAsync);
             RegenerateLabels = new RelayCommand(RegenerateWorkingLabels);
+            OnSubjectSelectionChanged = new RelayCommand(OnSubjSelectionChanged);
+            OnSubjectChangeForLabels = new RelayCommand(ChangeSubjectForLabel);
+
 
             DeletedWorkingLabels = new List<WorkingLabel>();
 
@@ -64,6 +75,7 @@ namespace AP8POSecretary.ViewModels
             InitGroupsAsync();
             InitWorkingLabelsAsync();
             InitWorkingPointsWeight();
+            InitSubjectAsync();
         }
 
         private async void InitWorkingPointsWeight()
@@ -147,7 +159,7 @@ namespace AP8POSecretary.ViewModels
         }
         private async void AddLabelAsync(object obj)
         {
-            await _workingLabelDataService.Create(new WorkingLabel()
+            var newWorkingLabel = new WorkingLabel()
             {
                 Name = this.Name,
                 Language = this.Language,
@@ -156,7 +168,11 @@ namespace AP8POSecretary.ViewModels
                 EmploymentPoints = this.EmploymentPoints,
                 StudentsCount = this.StudentsCount,
                 WeekCount = this.WeekCount
-            });
+            };
+            await _workingLabelDataService.Create(newWorkingLabel);
+
+            WorkingLabels.Insert(0, newWorkingLabel);
+
             DialogHost.CloseDialogCommand.Execute(null, null);
         }
 
@@ -194,6 +210,12 @@ namespace AP8POSecretary.ViewModels
         {
             var groups = await _groupDataService.GetAllGroups();
             Groups = new List<Group>(groups);
+        }
+
+        private async void InitSubjectAsync()
+        {
+            var subjects = await _subjectDataService.GetAll();
+            Subjects = new List<Subject>(subjects);
         }
 
         private async void DeleteAllLabelsAsync(object obj)
@@ -239,6 +261,34 @@ namespace AP8POSecretary.ViewModels
                     await AddWorkingLabels(generatedLabelsFromGroup);
                     AppendItems(generatedLabelsFromGroup);
                 }
+            }
+        }
+
+        public void OnSubjSelectionChanged(object obj)
+        {
+            if(obj != null)
+            {
+                TempSubject = (Subject)obj;
+            }          
+        }
+
+        public async void ChangeSubjectForLabel(object obj)
+        {
+            if(obj != null)
+            {
+                int workingLabelId = (int)obj;
+                var workingLabel = WorkingLabels.Where(u => u.Id == workingLabelId).First();
+                var index = WorkingLabels.IndexOf(workingLabel);
+
+                workingLabel.SubjectId = TempSubject.Id;
+                workingLabel.Subject = TempSubject;
+
+                WorkingLabels.RemoveAt(index);
+                WorkingLabels.Insert(index, workingLabel);
+
+                await _workingLabelDataService.Update(workingLabel.Id, workingLabel);
+
+                DialogHost.CloseDialogCommand.Execute(null, null);
             }
         }
 

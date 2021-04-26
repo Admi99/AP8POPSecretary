@@ -5,6 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              xmlns:dd="urn:gong-wpf-dragdrop"
+             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
              xmlns:local="clr-namespace:AP8POSecretary.Views"
              mc:Ignorable="d"
              xmlns:proxy="clr-namespace:AP8POSecretary.Utils"
@@ -429,20 +430,99 @@
                                                     Content="Subject">
                                                 <Button.CommandParameter>
                                                     <StackPanel Margin="16">
-                                                        <ListView ItemsSource="{Binding GroupSubjects}">
-                                                            <ListView.View>
-                                                                <GridView>
-                                                                    <GridViewColumn DisplayMemberBinding="{Binding Subject.Name}"
-                                                                                    Header="Name" />
-                                                                    <GridViewColumn DisplayMemberBinding="{Binding Subject.Shortcut}"
-                                                                                    Header="Shortcut" />
-                                                                    <GridViewColumn DisplayMemberBinding="{Binding Subject.Language}"
-                                                                                    Header="Language" />
-                                                                    <GridViewColumn DisplayMemberBinding="{Binding Subject.ClassSize}"
-                                                                                    Header="Class size" />
-                                                                </GridView>
-                                                            </ListView.View>
-                                                        </ListView>
+                                                        <GroupBox Grid.Row="1"
+                                                                  Header="Subject"
+                                                                  Margin="10,10,10,10">
+                                                            <StackPanel>
+                                                                <ComboBox materialDesign:HintAssist.Hint="Select subject"
+                                                                          Width="250"
+                                                                          Margin="10 0 0 0"
+                                                                          Name="MyCombo"
+                                                                          HorizontalAlignment="Left"
+                                                                          materialDesign:HintAssist.HintOpacity=".26"
+                                                                          ItemsSource="{Binding Data.Subjects, Source={StaticResource proxy}}"
+                                                                          DisplayMemberPath="Name"
+                                                                          IsEditable="True">
+                                                                    <i:Interaction.Triggers>
+                                                                        <i:EventTrigger EventName="SelectionChanged">
+                                                                            <i:InvokeCommandAction Command="{Binding Data.OnSubjectSelectionChanged, Source={StaticResource proxy}}"
+                                                                                                   CommandParameter="{Binding Path=SelectedItem, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ComboBox}}" />
+                                                                        </i:EventTrigger>
+                                                                    </i:Interaction.Triggers>
+                                                                </ComboBox>
+                                                                <WrapPanel Orientation="Vertical"
+                                                                           Height="90">
+                                                                    <TextBox Margin="10 0 10 0"
+                                                                             Text="{Binding Subject.Name}"
+                                                                             IsReadOnly="True"
+                                                                             materialDesign:HintAssist.Hint="Name"
+                                                                             Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                                                                             VerticalAlignment="Center" />
+                                                                    <TextBox Margin="10 0 10 0"
+                                                                             Text="{Binding Subject.Language, Converter={StaticResource EnumConverter}}"
+                                                                             IsReadOnly="True"
+                                                                             materialDesign:HintAssist.Hint="Language"
+                                                                             Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                                                                             VerticalAlignment="Center" />
+                                                                    <TextBox Margin="10 0 10 0"
+                                                                             Text="{Binding Subject.Shortcut}"
+                                                                             IsReadOnly="True"
+                                                                             materialDesign:HintAssist.Hint="Shortcut"
+                                                                             Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                                                                             VerticalAlignment="Center" />
+                                                                    <TextBox Margin="10 0 10 0"
+                                                                             Text="{Binding Subject.CompletionType}"
+                                                                             IsReadOnly="True"
+                                                                             materialDesign:HintAssist.Hint="Type"
+                                                                             Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                                                                             VerticalAlignment="Center" />
+                                                                    <TextBox Margin="10 0 10 0"
+                                                                             Text="{Binding Subject.LectureCount}"
+                                                                             IsReadOnly="True"
+                                                                             materialDesign:HintAssist.Hint="Lectures"
+                                                                             Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                                                                             VerticalAlignment="Center" />
+                                                                    <TextBox Margin="10 0 10 0"
+                                                                             Text="{Binding Subject.SeminareCount}"
+                                                                             IsReadOnly="True"
+                                                                             materialDesign:HintAssist.Hint="Seminared"
+                                                                             Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                                                                             VerticalAlignment="Center" />
+                                                                    <TextBox Margin="10 0 10 0"
+                                                                             Text="{Binding Subject.PractiseCount}"
+                                                                             IsReadOnly="True"
+                                                                             materialDesign:HintAssist.Hint="Practeses"
+                                                                             Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                                                                             VerticalAlignment="Center" />
+                                                                    <TextBox Margin="10 0 10 0"
+                                                                             Text="{Binding Subject.Credit}"
+                                                                             IsReadOnly="True"
+                                                                             materialDesign:HintAssist.Hint="Credit"
+                                                                             Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                                                                             VerticalAlignment="Center" />
+                                                                    <TextBox Margin="10 0 10 0"
+                                                                             Text="{Binding Subject.WeeksCount}"
+                                                                             IsReadOnly="True"
+                                                                             materialDesign:HintAssist.Hint="Weeks"
+                                                                             Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                                                                             VerticalAlignment="Center" />
+                                                                    <TextBox Margin="10 0 10 0"
+                                                                             Text="{Binding Subject.ClassSize}"
+                                                                             IsReadOnly="True"
+                                                                             materialDesign:HintAssist.Hint="Class size"
+                                                                             Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                                                                             VerticalAlignment="Center" />
+                                                                </WrapPanel>
+                                                                <Button Style="{StaticResource MaterialDesignRaisedButton}"
+                                                                        materialDesign:ButtonProgressAssist.Value="-1"
+                                                                        materialDesign:ButtonProgressAssist.IsIndicatorVisible="True"
+                                                                        Command="{Binding Data.OnSubjectChangeForLabels, Source={StaticResource proxy}}"
+                                                                        CommandParameter="{Binding Id}"
+                                                                        Content="Update subject"
+                                                                        DockPanel.Dock="Left"
+                                                                        Margin="10" />
+                                                            </StackPanel>
+                                                        </GroupBox>
                                                         <Button Style="{StaticResource MaterialDesignFlatButton}"
                                                                 IsCancel="True"
                                                                 Command="{x:Static materialDesign:DialogHost.CloseDialogCommand}"
