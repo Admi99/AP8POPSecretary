@@ -9,8 +9,15 @@ using System.Linq;
 using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Xml;
 using System.Xml.Serialization;
+
+using ToastNotifications;
+using ToastNotifications.Lifetime;
+using ToastNotifications.Position;
+using ToastNotifications.Messages;
+
 
 namespace AP8POSecretary.ViewModels
 {
@@ -37,6 +44,8 @@ namespace AP8POSecretary.ViewModels
         public RelayCommand UpdatePoints { get; private set; }
         public RelayCommand DeserializeXml { get; private set; }
 
+        public Notifier Notifier { get; set; }
+
         public SettingsViewModel(IDataService<Employee> employeeDataService
             , IDataService<Group> groupDataService
             , IDataService<Subject> subjectDataService
@@ -54,6 +63,21 @@ namespace AP8POSecretary.ViewModels
             TransformToXml = new RelayCommand(GenerateXml);
             UpdatePoints = new RelayCommand(UpdatePointsHandler);
             DeserializeXml = new RelayCommand(ImportFromXml);
+
+            Notifier = new Notifier(cfg =>
+            {
+                cfg.PositionProvider = new WindowPositionProvider(
+                    parentWindow: Application.Current.MainWindow,
+                    corner: Corner.TopRight,
+                    offsetX: 10,
+                    offsetY: 10);
+
+                cfg.LifetimeSupervisor = new TimeAndCountBasedLifetimeSupervisor(
+                    notificationLifetime: TimeSpan.FromSeconds(3),
+                    maximumNotificationCount: MaximumNotificationCount.FromCount(5));
+
+                cfg.Dispatcher = Application.Current.Dispatcher;
+            });
 
             GetEntities();
             GetWorkingPointsWeights();
@@ -108,7 +132,9 @@ namespace AP8POSecretary.ViewModels
                 
             }
 
-            filestream.Close();            
+            filestream.Close();
+
+            Notifier.ShowSuccess("Database model was successfuly exported to XML");
         }
 
         private void ImportFromXml(object obj)

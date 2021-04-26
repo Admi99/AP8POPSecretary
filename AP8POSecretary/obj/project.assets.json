@@ -1783,6 +1783,27 @@
           "lib/netstandard1.3/System.Xml.XmlSerializer.dll": {}
         }
       },
+      "ToastNotifications/2.5.1": {
+        "type": "package",
+        "compile": {
+          "lib/net40/ToastNotifications.dll": {}
+        },
+        "runtime": {
+          "lib/net40/ToastNotifications.dll": {}
+        }
+      },
+      "ToastNotifications.Messages/2.5.1": {
+        "type": "package",
+        "dependencies": {
+          "ToastNotifications": "2.5.1"
+        },
+        "compile": {
+          "lib/net40/ToastNotifications.Messages.dll": {}
+        },
+        "runtime": {
+          "lib/net40/ToastNotifications.Messages.dll": {}
+        }
+      },
       "AP8POSecretary.Domain/1.0.0": {
         "type": "project",
         "framework": ".NETCoreApp,Version=v3.1",
@@ -6404,6 +6425,31 @@
         "system.xml.xmlserializer.nuspec"
       ]
     },
+    "ToastNotifications/2.5.1": {
+      "sha512": "0ZBWG0FCPafwbIzNhjWgC0GEOyk51GF3rYWrh5QJ61ZxDEoLgdDsEUt8HMxYN7lRLVt/mWhtgdbe4OmhXfwtkA==",
+      "type": "package",
+      "path": "toastnotifications/2.5.1",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "lib/net40/ToastNotifications.dll",
+        "readme.txt",
+        "toastnotifications.2.5.1.nupkg.sha512",
+        "toastnotifications.nuspec"
+      ]
+    },
+    "ToastNotifications.Messages/2.5.1": {
+      "sha512": "KG4oMi61ShmRuPK3/yAFhUph/rZGYmS8IcsIvF2Fk3np11fQo6ZjdK2XUmFnY9b0oQY9IilxhCmOdVGoOGEeHQ==",
+      "type": "package",
+      "path": "toastnotifications.messages/2.5.1",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "lib/net40/ToastNotifications.Messages.dll",
+        "toastnotifications.messages.2.5.1.nupkg.sha512",
+        "toastnotifications.messages.nuspec"
+      ]
+    },
     "AP8POSecretary.Domain/1.0.0": {
       "type": "project",
       "path": "../AP8POSecretary.Domain/AP8POSecretary.Domain.csproj",
@@ -6423,6 +6469,8 @@
       "MaterialDesignThemes >= 4.0.0",
       "Ninject >= 3.3.4",
       "System.Windows.Interactivity.WPF >= 2.0.20525",
+      "ToastNotifications >= 2.5.1",
+      "ToastNotifications.Messages >= 2.5.1",
       "gong-wpf-dragdrop >= 2.3.2"
     ]
   },
@@ -6494,6 +6542,14 @@
             "target": "Package",
             "version": "[2.0.20525, )"
           },
+          "ToastNotifications": {
+            "target": "Package",
+            "version": "[2.5.1, )"
+          },
+          "ToastNotifications.Messages": {
+            "target": "Package",
+            "version": "[2.5.1, )"
+          },
           "gong-wpf-dragdrop": {
             "target": "Package",
             "version": "[2.3.2, )"
@@ -6528,6 +6584,26 @@
       "warningLevel": 1,
       "message": "Package 'System.Windows.Interactivity.WPF 2.0.20525' was restored using '.NETFramework,Version=v4.6.1, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8' instead of the project target framework '.NETCoreApp,Version=v3.1'. This package may not be fully compatible with your project.",
       "libraryId": "System.Windows.Interactivity.WPF",
+      "targetGraphs": [
+        ".NETCoreApp,Version=v3.1"
+      ]
+    },
+    {
+      "code": "NU1701",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "Package 'ToastNotifications 2.5.1' was restored using '.NETFramework,Version=v4.6.1, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8' instead of the project target framework '.NETCoreApp,Version=v3.1'. This package may not be fully compatible with your project.",
+      "libraryId": "ToastNotifications",
+      "targetGraphs": [
+        ".NETCoreApp,Version=v3.1"
+      ]
+    },
+    {
+      "code": "NU1701",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "Package 'ToastNotifications.Messages 2.5.1' was restored using '.NETFramework,Version=v4.6.1, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8' instead of the project target framework '.NETCoreApp,Version=v3.1'. This package may not be fully compatible with your project.",
+      "libraryId": "ToastNotifications.Messages",
       "targetGraphs": [
         ".NETCoreApp,Version=v3.1"
       ]
