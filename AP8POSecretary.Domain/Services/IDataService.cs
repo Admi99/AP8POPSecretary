@@ -1,4 +1,5 @@
 ﻿using AP8POSecretary.Domain.Entities;
+using AP8POSecretary.Domain.XmlWrapper;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -23,5 +24,6 @@ namespace AP8POSecretary.Domain.Services
         Task<IEnumerable<WorkingLabel>> GetAllWorkingLabels();
         Task AddEmployeesRange(IEnumerable<Employee> entities);
         Task AddAllIfTableEmpty(IEnumerable<T> entities);
+        bool Import(EntitiesWrapper entitiesWrapper);
     }
 }

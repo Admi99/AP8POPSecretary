@@ -1,7 +1,8 @@
 ﻿using AP8POSecretary.Commands;
 using AP8POSecretary.Domain.Entities;
 using AP8POSecretary.Domain.Services;
-using AP8POSecretary.ViewModels.Wrappers;
+using AP8POSecretary.Domain.XmlWrapper;
+using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -9,14 +10,10 @@ using System.Linq;
 using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
-using System.Windows;
 using System.Xml;
 using System.Xml.Serialization;
-
-using ToastNotifications;
-using ToastNotifications.Lifetime;
-using ToastNotifications.Position;
 using ToastNotifications.Messages;
+
 
 
 namespace AP8POSecretary.ViewModels
@@ -39,12 +36,9 @@ namespace AP8POSecretary.ViewModels
         public IEnumerable<GroupSubject> GroupSubjects { get; set; }
         public IEnumerable<WorkingPointsWeight> WorkingPointsWeightsXML { get; set; }
 
-
         public RelayCommand TransformToXml { get; private set; }
         public RelayCommand UpdatePoints { get; private set; }
-        public RelayCommand DeserializeXml { get; private set; }
-
-        public Notifier Notifier { get; set; }
+        public RelayCommand DeserializeXml { get; private set; }       
 
         public SettingsViewModel(IDataService<Employee> employeeDataService
             , IDataService<Group> groupDataService
@@ -64,20 +58,7 @@ namespace AP8POSecretary.ViewModels
             UpdatePoints = new RelayCommand(UpdatePointsHandler);
             DeserializeXml = new RelayCommand(ImportFromXml);
 
-            Notifier = new Notifier(cfg =>
-            {
-                cfg.PositionProvider = new WindowPositionProvider(
-                    parentWindow: Application.Current.MainWindow,
-                    corner: Corner.TopRight,
-                    offsetX: 10,
-                    offsetY: 10);
-
-                cfg.LifetimeSupervisor = new TimeAndCountBasedLifetimeSupervisor(
-                    notificationLifetime: TimeSpan.FromSeconds(3),
-                    maximumNotificationCount: MaximumNotificationCount.FromCount(5));
-
-                cfg.Dispatcher = Application.Current.Dispatcher;
-            });
+           
 
             GetEntities();
             GetWorkingPointsWeights();
@@ -123,31 +104,69 @@ namespace AP8POSecretary.ViewModels
 
         private void GenerateXml(object obj)
         {
-            DataContractSerializer xs = new DataContractSerializer(typeof(EntitiesWrapper));
-            TextWriter filestream = new StreamWriter(@"C:\School\haha.xml");
+            string filePath = string.Empty;
+            SaveFileDialog saveFileDialog = new SaveFileDialog();
+            saveFileDialog.Filter = "Xml file (*.xml)|*.xml";
+            if (saveFileDialog.ShowDialog() == true)
+                filePath = saveFileDialog.FileName;
 
-            using (var xmlWriter = XmlWriter.Create(filestream, new XmlWriterSettings { Indent = true }))
+            if (filePath != "")
             {
-                xs.WriteObject(xmlWriter, EntitiesWrapper);
-                
+                try
+                {
+                    DataContractSerializer xs = new DataContractSerializer(typeof(EntitiesWrapper));
+                    TextWriter filestream = new StreamWriter(filePath);
+
+                    using (var xmlWriter = XmlWriter.Create(filestream, new XmlWriterSettings { Indent = true }))
+                    {
+                        xs.WriteObject(xmlWriter, EntitiesWrapper);
+                    }
+
+                    filestream.Close();
+
+                    Notifier.ShowSuccess("Database model was successfuly exported to XML");
+                }
+                catch (Exception ex)
+                {
+                    Notifier.ShowError("Exporting to XML failed with exception: {0}, please concact your administrator " + ex);
+                }
             }
-
-            filestream.Close();
-
-            Notifier.ShowSuccess("Database model was successfuly exported to XML");
+            
         }
 
         private void ImportFromXml(object obj)
         {
-            DataContractSerializer xs = new DataContractSerializer(typeof(EntitiesWrapper));
-            TextReader filestream2 = new StreamReader(@"C:\School\haha.xml");
-            using (var xmlReader = XmlReader.Create(filestream2))
+            string filePath = string.Empty;
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.Filter = "Xml file (*.xml)|*.xml";
+            if (openFileDialog.ShowDialog() == true)
+                filePath = openFileDialog.FileName;
+            if(filePath != "")
             {
-                var test = xs.ReadObject(xmlReader, true);
+                try
+                {
+                    DataContractSerializer xs = new DataContractSerializer(typeof(EntitiesWrapper));
+                    TextReader fileStream = new StreamReader(filePath);
+                    bool result;
+                    using (var xmlReader = XmlReader.Create(fileStream))
+                    {
+                        var eWrapper = xs.ReadObject(xmlReader, true);
+                        result = _employeeDataService.Import((EntitiesWrapper)eWrapper);
+                    }
 
-            }
-
-            filestream2.Close();
+                    fileStream.Close();
+                   
+                    if(result)
+                        Notifier.ShowSuccess("Database model was successfuly imported from XML");
+                    else
+                        Notifier.ShowWarning("Xml file is probably demaged, and it cannot be loaded !");
+                }
+                catch (Exception ex)
+                {
+                    Notifier.ShowError("Import from XML failed with exception: {0}, please concact your administrator " + ex);
+                }
+               
+            }           
         }
 
         private void UpdatePointsHandler(object obj)

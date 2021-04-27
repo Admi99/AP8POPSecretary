@@ -1,5 +1,6 @@
 ﻿using AP8POSecretary.Domain.Entities;
 using AP8POSecretary.Domain.Repositories;
+using AP8POSecretary.Domain.XmlWrapper;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -88,6 +89,11 @@ namespace AP8POSecretary.Domain.Services
         public Task AddAllIfTableEmpty(IEnumerable<T> entities)
         {
             return _dataRepository.AddAllIfTableEmpty(entities);
+        }
+
+        public bool Import(EntitiesWrapper entitiesWrapper)
+        {
+            return _dataRepository.Import(entitiesWrapper);
         }
     }
 }

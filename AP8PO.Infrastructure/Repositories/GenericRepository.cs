@@ -1,5 +1,6 @@
 ﻿using AP8POSecretary.Domain.Entities;
 using AP8POSecretary.Domain.Repositories;
+using AP8POSecretary.Domain.XmlWrapper;
 using AP8POSecretary.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
@@ -177,11 +178,54 @@ namespace AP8POSecretary.Infrastructure.Repositories
                 }               
             }
         }
+
+        private void InsertTable<X>(IEnumerable<X> entities, string tableName) where X : Entity
+        {
+            var context = _contextFactory.CreateDbContext();
+            using (var transaction = context.Database.BeginTransaction())
+            {
+                context.Database.ExecuteSqlRaw(@$"SET IDENTITY_INSERT [Secretary].[{tableName}] ON");
+                context.Set<X>().AddRange(entities);
+                context.SaveChanges();
+                transaction.Commit();
+            }
+            context.Database.ExecuteSqlRaw(@$"SET IDENTITY_INSERT [Secretary].[{tableName}] OFF");
+
+        }
+        private void RemoveAllData()
+        {
+            var context = _contextFactory.CreateDbContext();
+            context.Employees.RemoveRange(context.Employees);
+            context.Subjects.RemoveRange(context.Subjects);
+            context.WorkingLabels.RemoveRange(context.WorkingLabels);
+            context.Groups.RemoveRange(context.Groups);
+            context.GroupSubjects.RemoveRange(context.GroupSubjects);
+            context.WorkingPointsWeights.RemoveRange(context.WorkingPointsWeights);
+            context.SaveChanges();
+        }
+
+        public bool Import(EntitiesWrapper entitiesWrapper)
+        {
+            var context = _contextFactory.CreateDbContext();
+            try
+            {
+                RemoveAllData();
+
+                InsertTable(entitiesWrapper.Employees, "Employee");
+                InsertTable(entitiesWrapper.Groups, "Group");
+                InsertTable(entitiesWrapper.Subjects, "Subject");
+                InsertTable(entitiesWrapper.GroupSubjects, "GroupSubject");
+                InsertTable(entitiesWrapper.WorkingLabels, "WorkingLabel");
+                InsertTable(entitiesWrapper.WorkingPointsWeights, "WorkingPointsWeight");                
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+                return false;
+            }
+
+            return true;
+        }
     }
 }
 
-
-/*var haha = entities.Last() as Group;
-               haha.GroupSubjects.RemoveAt(0);
-               //haha.GroupSubjects.RemoveAt(0);
-               context.Set<T>().Update(haha as T);*/

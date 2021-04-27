@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace AP8POSecretary.ViewModels.Wrappers
+namespace AP8POSecretary.Domain.XmlWrapper
 {
     public class EntitiesWrapper
     {
