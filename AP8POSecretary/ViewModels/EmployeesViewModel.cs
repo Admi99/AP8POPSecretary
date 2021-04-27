@@ -5,6 +5,8 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Text;
+using System.Text.RegularExpressions;
+using ToastNotifications.Messages;
 
 namespace AP8POSecretary.ViewModels
 {
@@ -30,6 +32,8 @@ namespace AP8POSecretary.ViewModels
         public RelayCommand DeleteCommand { get; private set; }
         public EmployeesViewModel(IDataService<Employee> dataService)
         {
+            Notifier.ShowWarning("Add button will be disabled until validation will match !");
+
             _dataService = dataService;
 
             AddButtonCommand = new RelayCommand(AddData, CheckDataBeforeAdding);
@@ -42,34 +46,56 @@ namespace AP8POSecretary.ViewModels
 
         private async void DeleteData(object obj)
         {
-            if (obj != null)
+            try
             {
-                IsDeleted = true;
-                await _dataService.Delete((obj as Employee).Id);
-                Employees.Remove(obj as Employee);
-                IsDeleted = false;
+                if (obj != null)
+                {
+                    IsDeleted = true;
+                    await _dataService.Delete((obj as Employee).Id);
+                    Employees.Remove(obj as Employee);
+                    IsDeleted = false;
+                }
             }
+            catch(Exception ex)
+            {
+                Notifier.ShowError("Failed to delete a data from database with error: " + ex);
+            }
+            Notifier.ShowSuccess("Data were deleted successfuly ");
+
         }
 
         private async void DeleteAllData(object obj)
         {
-            IsDeleted = true;
-            foreach (var item in Employees)
+            try
             {
-                await _dataService.Delete(item.Id);
+                IsDeleted = true;
+                foreach (var item in Employees)
+                {
+                    await _dataService.Delete(item.Id);
+                }
+                Employees.Clear();
+                IsDeleted = false;
             }
-            Employees.Clear();
-            IsDeleted = false;
+            catch(Exception ex)
+            {
+                Notifier.ShowError("Failed to delete a data from database with error: " + ex);
+            }
+            Notifier.ShowSuccess("Data were deleted successfuly ");
         }
 
         private async void ModifyAllData(object obj)
         {
-            IsSaved = true;
-            foreach (var item in Employees)
+            try
             {
-                await _dataService.Update(item.Id, item);
+                IsSaved = true;
+                foreach (var item in Employees)
+                {
+                    await _dataService.Update(item.Id, item);
+                }
+                IsSaved = false;
             }
-            IsSaved = false;
+            catch (Exception ex) { Notifier.ShowError("Failed to modify a data in database with error: " + ex); }
+            Notifier.ShowSuccess("Data were updated successfuly ");
         }
 
         public bool CheckDataBeforeAdding(object obj = null)
@@ -77,10 +103,12 @@ namespace AP8POSecretary.ViewModels
             !String.IsNullOrEmpty(LastName) &&
             !String.IsNullOrEmpty(WholeName) &&
             !String.IsNullOrEmpty(Email) &&
+            IsValidEmail(Email) &&
             !String.IsNullOrEmpty(PersonalEmail) &&
-            !String.IsNullOrEmpty(PhoneNumber);
-
-
+            IsValidEmail(PersonalEmail) &&
+            !String.IsNullOrEmpty(PhoneNumber) &&
+            PhoneNumber.Length == 9;
+           
         private async void AddData(object obj = null)
         {
 
@@ -97,13 +125,27 @@ namespace AP8POSecretary.ViewModels
             };
 
             Employees.Add(newEmployee);
-            await _dataService.Create(newEmployee);
+
+            try
+            {
+                await _dataService.Create(newEmployee);
+            }
+            catch(Exception ex)
+            {
+                Notifier.ShowError("Failed to add a data to database with error: " + ex);
+            }
+
+            Notifier.ShowSuccess("Data were added successfuly ");
         }
 
         private async void InitAsync()
         {
-            var employees = await _dataService.GetAll();
-            Employees = new ObservableCollection<Employee>(employees);
+            try
+            {
+                var employees = await _dataService.GetAll();
+                Employees = new ObservableCollection<Employee>(employees);
+            }           
+            catch (Exception ex) { Notifier.ShowError("Failed to load a data from database with error: " + ex); }
         }
 
         private string _firstName;
@@ -184,6 +226,19 @@ namespace AP8POSecretary.ViewModels
             {
                 _commitmentRate = value;
                 OnPropertyChanged(nameof(CommitmentRate));
+            }
+        }
+
+        private bool IsValidEmail(string email)
+        {
+            try
+            {
+                var addr = new System.Net.Mail.MailAddress(email);
+                return addr.Address == email;
+            }
+            catch
+            {
+                return false;
             }
         }
     }

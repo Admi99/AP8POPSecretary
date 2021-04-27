@@ -14,8 +14,6 @@ using System.Xml;
 using System.Xml.Serialization;
 using ToastNotifications.Messages;
 
-
-
 namespace AP8POSecretary.ViewModels
 {
     public class SettingsViewModel : BaseViewModel
@@ -67,13 +65,20 @@ namespace AP8POSecretary.ViewModels
 
         private async void GetEntities()
         {
-            Employees = await _employeeDataService.GetAll();
-            Subjects = await _subjectDataService.GetAll();
-            Groups = await _groupDataService.GetAll();
-            WorkingLabels = await _workingLabelDataService.GetAll();
-            WorkingPointsWeightsXML = await _workingPointsWeight.GetAll();
-            GroupSubjects = await _groupSubjectDataService.GetAll();
 
+            try
+            {
+                Employees = await _employeeDataService.GetAll();
+                Subjects = await _subjectDataService.GetAll();
+                Groups = await _groupDataService.GetAll();
+                WorkingLabels = await _workingLabelDataService.GetAll();
+                WorkingPointsWeightsXML = await _workingPointsWeight.GetAll();
+                GroupSubjects = await _groupSubjectDataService.GetAll();
+            }
+            catch(Exception ex)
+            {
+                Notifier.ShowError("Failed to load a data from database with error: " + ex);
+            }
 
             EntitiesWrapper.Subjects = Subjects;
             EntitiesWrapper.Employees = Employees;
@@ -85,9 +90,16 @@ namespace AP8POSecretary.ViewModels
 
         private async void GetWorkingPointsWeights()
         {
-            var points = await _workingPointsWeight.GetAll();
-            WorkingPointsWeights = points.ToList();
-
+            try
+            {
+                var points = await _workingPointsWeight.GetAll();
+                WorkingPointsWeights = points.ToList();
+            }
+            catch(Exception ex)
+            {
+                Notifier.ShowError("Failed to load a data from database with error: " + ex);
+            }
+           
             LectureType = WorkingPointsWeights.ElementAt((int)WorkingWeightTypes.Lecture).Value;
             PractiseType = WorkingPointsWeights.ElementAt((int)WorkingWeightTypes.Practise).Value;
             SeminareType = WorkingPointsWeights.ElementAt((int)WorkingWeightTypes.Seminare).Value;
@@ -184,8 +196,16 @@ namespace AP8POSecretary.ViewModels
             WorkingPointsWeights.ElementAt((int)WorkingWeightTypes.ClassifiedCredit).Value = ClassifiedCreditTypeEng;
             WorkingPointsWeights.ElementAt((int)WorkingWeightTypes.Exam).Value = ExamTypeEng;
 
-            _workingPointsWeight.Update(WorkingPointsWeights);
+            try
+            {
+                _workingPointsWeight.Update(WorkingPointsWeights);
+            }
+            catch(Exception ex)
+            {
+                Notifier.ShowError("Failed to update a data in database with error: " + ex);
+            }
 
+            Notifier.ShowSuccess("Data in database updated successfuly");
         }
 
         private double _lectureType;

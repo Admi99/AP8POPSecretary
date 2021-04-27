@@ -151,6 +151,7 @@
                              VerticalAlignment="Center" />
                     <TextBox Margin="10 0 10 0"
                              Text="{Binding PhoneNumber}"
+                             PreviewTextInput="TextBox_PreviewTextInput_1"
                              materialDesign:HintAssist.Hint="Select phone number"
                              Style="{StaticResource MaterialDesignFloatingHintTextBox}"
                              VerticalAlignment="Center" />

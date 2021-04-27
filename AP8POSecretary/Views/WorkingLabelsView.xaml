@@ -328,7 +328,8 @@
                                             <TextBlock Margin="0 0 16 0"
                                                        VerticalAlignment="Center"
                                                        HorizontalAlignment="Right"
-                                                       TextWrapping="Wrap"
+                                                       TextWrapping="NoWrap"
+                                                       TextTrimming="CharacterEllipsis"
                                                        Style="{StaticResource MaterialDesignBody2TextBlock}"
                                                        Text="{Binding EventType, Converter={StaticResource EnumConverter}}" />
                                         </DockPanel>

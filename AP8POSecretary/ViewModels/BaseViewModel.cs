@@ -8,7 +8,6 @@ using System.Windows.Threading;
 using ToastNotifications;
 using ToastNotifications.Lifetime;
 using ToastNotifications.Position;
-using ToastNotifications.Messages;
 using System.Windows;
 
 namespace AP8POSecretary.ViewModels

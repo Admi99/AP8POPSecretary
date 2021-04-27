@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Text;
 using System.Threading.Tasks;
+using ToastNotifications.Messages;
 
 namespace AP8POSecretary.ViewModels
 {
@@ -47,41 +48,57 @@ namespace AP8POSecretary.ViewModels
 
         private async void DeleteData(object obj)
         {
-            if (obj != null)
+            try
             {
-                IsDeleted = true;
-                await _dataService.Delete((obj as Group).Id);
-                Groups.Remove(obj as Group);
-                IsDeleted = false;
+                if (obj != null)
+                {
+                    IsDeleted = true;
+                    await _dataService.Delete((obj as Group).Id);
+                    Groups.Remove(obj as Group);
+                    IsDeleted = false;
+                }
             }
+            catch (Exception ex) { Notifier.ShowError("Failed to delete a data from database with error: " + ex); }
+
+            Notifier.ShowSuccess("Data were deleted successfuly ");
         }
 
         private async void DeleteAllData(object obj)
         {
-            IsDeleted = true;
-            foreach (var item in Groups)
+            try
             {
-                await _dataService.Delete(item.Id);
+                IsDeleted = true;
+                foreach (var item in Groups)
+                {
+                    await _dataService.Delete(item.Id);
+                }
+                Groups.Clear();
+                IsDeleted = false;
             }
-           Groups.Clear();
-            IsDeleted = false;
+            catch (Exception ex) { Notifier.ShowError("Failed to delete a data from database with error: " + ex); }
+            Notifier.ShowSuccess("Data were deleted successfuly ");
         }
 
         private async void ModifyAllData(object obj)
         {
-            IsSaved = true;
-            foreach (var item in Groups)
+            try
             {
-                await _dataService.Update(item.Id, item);
+                IsSaved = true;
+                foreach (var item in Groups)
+                {
+                    await _dataService.Update(item.Id, item);
+                }
+                IsSaved = false;
             }
-            IsSaved = false;
+            catch (Exception ex) { Notifier.ShowError("Failed to modify a data in database with error: " + ex); }
+            Notifier.ShowSuccess("Data were modified successfuly ");
         }
 
         public bool CheckDataBeforeAdding(object obj = null)
             => !String.IsNullOrEmpty(Shortcut) && !String.IsNullOrEmpty(Language);
 
         private async void AddData(object obj = null)
-        {
+        {          
             Group newGroup = new Group()
             {
                 Shortcut = this.Shortcut,
@@ -92,13 +109,27 @@ namespace AP8POSecretary.ViewModels
                 SemesterType = this.SemesterType                
             };
             Groups.Add(newGroup);
-            await _dataService.Create(newGroup);
+
+            try
+            {
+                await _dataService.Create(newGroup);
+            }
+            catch(Exception ex)
+            {
+                Notifier.ShowError("Failed to add a data to database with error: " + ex);
+            }
+            Notifier.ShowSuccess("Data were added successfuly ");
         }
 
         private async void InitAsync()
         {
-            var groups = await _dataService.GetAll();
-            Groups = new ObservableCollection<Group>(groups);
+            try
+            {
+                var groups = await _dataService.GetAll();
+                Groups = new ObservableCollection<Group>(groups);
+            }
+            catch (Exception ex) { Notifier.ShowError("Failed to load a data from database with error: " + ex); }
+            
         }
 
         private string _shortcut;

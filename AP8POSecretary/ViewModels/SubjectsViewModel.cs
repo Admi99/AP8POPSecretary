@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Text;
+using ToastNotifications.Messages;
 
 namespace AP8POSecretary.ViewModels
 {
@@ -60,38 +61,74 @@ namespace AP8POSecretary.ViewModels
                 WeeksCount = this.WeeksCount,
             };
             Subjects.Add(newSubject);
-            await _dataService.Create(newSubject);
+
+            try
+            {
+                await _dataService.Create(newSubject);
+            }
+            catch(Exception ex)
+            {
+                Notifier.ShowError("Failed to add a data to database with error: " + ex);
+            }
+            Notifier.ShowSuccess("Data were added successfuly ");
         }
 
         public async void ModifyAllData(object obj = null)
         {
-            IsSaved = true;
-            foreach (var item in Subjects)
+            try
             {
-                await _dataService.Update(item.Id, item);
+                IsSaved = true;
+                foreach (var item in Subjects)
+                {
+                    await _dataService.Update(item.Id, item);
+                }
+                IsSaved = false;
             }
-            IsSaved = false;
+            catch(Exception ex)
+            {
+                Notifier.ShowError("Failed to modify a data in database with error: " + ex);
+            }
+
+            Notifier.ShowSuccess("Data were modified successfuly ");
         }
 
         public async void DeleteAllData(object obj = null)
         {
-            IsDeleted = true;
-            foreach (var item in Subjects)
+            try
             {
-                await _dataService.Delete(item.Id);
+                IsDeleted = true;
+                foreach (var item in Subjects)
+                {
+                    await _dataService.Delete(item.Id);
+                }
+                Subjects.Clear();
+                IsDeleted = false;
             }
-            Subjects.Clear();
-            IsDeleted = false;
+            catch(Exception ex)
+            {
+                Notifier.ShowError("Failed to delete a data from database with error: " + ex);
+            }
+
+            Notifier.ShowSuccess("Data were deleted successfuly ");
         }
         public async void DeleteData(object obj)
         {
-            if(obj != null)
+            try
             {
-                IsDeleted = true;
-                await _dataService.Delete((obj as Subject).Id);
-                Subjects.Remove(obj as Subject);
-                IsDeleted = false;
-            }   
+                if (obj != null)
+                {
+                    IsDeleted = true;
+                    await _dataService.Delete((obj as Subject).Id);
+                    Subjects.Remove(obj as Subject);
+                    IsDeleted = false;
+                }
+            }
+            catch (Exception ex)
+            {
+                Notifier.ShowError("Failed to delete a data from database with error: " + ex);
+            }
+
+            Notifier.ShowSuccess("Data were deleted successfuly ");
         }
         public bool CheckDataBeforeAdding(object obj = null)
             => !String.IsNullOrEmpty(Name) && !String.IsNullOrEmpty(Shortcut);
@@ -99,8 +136,15 @@ namespace AP8POSecretary.ViewModels
 
         private async void InitAsync()
         {
-            var subjects = await _dataService.GetAll();
-            Subjects = new ObservableCollection<Subject>(subjects);
+            try
+            {
+                var subjects = await _dataService.GetAll();
+                Subjects = new ObservableCollection<Subject>(subjects);
+            }
+            catch(Exception ex)
+            {
+                Notifier.ShowError("Failed to load a data from database with error: " + ex);
+            }
         }
 
         private string _name;
