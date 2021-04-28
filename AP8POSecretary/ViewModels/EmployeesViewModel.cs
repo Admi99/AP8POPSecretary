@@ -32,7 +32,6 @@ namespace AP8POSecretary.ViewModels
         public RelayCommand DeleteCommand { get; private set; }
         public EmployeesViewModel(IDataService<Employee> dataService)
         {
-            Notifier.ShowWarning("Add button will be disabled until validation will match !");
 
             _dataService = dataService;
 

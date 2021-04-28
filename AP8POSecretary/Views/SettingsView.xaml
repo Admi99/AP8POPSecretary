@@ -34,7 +34,7 @@
             </StackPanel>
         </GroupBox>
         <GroupBox Grid.Row="2"
-                  Header="Passing on information to teachers"
+                  Header="Passing informations"
                   Margin="10,10,10,10">
             <WrapPanel Orientation="Vertical"
                        Height="95">

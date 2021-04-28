@@ -10,6 +10,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Data;
+using ToastNotifications.Messages;
 
 namespace AP8POSecretary.ViewModels
 {
@@ -80,14 +81,29 @@ namespace AP8POSecretary.ViewModels
 
         private async void InitWorkingPointsWeight()
         {
-            var items = await _workingPointsWeight.GetAll();
-            WorkingPointsWeights = items.ToList();
+            try
+            {
+                var items = await _workingPointsWeight.GetAll();
+                WorkingPointsWeights = items.ToList();
+            }
+            catch(Exception ex)
+            {
+                Notifier.ShowError("Failed to load a data from database with error: " + ex);
+            }
         }
 
         private async void SaveEmployyesAsync(object obj)
         {
-            await _employeeDataService.Update(Employees);
-            await _workingLabelDataService.Update(WorkingLabels);
+            try
+            {
+                await _employeeDataService.Update(Employees);
+                await _workingLabelDataService.Update(WorkingLabels);
+            }
+            catch(Exception ex)
+            {
+                Notifier.ShowError("Saving failed with error: " + ex);
+            }
+            Notifier.ShowSuccess("Data were saved succesfully");
         }
         private async void ReturnLabels(object obj = null)
         {
@@ -115,9 +131,18 @@ namespace AP8POSecretary.ViewModels
                     item.Employee = null;
                 });
 
-                await _workingLabelDataService.Update(WorkingLabels);
-                JoinedToEmployee.Clear();
-            }           
+                try
+                {
+                    await _workingLabelDataService.Update(WorkingLabels);
+                    JoinedToEmployee.Clear();
+                }
+                catch(Exception ex)
+                {
+                    Notifier.ShowError("Failed to return labels with error: " + ex);
+                }
+            }
+
+            Notifier.ShowSuccess("Working labels were returned succesfully");
         }
 
         private void ReturnOneLabel(object obj)
@@ -147,15 +172,24 @@ namespace AP8POSecretary.ViewModels
                     break;
                 }
             }
+            Notifier.ShowInformation("Label was returned, but no saved");
 
         }
 
         public async void UpdateLabelAsync(object obj)
         {
-            var id = (int)obj;
-            var item = WorkingLabels.Where(item => item.Id == id).First();
-            await _workingLabelDataService.Update(id, item);
-            DialogHost.CloseDialogCommand.Execute(null, null);               
+            try
+            {
+                var id = (int)obj;
+                var item = WorkingLabels.Where(item => item.Id == id).First();
+                await _workingLabelDataService.Update(id, item);
+                DialogHost.CloseDialogCommand.Execute(null, null);
+            }
+            catch(Exception ex)
+            {
+                Notifier.ShowError("Failed to update a data in database with error: " + ex);
+            }
+            Notifier.ShowSuccess("Data were updated successfuly ");
         }
         private async void AddLabelAsync(object obj)
         {
@@ -169,59 +203,112 @@ namespace AP8POSecretary.ViewModels
                 StudentsCount = this.StudentsCount,
                 WeekCount = this.WeekCount
             };
-            await _workingLabelDataService.Create(newWorkingLabel);
+            try
+            {
+                await _workingLabelDataService.Create(newWorkingLabel);
 
-            WorkingLabels.Insert(0, newWorkingLabel);
+                WorkingLabels.Insert(0, newWorkingLabel);
 
-            DialogHost.CloseDialogCommand.Execute(null, null);
+                DialogHost.CloseDialogCommand.Execute(null, null);
+            }
+            catch(Exception ex)
+            {
+                Notifier.ShowError("Failed to add a data to database with error: " + ex);
+            }
+            Notifier.ShowSuccess("Data were added successfuly ");
         }
 
         public async void DeleteSpecificLabelAsync(object obj)
         {
-            var id = (int)obj;
-            var item = WorkingLabels.Where(item => item.Id == id).First();
-            await _workingLabelDataService.Delete(id);
-            WorkingLabels.Remove(item);
-            DialogHost.CloseDialogCommand.Execute(null, null);
+            try
+            {
+                var id = (int)obj;
+                var item = WorkingLabels.Where(item => item.Id == id).First();
+                await _workingLabelDataService.Delete(id);
+                WorkingLabels.Remove(item);
+                DialogHost.CloseDialogCommand.Execute(null, null);
+            }
+            catch(Exception ex)
+            {
+                Notifier.ShowError("Failed to delete a data from database with error: " + ex);
+            }
+            Notifier.ShowSuccess("Data were deleted successfuly ");
         }
 
         private async void InitWorkingLabelsAsync()
         {
-            var workingLabels = await _workingLabelDataService.GetAllWorkingLabels();
-            IList<WorkingLabel> onlyNotJoinedToEmployee = new List<WorkingLabel>();
-            foreach (var item in workingLabels)
+            try
             {
-                if (item.EmployeeId == null)
-                    onlyNotJoinedToEmployee.Add(item);
+                var workingLabels = await _workingLabelDataService.GetAllWorkingLabels();
+                IList<WorkingLabel> onlyNotJoinedToEmployee = new List<WorkingLabel>();
+                foreach (var item in workingLabels)
+                {
+                    if (item.EmployeeId == null)
+                        onlyNotJoinedToEmployee.Add(item);
+                }
+                AppendItems(onlyNotJoinedToEmployee);
             }
-            AppendItems(onlyNotJoinedToEmployee);
+            catch(Exception ex)
+            {
+                Notifier.ShowError("Failed to load a data from database with error: " + ex);
+            }
         }
 
         private async void InitEmployeesAsync()
         {
-            var employees = await _employeeDataService.GetAllEmployees();
-            AppendItems(employees);
+            try
+            {
+                var employees = await _employeeDataService.GetAllEmployees();
+                AppendItems(employees);
 
-            LabelDropHandler.Employees = Employees;
-            LabelDropHandler.WorkingLabels = WorkingLabels;
-            LabelDropHandler.DeletedWorkingLabels = DeletedWorkingLabels;
+                LabelDropHandler.Employees = Employees;
+                LabelDropHandler.WorkingLabels = WorkingLabels;
+                LabelDropHandler.DeletedWorkingLabels = DeletedWorkingLabels;
+            }
+            catch(Exception ex)
+            {
+                Notifier.ShowError("Failed to load a data from database with error: " + ex);
+            }
         }
         private async void InitGroupsAsync()
         {
-            var groups = await _groupDataService.GetAllGroups();
-            Groups = new List<Group>(groups);
+            try
+            {
+                var groups = await _groupDataService.GetAllGroups();
+                Groups = new List<Group>(groups);
+            }
+            catch(Exception ex)
+            {
+                Notifier.ShowError("Failed to load a data from database with error: " + ex);
+            }           
         }
 
         private async void InitSubjectAsync()
         {
-            var subjects = await _subjectDataService.GetAll();
-            Subjects = new List<Subject>(subjects);
+            try
+            {
+                var subjects = await _subjectDataService.GetAll();
+                Subjects = new List<Subject>(subjects);
+            }
+            catch(Exception ex)
+            {
+                Notifier.ShowError("Failed to load a data from database with error: " + ex);
+            }
+            
         }
 
         private async void DeleteAllLabelsAsync(object obj)
         {
-            await _workingLabelDataService.DeleteAll(WorkingLabels);
-            WorkingLabels.Clear();
+            try
+            {
+                await _workingLabelDataService.DeleteAll(WorkingLabels);
+                WorkingLabels.Clear();
+            }
+            catch(Exception ex)
+            {
+                Notifier.ShowError("Failed to delete a data from database with error: " + ex);
+            }
+            Notifier.ShowSuccess("Data were deleted successfuly ");
         }
 
         private void AppendItems<T>(IEnumerable<T> items)
@@ -253,15 +340,23 @@ namespace AP8POSecretary.ViewModels
 
         public async void GenerateWorkingLabels(object obj)
         {
-            if (Groups != null)
+            try
             {
-                foreach (var item in Groups)
+                if (Groups != null)
                 {
-                    var generatedLabelsFromGroup = GenerateLectures(item);
-                    await AddWorkingLabels(generatedLabelsFromGroup);
-                    AppendItems(generatedLabelsFromGroup);
+                    foreach (var item in Groups)
+                    {
+                        var generatedLabelsFromGroup = GenerateLectures(item);
+                        await AddWorkingLabels(generatedLabelsFromGroup);
+                        AppendItems(generatedLabelsFromGroup);
+                    }
                 }
             }
+            catch(Exception ex)
+            {
+                Notifier.ShowError("Failed to generate labels with error: " + ex);
+            }
+            Notifier.ShowSuccess("Labels were generated succesfully");
         }
 
         public void OnSubjSelectionChanged(object obj)
@@ -285,11 +380,18 @@ namespace AP8POSecretary.ViewModels
 
                 WorkingLabels.RemoveAt(index);
                 WorkingLabels.Insert(index, workingLabel);
-
-                await _workingLabelDataService.Update(workingLabel.Id, workingLabel);
+                try
+                {
+                    await _workingLabelDataService.Update(workingLabel.Id, workingLabel);
+                }
+                catch(Exception ex)
+                {
+                    Notifier.ShowError("Failed to update a data in database with error: " + ex);
+                }
 
                 DialogHost.CloseDialogCommand.Execute(null, null);
             }
+            Notifier.ShowSuccess("Data were updated successfuly ");
         }
 
         private IList<WorkingLabel> GenerateLectures(Group group)

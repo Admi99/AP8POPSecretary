@@ -91,7 +91,7 @@
                                                    Text="{Binding PhoneNumber}" />
                                         <TextBlock FontSize="16"
                                                    Margin="15 0 0 0"
-                                                   Text="{Binding WorkingPoints, StringFormat={}{0} - points}" />
+                                                   Text="{Binding WorkingPoints, StringFormat={}{0:#,#.00} - points}" />
                                         <DockPanel>
                                             <TextBlock FontSize="16"
                                                        Margin="15 0 0 0"

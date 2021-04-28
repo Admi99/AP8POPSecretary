@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
+using ToastNotifications.Messages;
 
 namespace AP8POSecretary.ViewModels
 {
@@ -40,38 +41,76 @@ namespace AP8POSecretary.ViewModels
 
         private async void SaveSubjectsAsync(object obj)
         {
-            await _groupDataService.AddRange(GroupSubjectUpdated);
-            GroupSubjectUpdated.Clear();
+            try
+            {
+                await _groupDataService.AddRange(GroupSubjectUpdated);
+                GroupSubjectUpdated.Clear();
+            }
+            catch(Exception ex)
+            {
+                Notifier.ShowError("Saving failed with error: " + ex);
+            }
+            Notifier.ShowSuccess("Data were saved succesfully");
         }
 
         private async void DeleteSubjectsAsync(object obj)
         {
-            await _groupDataService.DeleteAllGroupSubject();
-            Groups.Clear();
-            GroupSubjectUpdated.Clear();
-            InitGroupsAsync();
+            try
+            {
+                await _groupDataService.DeleteAllGroupSubject();
+                Groups.Clear();
+                GroupSubjectUpdated.Clear();
+                InitGroupsAsync();
+            }
+            catch(Exception ex)
+            {
+                Notifier.ShowError("Failed to delete a data from database with error: " + ex);
+            }
+            Notifier.ShowSuccess("Subject connection was deleted succesfully");
         }
 
         private void RevertSubjectsAsync(object obj)
         {
-            Groups.Clear();
-            GroupSubjectUpdated.Clear();
-            InitGroupsAsync();
+            try
+            {
+                Groups.Clear();
+                GroupSubjectUpdated.Clear();
+                InitGroupsAsync();
+            }
+            catch(Exception ex)
+            {
+                Notifier.ShowError("Failed to revert and load data from database with error: " + ex);
+            }
+            Notifier.ShowSuccess("Data were reverted succesfully");
         }
 
         private async void InitGroupsAsync()
         {
-            var groups = await _groupDataService.GetAllGroups();
-            AppendItems(groups);
- 
-            CardDropHandler.Groups = Groups;
-            CardDropHandler.GroupSubjectsUpdated = GroupSubjectUpdated;
+            try
+            {
+                var groups = await _groupDataService.GetAllGroups();
+                AppendItems(groups);
+
+                CardDropHandler.Groups = Groups;
+                CardDropHandler.GroupSubjectsUpdated = GroupSubjectUpdated;
+            }
+            catch(Exception ex)
+            {
+                Notifier.ShowError("Failed to load a data from database with error: " + ex);
+            }
         }
 
         private async void InitSubjectsAsync()
         {
-            var subjects = await _subjectDataService.GetAll();
-            AppendItems(subjects);
+            try
+            {
+                var subjects = await _subjectDataService.GetAll();
+                AppendItems(subjects);
+            }
+            catch(Exception ex)
+            {
+                Notifier.ShowError("Failed to load a data from database with error: " + ex);
+            }
         }
 
         private void AppendItems<T>(IEnumerable<T> items)

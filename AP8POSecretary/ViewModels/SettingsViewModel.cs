@@ -2,6 +2,7 @@
 using AP8POSecretary.Domain.Entities;
 using AP8POSecretary.Domain.Services;
 using AP8POSecretary.Domain.XmlWrapper;
+using FluentEmail.Core;
 using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
@@ -181,6 +182,15 @@ namespace AP8POSecretary.ViewModels
             }           
         }
 
+        public async void SendEmailWithAttachment()
+        {
+            var email = await Email
+                .From("john@email.com")
+                .To("bob@email.com", "bob")
+                .Subject("hows it going bob")
+                .Body("yo bob, long time no see!")
+                .SendAsync();
+        }
         private void UpdatePointsHandler(object obj)
         {
             WorkingPointsWeights.ElementAt((int)WorkingWeightTypes.Lecture).Value = LectureType;

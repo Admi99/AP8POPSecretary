@@ -1,9 +1,11 @@
 {
   "version": 2,
-  "dgSpecHash": "YNLZCNIU9segIEyMcUH+lj9aVDeDKmSwQmPFFvunxW9MV0h3o3ln7WOZtDa51Oo5fyjfqo1nNt2cZK1xh9KxAA==",
+  "dgSpecHash": "FNDoQIm8AQVki4Ff/yIhcf3IO7vomK75xgL/45cE+Ay5PwSWeeS6BBPy/u1cnCNkJTB0iSLtHyzS1prLWDOD5w==",
   "success": true,
   "projectFilePath": "C:\\Projects\\AP8POSecretary\\AP8POSecretary\\AP8POSecretary.csproj",
   "expectedPackageFiles": [
+    "C:\\Users\\adamm\\.nuget\\packages\\fluentemail.core\\3.0.0\\fluentemail.core.3.0.0.nupkg.sha512",
+    "C:\\Users\\adamm\\.nuget\\packages\\fluentemail.smtp\\3.0.0\\fluentemail.smtp.3.0.0.nupkg.sha512",
     "C:\\Users\\adamm\\.nuget\\packages\\gong-wpf-dragdrop\\2.3.2\\gong-wpf-dragdrop.2.3.2.nupkg.sha512",
     "C:\\Users\\adamm\\.nuget\\packages\\materialdesigncolors\\2.0.0\\materialdesigncolors.2.0.0.nupkg.sha512",
     "C:\\Users\\adamm\\.nuget\\packages\\materialdesignextensions\\3.2.0\\materialdesignextensions.3.2.0.nupkg.sha512",

@@ -2,6 +2,30 @@
   "version": 3,
   "targets": {
     ".NETCoreApp,Version=v3.1": {
+      "FluentEmail.Core/3.0.0": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.Extensions.DependencyInjection.Abstractions": "3.1.11"
+        },
+        "compile": {
+          "lib/netstandard2.0/FluentEmail.Core.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard2.0/FluentEmail.Core.dll": {}
+        }
+      },
+      "FluentEmail.Smtp/3.0.0": {
+        "type": "package",
+        "dependencies": {
+          "FluentEmail.Core": "3.0.0"
+        },
+        "compile": {
+          "lib/netstandard2.0/FluentEmail.Smtp.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard2.0/FluentEmail.Smtp.dll": {}
+        }
+      },
       "gong-wpf-dragdrop/2.3.2": {
         "type": "package",
         "compile": {
@@ -1834,6 +1858,32 @@
     }
   },
   "libraries": {
+    "FluentEmail.Core/3.0.0": {
+      "sha512": "aR81GYqWS5qATQh1300BmnRnUukgB89THcYXOHs7YGuSHc827qZtWqrGJlV8k9Jk60hlcmm/O/9Vmoaw2ytD3g==",
+      "type": "package",
+      "path": "fluentemail.core/3.0.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "fluentemail.core.3.0.0.nupkg.sha512",
+        "fluentemail.core.nuspec",
+        "fluentemail_logo_64x64.png",
+        "lib/netstandard2.0/FluentEmail.Core.dll"
+      ]
+    },
+    "FluentEmail.Smtp/3.0.0": {
+      "sha512": "/Oc/OeWavbdNcMsEDoQljw7QAkAMm67xil+RG/JwJct5i6/cdl8jHzNSsSSzTRskxMDydIoUk/1DYFGgM7AqmQ==",
+      "type": "package",
+      "path": "fluentemail.smtp/3.0.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "fluentemail.smtp.3.0.0.nupkg.sha512",
+        "fluentemail.smtp.nuspec",
+        "fluentemail_logo_64x64.png",
+        "lib/netstandard2.0/FluentEmail.Smtp.dll"
+      ]
+    },
     "gong-wpf-dragdrop/2.3.2": {
       "sha512": "DNDROdFmlwn544P2qVF+f+aHRZmEp8ub8IrjvWgT3VAK7LfdN3BcEi9mSEzmt8hUqIdt1+B1VHkJUdK7kO/zKw==",
       "type": "package",
@@ -6464,6 +6514,8 @@
   "projectFileDependencyGroups": {
     ".NETCoreApp,Version=v3.1": [
       "AP8POSecretary.Infrastructure >= 1.0.0",
+      "FluentEmail.Core >= 3.0.0",
+      "FluentEmail.Smtp >= 3.0.0",
       "MaterialDesignColors >= 2.0.0",
       "MaterialDesignExtensions >= 3.2.0",
       "MaterialDesignThemes >= 4.0.0",
@@ -6522,6 +6574,14 @@
       "netcoreapp3.1": {
         "targetAlias": "netcoreapp3.1",
         "dependencies": {
+          "FluentEmail.Core": {
+            "target": "Package",
+            "version": "[3.0.0, )"
+          },
+          "FluentEmail.Smtp": {
+            "target": "Package",
+            "version": "[3.0.0, )"
+          },
           "MaterialDesignColors": {
             "target": "Package",
             "version": "[2.0.0, )"
