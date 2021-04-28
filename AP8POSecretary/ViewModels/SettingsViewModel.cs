@@ -3,11 +3,14 @@ using AP8POSecretary.Domain.Entities;
 using AP8POSecretary.Domain.Services;
 using AP8POSecretary.Domain.XmlWrapper;
 using FluentEmail.Core;
+using FluentEmail.Smtp;
 using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net;
+using System.Net.Mail;
 using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
@@ -57,7 +60,7 @@ namespace AP8POSecretary.ViewModels
             UpdatePoints = new RelayCommand(UpdatePointsHandler);
             DeserializeXml = new RelayCommand(ImportFromXml);
 
-           
+            //SendEmailWithAttachment();
 
             GetEntities();
             GetWorkingPointsWeights();
@@ -123,6 +126,8 @@ namespace AP8POSecretary.ViewModels
             if (saveFileDialog.ShowDialog() == true)
                 filePath = saveFileDialog.FileName;
 
+            bool wasSuccessful = false;
+
             if (filePath != "")
             {
                 try
@@ -138,11 +143,33 @@ namespace AP8POSecretary.ViewModels
                     filestream.Close();
 
                     Notifier.ShowSuccess("Database model was successfuly exported to XML");
+                    wasSuccessful = true;
                 }
                 catch (Exception ex)
                 {
                     Notifier.ShowError("Exporting to XML failed with exception: {0}, please concact your administrator " + ex);
                 }
+
+                if(SendEmail)
+                {
+                    try
+                    {
+                        if (wasSuccessful && IsValidEmail(EmailToSend))
+                        {
+                            SendEmailWithAttachment(filePath, EmailToSend);
+                            Notifier.ShowSuccess("Email was send succesfully");
+                        }
+                        else
+                        {
+                            Notifier.ShowError("There was a problem with sanding an email, check if email adress or file exists");
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        Notifier.ShowError("Sending email failed with error: " + ex);
+                    }                    
+                }               
+
             }
             
         }
@@ -182,13 +209,24 @@ namespace AP8POSecretary.ViewModels
             }           
         }
 
-        public async void SendEmailWithAttachment()
+        private async void SendEmailWithAttachment(string filePath, string to)
         {
-            var email = await Email
-                .From("john@email.com")
-                .To("bob@email.com", "bob")
-                .Subject("hows it going bob")
-                .Body("yo bob, long time no see!")
+            var basicCredential = new NetworkCredential("SecretarySender@outlook.cz", "NL={`s=<uLa,9:<E");
+            var sender = new SmtpSender(() => new SmtpClient("outlook.office365.com") {
+                EnableSsl = true,
+                UseDefaultCredentials = false,
+                DeliveryMethod = SmtpDeliveryMethod.Network,
+                Credentials = basicCredential, 
+            });
+
+            Email.DefaultSender = sender;
+
+            await Email
+                .From("SecretarySender@outlook.cz")
+                .To(to)
+                .Subject("Exported xml file")
+                .Body("It has been sent to you xml file in an attachment, from Secretary app")
+                .AttachFromFilename(filePath)
                 .SendAsync();
         }
         private void UpdatePointsHandler(object obj)
@@ -339,5 +377,41 @@ namespace AP8POSecretary.ViewModels
             }
         }
 
+        private bool _sendEmail;
+        public bool SendEmail
+        {
+            get { return _sendEmail; }
+            set
+            {
+                _sendEmail = value;
+                OnPropertyChanged(nameof(SendEmail));
+            }
+        }
+
+        private string _emailToSend;
+        public string EmailToSend {
+            get
+            {
+                return _emailToSend;
+            }
+            set
+            {
+                _emailToSend = value;
+                OnPropertyChanged(nameof(EmailToSend));
+            }
+        
+        }
+        private bool IsValidEmail(string email)
+        {
+            try
+            {
+                var addr = new System.Net.Mail.MailAddress(email);
+                return addr.Address == email;
+            }
+            catch
+            {
+                return false;
+            }
+        }
     }
 }

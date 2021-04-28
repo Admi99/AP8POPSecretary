@@ -11,26 +11,42 @@
     <Grid Background="AliceBlue">
         <Grid.RowDefinitions>
             <RowDefinition Height="2*" />
-            <RowDefinition Height="140*" />
-            <RowDefinition Height="181*" />
-            <RowDefinition Height="277*" />
+            <RowDefinition Height="177*" />
+            <RowDefinition Height="178*" />
+            <RowDefinition Height="243*" />
         </Grid.RowDefinitions>
         <GroupBox Grid.Row="1"
                   Header="Data operations"
                   Margin="10,10,10,10">
             <StackPanel Orientation="Horizontal">
-                <Button Style="{StaticResource MaterialDesignRaisedAccentButton}"
-                        Margin="5,5,5,5"
-                        Width="150"
-                        Command="{Binding TransformToXml}"
-                        ToolTip="Resource name: MaterialDesignRaisedAccentButton"
-                        Content="Export to xml" />
-                <Button Style="{StaticResource MaterialDesignRaisedAccentButton}"
-                        Margin="5,5,5,5"
-                        Width="150"
-                        Command="{Binding DeserializeXml}"
-                        ToolTip="Resource name: MaterialDesignRaisedAccentButton"
-                        Content="Import from xml" />
+                <StackPanel Orientation="Vertical"
+                            HorizontalAlignment="Left">
+                    <Button Style="{StaticResource MaterialDesignRaisedAccentButton}"
+                            Margin="5,5,5,5"
+                            Width="150"
+                            Command="{Binding TransformToXml}"
+                            ToolTip="Resource name: MaterialDesignRaisedAccentButton"
+                            Content="Export to xml" />
+                    <Button Style="{StaticResource MaterialDesignRaisedAccentButton}"
+                            Margin="5,5,5,5"
+                            Width="150"
+                            Command="{Binding DeserializeXml}"
+                            ToolTip="Resource name: MaterialDesignRaisedAccentButton"
+                            Content="Import from xml" />
+                </StackPanel>
+                <StackPanel Margin="10">
+                    <CheckBox x:Name="sendEmailCheckbox"
+                              IsChecked="{Binding SendEmail}"
+                              Content="Send email" />
+                    <TextBox Style="{StaticResource MaterialDesignFilledTextBox}"
+                             VerticalAlignment="Top"
+                             AcceptsReturn="True"
+                             TextWrapping="Wrap"
+                             MaxWidth="400"
+                             Text="{Binding EmailToSend}"
+                             materialDesign:HintAssist.Hint="Your email"
+                             IsEnabled="{Binding Path=IsChecked, ElementName=sendEmailCheckbox}" />
+                </StackPanel>
             </StackPanel>
         </GroupBox>
         <GroupBox Grid.Row="2"
@@ -39,19 +55,21 @@
             <WrapPanel Orientation="Vertical"
                        Height="95">
                 <Button Style="{StaticResource MaterialDesignRaisedAccentButton}"
-                        Width="175"
+                        Width="200"
+                        HorizontalAlignment="Left"
                         Margin="5 5 18 10"
                         ToolTip="Resource name: MaterialDesignRaisedAccentButton"
-                        Content="Write to the work list" />
+                        Content="Generate work list to xlsx" />
                 <Button Style="{StaticResource MaterialDesignRaisedAccentButton}"
-                        Width="185"
+                        Width="300"
+                        Margin="5 0 0 0"
                         ToolTip="Resource name: MaterialDesignRaisedAccentButton"
-                        Content="Send email to employees" />
+                        Content="Generate and send xlsx to all employees" />
             </WrapPanel>
         </GroupBox>
         <GroupBox Grid.Row="3"
                   Header="Employees points"
-                  Margin="10,10,10,40">
+                  Margin="10,10,10,10">
             <StackPanel>
                 <WrapPanel Orientation="Vertical"
                            Height="90">
@@ -123,7 +141,7 @@
                             Command="{Binding UpdatePoints}"
                             Margin="8" />
                 </StackPanel>
-               
+
 
             </StackPanel>
         </GroupBox>
