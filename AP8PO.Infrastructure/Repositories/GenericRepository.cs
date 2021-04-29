@@ -226,6 +226,20 @@ namespace AP8POSecretary.Infrastructure.Repositories
 
             return true;
         }
+
+        public async Task<IEnumerable<Employee>> GetAllEmployeesWithSubjects()
+        {
+            using (DataContext context = _contextFactory.CreateDbContext())
+            {
+                var entities = await context.Employees
+                    .Include(item => item.WorkingLabels)
+                    .ThenInclude(item => item.Subject)
+                    .ToListAsync();
+
+                await context.SaveChangesAsync();
+                return entities;
+            }
+        }
     }
 }
 

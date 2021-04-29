@@ -95,5 +95,10 @@ namespace AP8POSecretary.Domain.Services
         {
             return _dataRepository.Import(entitiesWrapper);
         }
+
+        public Task<IEnumerable<Employee>> GetAllEmployeesWithSubjects()
+        {
+            return _dataRepository.GetAllEmployeesWithSubjects();
+        }
     }
 }

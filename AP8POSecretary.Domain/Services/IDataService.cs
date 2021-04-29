@@ -25,5 +25,6 @@ namespace AP8POSecretary.Domain.Services
         Task AddEmployeesRange(IEnumerable<Employee> entities);
         Task AddAllIfTableEmpty(IEnumerable<T> entities);
         bool Import(EntitiesWrapper entitiesWrapper);
+        Task<IEnumerable<Employee>> GetAllEmployeesWithSubjects();
     }
 }

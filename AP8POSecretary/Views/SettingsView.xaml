@@ -58,11 +58,13 @@
                         Width="200"
                         HorizontalAlignment="Left"
                         Margin="5 5 18 10"
+                        Command="{Binding GenerateEmployeeSpreadSheets}"
                         ToolTip="Resource name: MaterialDesignRaisedAccentButton"
                         Content="Generate work list to xlsx" />
                 <Button Style="{StaticResource MaterialDesignRaisedAccentButton}"
                         Width="300"
                         Margin="5 0 0 0"
+                        Command="{Binding GenerateAndSendEmployeesSpreadSheets}"
                         ToolTip="Resource name: MaterialDesignRaisedAccentButton"
                         Content="Generate and send xlsx to all employees" />
             </WrapPanel>
