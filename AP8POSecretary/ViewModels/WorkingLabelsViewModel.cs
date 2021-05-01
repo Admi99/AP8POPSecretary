@@ -501,7 +501,7 @@ namespace AP8POSecretary.ViewModels
                     WorkingLabel examPredicate2 = new WorkingLabel()
                     {
                         Name = item.Subject.Name + " - " + "Exam",
-                        StudentsCount = 24,
+                        StudentsCount = 12,
                         Language = item.Subject.Language.ToString(),
                         SubjectId = item.SubjectId,
                         EventType = EventType.EXAM,
@@ -513,10 +513,25 @@ namespace AP8POSecretary.ViewModels
             return labels;
         }
 
-        public void RegenerateWorkingLabels(object obj)
+        public async void RegenerateWorkingLabels(object obj)
         {
             DeleteAllLabelsAsync(null);
+            List<WorkingLabel> deleteAllAsignedLabels = new List<WorkingLabel>();
+            foreach (var item in Employees)
+            {
+                deleteAllAsignedLabels.AddRange(item.WorkingLabels);
+                item.WorkingLabels = null;
+                item.WorkingPoints = 0;
+                item.WorkingPointsWithEng = 0;
+            }
+
+            await _workingLabelDataService.DeleteAll(deleteAllAsignedLabels);
+
             GenerateWorkingLabels(null);
+
+            var employees = new List<Employee>(Employees);
+            Employees.Clear();
+            AppendItems(employees);
         }
 
         private async Task AddWorkingLabels(IList<WorkingLabel> labels)
