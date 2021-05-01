@@ -150,7 +150,7 @@ namespace AP8POSecretary.ViewModels
                 }
                 catch (Exception ex)
                 {
-                    Notifier.ShowError("Failed to load employee data or generate spread sheet from the data with error: " + ex);
+                    Notifier.ShowError("Failed to load employee data or generate spread sheet from the data with error or access to path denied: " + ex);
                 }
             }
         }

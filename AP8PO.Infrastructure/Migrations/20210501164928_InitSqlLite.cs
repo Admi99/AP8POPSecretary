@@ -2,7 +2,7 @@
 
 namespace AP8POSecretary.Infrastructure.Migrations
 {
-    public partial class init : Migration
+    public partial class InitSqlLite : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -14,16 +14,18 @@ namespace AP8POSecretary.Infrastructure.Migrations
                 schema: "Secretary",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    FirstName = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    LastName = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    WholeName = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Email = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    PersonalEmail = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    PhoneNumber = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    isDoctorant = table.Column<bool>(type: "bit", nullable: false),
-                    CommitmentRate = table.Column<double>(type: "float", nullable: false)
+                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    FirstName = table.Column<string>(type: "TEXT", nullable: true),
+                    LastName = table.Column<string>(type: "TEXT", nullable: true),
+                    WholeName = table.Column<string>(type: "TEXT", nullable: true),
+                    Email = table.Column<string>(type: "TEXT", nullable: true),
+                    PersonalEmail = table.Column<string>(type: "TEXT", nullable: true),
+                    PhoneNumber = table.Column<string>(type: "TEXT", nullable: true),
+                    isDoctorant = table.Column<bool>(type: "INTEGER", nullable: false),
+                    CommitmentRate = table.Column<double>(type: "REAL", nullable: false),
+                    WorkingPoints = table.Column<double>(type: "REAL", nullable: false),
+                    WorkingPointsWithEng = table.Column<double>(type: "REAL", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -35,14 +37,14 @@ namespace AP8POSecretary.Infrastructure.Migrations
                 schema: "Secretary",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Shortcut = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    StudyYear = table.Column<int>(type: "int", nullable: false),
-                    Language = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    StudentsCount = table.Column<int>(type: "int", nullable: false),
-                    StudyType = table.Column<int>(type: "int", nullable: false),
-                    SemesterType = table.Column<int>(type: "int", nullable: false)
+                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    Shortcut = table.Column<string>(type: "TEXT", nullable: true),
+                    StudyYear = table.Column<int>(type: "INTEGER", nullable: false),
+                    Language = table.Column<string>(type: "TEXT", nullable: true),
+                    StudentsCount = table.Column<int>(type: "INTEGER", nullable: false),
+                    StudyType = table.Column<int>(type: "INTEGER", nullable: false),
+                    SemesterType = table.Column<int>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -54,18 +56,18 @@ namespace AP8POSecretary.Infrastructure.Migrations
                 schema: "Secretary",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Shortcut = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    LectureCount = table.Column<int>(type: "int", nullable: false),
-                    SeminareCount = table.Column<int>(type: "int", nullable: false),
-                    PractiseCount = table.Column<int>(type: "int", nullable: false),
-                    Credit = table.Column<int>(type: "int", nullable: false),
-                    WeeksCount = table.Column<int>(type: "int", nullable: false),
-                    Language = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    ClassSize = table.Column<int>(type: "int", nullable: false),
-                    CompletionType = table.Column<int>(type: "int", nullable: false)
+                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    Name = table.Column<string>(type: "TEXT", nullable: true),
+                    Shortcut = table.Column<string>(type: "TEXT", nullable: true),
+                    LectureCount = table.Column<int>(type: "INTEGER", nullable: false),
+                    SeminareCount = table.Column<int>(type: "INTEGER", nullable: false),
+                    PractiseCount = table.Column<int>(type: "INTEGER", nullable: false),
+                    Credit = table.Column<int>(type: "INTEGER", nullable: false),
+                    WeeksCount = table.Column<int>(type: "INTEGER", nullable: false),
+                    Language = table.Column<int>(type: "INTEGER", nullable: false),
+                    ClassSize = table.Column<int>(type: "INTEGER", nullable: false),
+                    CompletionType = table.Column<int>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -73,14 +75,29 @@ namespace AP8POSecretary.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "WorkingPointsWeight",
+                schema: "Secretary",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    WorkingWeightTypes = table.Column<int>(type: "INTEGER", nullable: false),
+                    Value = table.Column<double>(type: "REAL", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_WorkingPointsWeight", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "GroupSubject",
                 schema: "Secretary",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    GroupId = table.Column<int>(type: "int", nullable: false),
-                    SubjectId = table.Column<int>(type: "int", nullable: false)
+                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    GroupId = table.Column<int>(type: "INTEGER", nullable: false),
+                    SubjectId = table.Column<int>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -106,17 +123,17 @@ namespace AP8POSecretary.Infrastructure.Migrations
                 schema: "Secretary",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    StudentsCount = table.Column<int>(type: "int", nullable: false),
-                    EmploymentPoints = table.Column<int>(type: "int", nullable: false),
-                    EventType = table.Column<int>(type: "int", nullable: false),
-                    HoursCount = table.Column<int>(type: "int", nullable: false),
-                    WeekCount = table.Column<int>(type: "int", nullable: false),
-                    Language = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    SubjectId = table.Column<int>(type: "int", nullable: false),
-                    EmployeeId = table.Column<int>(type: "int", nullable: false)
+                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    Name = table.Column<string>(type: "TEXT", nullable: true),
+                    StudentsCount = table.Column<int>(type: "INTEGER", nullable: false),
+                    EmploymentPoints = table.Column<double>(type: "REAL", nullable: false),
+                    EventType = table.Column<int>(type: "INTEGER", nullable: false),
+                    HoursCount = table.Column<int>(type: "INTEGER", nullable: false),
+                    WeekCount = table.Column<int>(type: "INTEGER", nullable: false),
+                    Language = table.Column<string>(type: "TEXT", nullable: true),
+                    SubjectId = table.Column<int>(type: "INTEGER", nullable: true),
+                    EmployeeId = table.Column<int>(type: "INTEGER", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -170,6 +187,10 @@ namespace AP8POSecretary.Infrastructure.Migrations
 
             migrationBuilder.DropTable(
                 name: "WorkingLabel",
+                schema: "Secretary");
+
+            migrationBuilder.DropTable(
+                name: "WorkingPointsWeight",
                 schema: "Secretary");
 
             migrationBuilder.DropTable(

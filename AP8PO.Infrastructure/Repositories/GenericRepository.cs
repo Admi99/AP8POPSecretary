@@ -21,6 +21,11 @@ namespace AP8POSecretary.Infrastructure.Repositories
         {
             _contextFactory = contextFactory;
             _nonQueryDataService = new NonQueryDataService<T>(contextFactory);
+
+            using (DataContext context = _contextFactory.CreateDbContext())
+            {
+                context.Database.Migrate();
+            }
         }
 
         public async Task AddRange(IEnumerable<GroupSubject> entities)
@@ -184,12 +189,12 @@ namespace AP8POSecretary.Infrastructure.Repositories
             var context = _contextFactory.CreateDbContext();
             using (var transaction = context.Database.BeginTransaction())
             {
-                context.Database.ExecuteSqlRaw(@$"SET IDENTITY_INSERT [Secretary].[{tableName}] ON");
+                //context.Database.ExecuteSqlRaw(@$"SET IDENTITY_INSERT [Secretary].[{tableName}] ON");
                 context.Set<X>().AddRange(entities);
                 context.SaveChanges();
                 transaction.Commit();
             }
-            context.Database.ExecuteSqlRaw(@$"SET IDENTITY_INSERT [Secretary].[{tableName}] OFF");
+            //context.Database.ExecuteSqlRaw(@$"SET IDENTITY_INSERT [Secretary].[{tableName}] OFF");
 
         }
         private void RemoveAllData()
