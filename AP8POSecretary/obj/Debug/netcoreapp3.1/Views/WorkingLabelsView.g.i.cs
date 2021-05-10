@@ -68,7 +68,7 @@ namespace AP8POSecretary.Views {
                 return;
             }
             _contentLoaded = true;
-            System.Uri resourceLocater = new System.Uri("/AP8POSecretary;component/views/workinglabelsview.xaml", System.UriKind.Relative);
+            System.Uri resourceLocater = new System.Uri("/AP8POSecretary;V1.0.0.0;component/views/workinglabelsview.xaml", System.UriKind.Relative);
             
             #line 1 "..\..\..\..\Views\WorkingLabelsView.xaml"
             System.Windows.Application.LoadComponent(this, resourceLocater);
